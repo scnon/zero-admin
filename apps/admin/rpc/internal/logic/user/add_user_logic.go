@@ -1,8 +1,8 @@
-package logic
+package user
 
 import (
 	"context"
-	"database/sql"
+	"github.com/jinzhu/copier"
 	perr "github.com/pkg/errors"
 
 	"zero-admin/apps/admin/rpc/admin"
@@ -33,12 +33,10 @@ func NewAddUserLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddUserLo
 }
 
 func (l *AddUserLogic) AddUser(in *admin.AddUserReq) (*admin.AddUserResp, error) {
-	userEntity := model.SysUser{
-		Username: in.Username,
-		Nickname: in.Nickname,
-		Status:   int64(in.Status),
-		Sort:     int64(in.Sort),
-		TenantId: sql.NullInt64{Int64: in.TenantId, Valid: true},
+	entity := &model.SysUser{}
+	err := copier.Copy(entity, in)
+	if err != nil {
+		return nil, perr.Wrapf(xerr.NewInternalErr(), "copy entity err %v", err)
 	}
 	if _, err := l.svcCtx.UserModel.FindOneByUsername(l.ctx, in.Username); err == nil {
 		return nil, perr.WithStack(ErrAlreadyExist)
@@ -50,12 +48,14 @@ func (l *AddUserLogic) AddUser(in *admin.AddUserReq) (*admin.AddUserResp, error)
 			return nil, perr.Wrapf(xerr.NewInternalErr(), "gen password err %v", err)
 		}
 
-		userEntity.Password = string(genPassword)
+		entity.Password = string(genPassword)
 	}
 
-	if _, err := l.svcCtx.UserModel.Insert(l.ctx, &userEntity); err != nil {
+	if _, err := l.svcCtx.UserModel.Insert(l.ctx, entity); err != nil {
 		return nil, perr.Wrapf(xerr.NewDBErr(), "insert user err %v", err)
 	}
 
-	return &admin.AddUserResp{}, nil
+	return &admin.AddUserResp{
+		Id: entity.Id,
+	}, nil
 }

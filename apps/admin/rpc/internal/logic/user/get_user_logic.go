@@ -1,4 +1,4 @@
-package logic
+package user
 
 import (
 	"context"
@@ -27,16 +27,8 @@ func NewGetUserLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetUserLo
 }
 
 func (l *GetUserLogic) GetUser(in *admin.GetUserReq) (*admin.GetUserResp, error) {
-	page := 1
-	if in.Page > 0 {
-		page = int(in.Page)
-	}
-	pageSize := 20
-	if in.PageSize > 0 {
-		pageSize = int(in.PageSize)
-	}
-
-	entities, total, err := l.svcCtx.UserModel.FindAll(l.ctx, in.Ids, in.Nickname, in.Username, in.Status, in.TenantId, page, pageSize)
+	entities, total, err := l.svcCtx.UserModel.FindAll(l.ctx, in.Ids, in.Nickname, in.Username, in.Status, in.TenantId,
+		in.Page, in.PageSize)
 	if err != nil {
 		return nil, errors.Wrapf(xerr.NewDBErr(), "find user err %v", err)
 	}
@@ -44,9 +36,13 @@ func (l *GetUserLogic) GetUser(in *admin.GetUserReq) (*admin.GetUserResp, error)
 	userList := make([]*admin.UserData, 0)
 	for _, entity := range entities {
 		var user admin.UserData
-		copier.Copy(&user, &entity)
+		err := copier.Copy(&user, &entity)
+		if err != nil {
+			return nil, errors.Wrapf(xerr.NewInternalErr(), "copy entity err %v", err)
+		}
+
 		user.CreateTime = entity.CreateTime.Unix()
-		user.UpdateTime = entity.UpdateTime.Time.Unix()
+		user.UpdateTime = entity.UpdateTime.Unix()
 		userList = append(userList, &user)
 	}
 

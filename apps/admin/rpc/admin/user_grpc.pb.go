@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.5.1
 // - protoc             v3.19.4
-// source: admin.proto
+// source: pb/user.proto
 
 package admin
 
@@ -19,16 +19,12 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	Admin_Login_FullMethodName      = "/admin.Admin/Login"
-	Admin_Refresh_FullMethodName    = "/admin.Admin/Refresh"
-	Admin_AddUser_FullMethodName    = "/admin.Admin/AddUser"
-	Admin_DeleteUser_FullMethodName = "/admin.Admin/DeleteUser"
-	Admin_UpdateUser_FullMethodName = "/admin.Admin/UpdateUser"
-	Admin_GetUser_FullMethodName    = "/admin.Admin/GetUser"
-	Admin_AddMenu_FullMethodName    = "/admin.Admin/AddMenu"
-	Admin_DeleteMenu_FullMethodName = "/admin.Admin/DeleteMenu"
-	Admin_UpdateMenu_FullMethodName = "/admin.Admin/UpdateMenu"
-	Admin_GetMenu_FullMethodName    = "/admin.Admin/GetMenu"
+	Admin_Login_FullMethodName      = "/admin.admin/Login"
+	Admin_Refresh_FullMethodName    = "/admin.admin/Refresh"
+	Admin_AddUser_FullMethodName    = "/admin.admin/AddUser"
+	Admin_DeleteUser_FullMethodName = "/admin.admin/DeleteUser"
+	Admin_UpdateUser_FullMethodName = "/admin.admin/UpdateUser"
+	Admin_GetUser_FullMethodName    = "/admin.admin/GetUser"
 )
 
 // AdminClient is the client API for Admin service.
@@ -41,10 +37,6 @@ type AdminClient interface {
 	DeleteUser(ctx context.Context, in *DeleteUserReq, opts ...grpc.CallOption) (*DeleteUserResp, error)
 	UpdateUser(ctx context.Context, in *UpdateUserReq, opts ...grpc.CallOption) (*UpdateUserResp, error)
 	GetUser(ctx context.Context, in *GetUserReq, opts ...grpc.CallOption) (*GetUserResp, error)
-	AddMenu(ctx context.Context, in *AddMenuReq, opts ...grpc.CallOption) (*AddMenuResp, error)
-	DeleteMenu(ctx context.Context, in *DeleteMenuReq, opts ...grpc.CallOption) (*DeleteMenuResp, error)
-	UpdateMenu(ctx context.Context, in *UpdateMenuReq, opts ...grpc.CallOption) (*UpdateMenuResp, error)
-	GetMenu(ctx context.Context, in *GetMenuReq, opts ...grpc.CallOption) (*GetMenuResp, error)
 }
 
 type adminClient struct {
@@ -115,46 +107,6 @@ func (c *adminClient) GetUser(ctx context.Context, in *GetUserReq, opts ...grpc.
 	return out, nil
 }
 
-func (c *adminClient) AddMenu(ctx context.Context, in *AddMenuReq, opts ...grpc.CallOption) (*AddMenuResp, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(AddMenuResp)
-	err := c.cc.Invoke(ctx, Admin_AddMenu_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *adminClient) DeleteMenu(ctx context.Context, in *DeleteMenuReq, opts ...grpc.CallOption) (*DeleteMenuResp, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(DeleteMenuResp)
-	err := c.cc.Invoke(ctx, Admin_DeleteMenu_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *adminClient) UpdateMenu(ctx context.Context, in *UpdateMenuReq, opts ...grpc.CallOption) (*UpdateMenuResp, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(UpdateMenuResp)
-	err := c.cc.Invoke(ctx, Admin_UpdateMenu_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *adminClient) GetMenu(ctx context.Context, in *GetMenuReq, opts ...grpc.CallOption) (*GetMenuResp, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(GetMenuResp)
-	err := c.cc.Invoke(ctx, Admin_GetMenu_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 // AdminServer is the server API for Admin service.
 // All implementations must embed UnimplementedAdminServer
 // for forward compatibility.
@@ -165,10 +117,6 @@ type AdminServer interface {
 	DeleteUser(context.Context, *DeleteUserReq) (*DeleteUserResp, error)
 	UpdateUser(context.Context, *UpdateUserReq) (*UpdateUserResp, error)
 	GetUser(context.Context, *GetUserReq) (*GetUserResp, error)
-	AddMenu(context.Context, *AddMenuReq) (*AddMenuResp, error)
-	DeleteMenu(context.Context, *DeleteMenuReq) (*DeleteMenuResp, error)
-	UpdateMenu(context.Context, *UpdateMenuReq) (*UpdateMenuResp, error)
-	GetMenu(context.Context, *GetMenuReq) (*GetMenuResp, error)
 	mustEmbedUnimplementedAdminServer()
 }
 
@@ -196,18 +144,6 @@ func (UnimplementedAdminServer) UpdateUser(context.Context, *UpdateUserReq) (*Up
 }
 func (UnimplementedAdminServer) GetUser(context.Context, *GetUserReq) (*GetUserResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetUser not implemented")
-}
-func (UnimplementedAdminServer) AddMenu(context.Context, *AddMenuReq) (*AddMenuResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method AddMenu not implemented")
-}
-func (UnimplementedAdminServer) DeleteMenu(context.Context, *DeleteMenuReq) (*DeleteMenuResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method DeleteMenu not implemented")
-}
-func (UnimplementedAdminServer) UpdateMenu(context.Context, *UpdateMenuReq) (*UpdateMenuResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method UpdateMenu not implemented")
-}
-func (UnimplementedAdminServer) GetMenu(context.Context, *GetMenuReq) (*GetMenuResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetMenu not implemented")
 }
 func (UnimplementedAdminServer) mustEmbedUnimplementedAdminServer() {}
 func (UnimplementedAdminServer) testEmbeddedByValue()               {}
@@ -338,83 +274,11 @@ func _Admin_GetUser_Handler(srv interface{}, ctx context.Context, dec func(inter
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Admin_AddMenu_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(AddMenuReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(AdminServer).AddMenu(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Admin_AddMenu_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AdminServer).AddMenu(ctx, req.(*AddMenuReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Admin_DeleteMenu_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(DeleteMenuReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(AdminServer).DeleteMenu(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Admin_DeleteMenu_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AdminServer).DeleteMenu(ctx, req.(*DeleteMenuReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Admin_UpdateMenu_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UpdateMenuReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(AdminServer).UpdateMenu(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Admin_UpdateMenu_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AdminServer).UpdateMenu(ctx, req.(*UpdateMenuReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Admin_GetMenu_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetMenuReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(AdminServer).GetMenu(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Admin_GetMenu_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AdminServer).GetMenu(ctx, req.(*GetMenuReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 // Admin_ServiceDesc is the grpc.ServiceDesc for Admin service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var Admin_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "admin.Admin",
+	ServiceName: "admin.admin",
 	HandlerType: (*AdminServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
@@ -441,23 +305,7 @@ var Admin_ServiceDesc = grpc.ServiceDesc{
 			MethodName: "GetUser",
 			Handler:    _Admin_GetUser_Handler,
 		},
-		{
-			MethodName: "AddMenu",
-			Handler:    _Admin_AddMenu_Handler,
-		},
-		{
-			MethodName: "DeleteMenu",
-			Handler:    _Admin_DeleteMenu_Handler,
-		},
-		{
-			MethodName: "UpdateMenu",
-			Handler:    _Admin_UpdateMenu_Handler,
-		},
-		{
-			MethodName: "GetMenu",
-			Handler:    _Admin_GetMenu_Handler,
-		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "admin.proto",
+	Metadata: "pb/user.proto",
 }

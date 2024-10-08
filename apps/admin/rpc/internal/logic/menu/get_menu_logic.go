@@ -1,7 +1,8 @@
-package logic
+package menu
 
 import (
 	"context"
+	"github.com/jinzhu/copier"
 
 	"zero-admin/apps/admin/rpc/admin"
 	"zero-admin/apps/admin/rpc/internal/svc"
@@ -33,14 +34,12 @@ func (l *GetMenuLogic) GetMenu(in *admin.GetMenuReq) (*admin.GetMenuResp, error)
 
 	var list []*admin.MenuData
 	for _, menu := range *menuList {
-		list = append(list, &admin.MenuData{
-			Id:       menu.Id,
-			Title:    menu.Title,
-			ParentId: menu.ParentId.Int64,
-			Path:     menu.Path,
-			Name:     menu.Name,
-			Sort:     int32(menu.Sort),
-		})
+		data := &admin.MenuData{}
+		err := copier.Copy(data, menu)
+		if err != nil {
+			return nil, errors.Wrapf(xerr.NewInternalErr(), "copy entity err %v", err)
+		}
+		list = append(list, data)
 	}
 
 	return &admin.GetMenuResp{

@@ -17,7 +17,7 @@ type (
 	SysMenuModel interface {
 		sysMenuModel
 		DeleteAll(ctx context.Context, ids []int64) error
-		FindAll(ctx context.Context, tenantId int64, page, pageSize int32) (*[]SysMenu, int64, error)
+		FindAll(ctx context.Context, tenantId int64, page, pageSize int64) (*[]SysMenu, int64, error)
 	}
 
 	customSysMenuModel struct {
@@ -41,7 +41,7 @@ func (m *customSysMenuModel) DeleteAll(ctx context.Context, ids []int64) error {
 	return nil
 }
 
-func (m *customSysMenuModel) FindAll(ctx context.Context, tenantId int64, page, pageSize int32) (*[]SysMenu, int64, error) {
+func (m *customSysMenuModel) FindAll(ctx context.Context, tenantId int64, page, pageSize int64) (*[]SysMenu, int64, error) {
 	query := `select * from sys_menu where tenant_id = ? limit ? offset ?`
 	offset := (page - 1) * pageSize
 	args := []interface{}{tenantId, pageSize, offset}

@@ -1,16 +1,20 @@
 CREATE TABLE
     IF NOT EXISTS sys_user (
-        id bigint auto_increment comment '主键',
-        username varchar(50) not null default '' comment '用户名',
-        password varchar(128) not null default '' comment '密码',
-        nickname varchar(50) default '' not null comment '昵称',
-        status tinyint default 1 not null comment '状态(1:正常,0:禁用)',
-        sort int default 1 not null comment '排序',
-        remark varchar(255) null comment '备注',
-        roles varchar(255) null comment '角色',
-        tenant_id bigint null comment '租户ID',
-        create_time datetime default CURRENT_TIMESTAMP not null comment '创建时间',
-        update_time datetime null on update CURRENT_TIMESTAMP comment '修改时间',
-        constraint AK_username unique (username),
-        primary key (id)
-    ) comment '用户信息';
+        id BIGINT AUTO_INCREMENT NOT NULL COMMENT '主键',
+        username VARCHAR(32) NOT NULL DEFAULT '' COMMENT '用户名',
+        password VARCHAR(128) NOT NULL DEFAULT '' COMMENT '密码',
+        nickname VARCHAR(32) DEFAULT '' NOT NULL COMMENT '昵称',
+        avatar VARCHAR(128) DEFAULT '' NOT NULL COMMENT '头像',
+        status TINYINT DEFAULT 1 NOT NULL DEFAULT 0 COMMENT '状态(1:正常,0:禁用)',
+        sort TINYINT DEFAULT 1 NOT NULL DEFAULT 0 COMMENT '排序',
+        remark VARCHAR(512) NOT NULL DEFAULT '' COMMENT '备注',
+        department_id BIGINT NOT NULL DEFAULT 0 COMMENT '部门ID',
+        tenant_id BIGINT NOT NULL DEFAULT 0 COMMENT '租户ID',
+        creator BIGINT NOT NULL DEFAULT 0 COMMENT '创建人 user_id',
+        updater BIGINT NOT NULL DEFAULT 0 COMMENT '修改人 user_id',
+        create_time DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL COMMENT '创建时间',
+        update_time DATETIME NOT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+        is_deleted TINYINT DEFAULT 0 NOT NULL COMMENT '是否删除(1:已删除,0:未删除)',
+        CONSTRAINT AK_username UNIQUE (username),
+        PRIMARY KEY (id)
+    ) COMMENT '用户信息';

@@ -1,9 +1,8 @@
-package logic
+package menu
 
 import (
 	"context"
-	"database/sql"
-
+	"github.com/jinzhu/copier"
 	"zero-admin/apps/admin/rpc/admin"
 	"zero-admin/apps/admin/rpc/internal/svc"
 	"zero-admin/apps/model"
@@ -28,13 +27,13 @@ func NewUpdateMenuLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Update
 }
 
 func (l *UpdateMenuLogic) UpdateMenu(in *admin.UpdateMenuReq) (*admin.UpdateMenuResp, error) {
-	err := l.svcCtx.MenuModel.Update(l.ctx, &model.SysMenu{
-		Id:       in.Id,
-		ParentId: sql.NullInt64{Int64: in.ParentId, Valid: true},
-		Sort:     int64(in.Sort),
-		Path:     in.Path,
-		Title:    in.Title,
-	})
+	entity := &model.SysMenu{}
+	err := copier.Copy(entity, in)
+	if err != nil {
+		return nil, errors.Wrapf(xerr.NewInternalErr(), "copy entity err %v", err)
+	}
+
+	err = l.svcCtx.MenuModel.Update(l.ctx, entity)
 	if err != nil {
 		return nil, errors.Wrapf(xerr.NewDBErr(), "update menu error: %v", err)
 	}

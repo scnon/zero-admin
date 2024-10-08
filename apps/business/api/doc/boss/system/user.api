@@ -8,9 +8,9 @@ info (
 type UserData {
 	Id         int64  `json:"id"`
 	Username   string `json:"username"`
-	NickName   string `json:"nickName"`
-	Status     int32    `json:"status"`
-	Sort       int32    `json:"sort"`
+	NickName   string `json:"nickname"`
+	Status     int32  `json:"status"`
+	Sort       int32  `json:"sort"`
 	Remark     string `json:"remark"`
 	CreateTime string `json:"createTime"`
 	UpdateTime string `json:"updateTime"`
@@ -20,9 +20,9 @@ type (
 	UserCreateReq {
 		Username string `json:"username"`
 		Password string `json:"password"`
-		NickName string `json:"nickName"`
-		Status   int32    `json:"status,default=1"`
-		Sort     int32    `json:"sort,default=0"`
+		NickName string `json:"nickname"`
+		Status   int32  `json:"status,default=1"`
+		Sort     int32  `json:"sort,default=0"`
 		Remark   string `json:"remark,default=''"`
 	}
 	UserCreateResp{
@@ -42,10 +42,11 @@ type (
 type (
 	UserUpdateReq {
 		Id       int64  `json:"id"`
+		Username string `json:"username"`
 		Password string `json:"password"`
-		NickName string `json:"nickName"`
-		Status   int32    `json:"status"`
-		Sort     int32    `json:"sort"`
+		NickName string `json:"nickname"`
+		Status   int32  `json:"status"`
+		Sort     int32  `json:"sort"`
 		Remark   string `json:"remark"`
 	}
 	UserUpdateResp {
@@ -56,17 +57,17 @@ type (
 type (
 	UserListReq {
 		PageData
-		Username string `json:"userName,optional"`
-		NickName string `json:"nickName,optional"`
-		Status   int32    `json:"status,default=1"`
+		Username string `json:"username,optional"`
+		NickName string `json:"nickname,optional"`
+		Status   int32  `json:"status,default=1"`
 	}
 	UserListData {
-		Total int64        `json:"total"`
+		Total int64      `json:"total"`
 		List  []UserData `json:"list"`
 	}
 	UserListResp {
 		Base
-		Data UserListData `json:"data"`
+		Data UserListData `json:"data,omitempty"`
 	}
 )
 
@@ -76,7 +77,7 @@ type (
 	}
 	UserDetailResp {
 		Base
-		Data UserData `json:"data"`
+		Data UserData `json:"data,omitempty"`
 	}
 )
 
@@ -117,7 +118,7 @@ type (
 	}
 	LoginResp {
 		Base
-		Data    LoginData `json:"data"`
+		Data    LoginData `json:"data,omitempty"`
 	}
 )
 

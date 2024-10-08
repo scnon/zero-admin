@@ -113,7 +113,7 @@ func (m *customSysUserModel) DeleteAll(ctx context.Context, ids []int64) error {
 		return nil
 	}
 
-	query := fmt.Sprintf("delete from %s where id in %s", m.table, utils.CreateDBPlaceholders(len(ids)))
+	query := fmt.Sprintf("delete from %s where id in (%s)", m.table, utils.CreateDBPlaceholders(len(ids)))
 	args := make([]interface{}, len(ids))
 	for i, v := range ids {
 		args[i] = v

@@ -3,7 +3,6 @@ package logic
 import (
 	"context"
 	"database/sql"
-	"errors"
 	perr "github.com/pkg/errors"
 
 	"zero-admin/apps/admin/rpc/admin"
@@ -42,9 +41,7 @@ func (l *AddUserLogic) AddUser(in *admin.AddUserReq) (*admin.AddUserResp, error)
 		TenantId: sql.NullInt64{Int64: in.TenantId, Valid: true},
 	}
 	if _, err := l.svcCtx.UserModel.FindOneByUsername(l.ctx, in.Username); err == nil {
-		if !errors.Is(err, model.ErrNotFound) {
-			return nil, perr.WithStack(ErrAlreadyExist)
-		}
+		return nil, perr.WithStack(ErrAlreadyExist)
 	}
 
 	if len(in.Password) > 0 {

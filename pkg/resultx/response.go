@@ -17,33 +17,33 @@ import (
 	"zero-admin/pkg/xerr"
 )
 
-type HttpResponse struct {
-	Code int         `json:"code"`
-	Msg  string      `json:"msg"`
-	Data interface{} `json:"data"`
+type Response struct {
+	Success bool        `json:"success"`
+	Msg     string      `json:"msg"`
+	Data    interface{} `json:"data,omitempty"`
 }
 
-func HttpSuccess(data interface{}) *HttpResponse {
-	return &HttpResponse{
-		Code: 200,
-		Msg:  "",
-		Data: data,
+func Success(data interface{}) *Response {
+	return &Response{
+		Success: true,
+		Msg:     "",
+		Data:    data,
 	}
 }
 
-func HttpFail(code int, err string) *HttpResponse {
-	return &HttpResponse{
-		Code: code,
-		Msg:  err,
-		Data: nil,
+func Fail(code int, err string) *Response {
+	return &Response{
+		Success: false,
+		Msg:     err,
+		Data:    nil,
 	}
 }
 
-func HttpOkHandler(_ context.Context, v interface{}) any {
-	return HttpSuccess(v)
+func OkHandler(_ context.Context, v interface{}) any {
+	return Success(v)
 }
 
-func HttpErrHandler(name string) func(ctx context.Context, err error) (int, any) {
+func ErrHandler(name string) func(ctx context.Context, err error) (int, any) {
 	return func(ctx context.Context, err error) (int, any) {
 		errCode := xerr.SERVER_COMMON_ERROR
 		errMsg := xerr.ErrMsg(errCode)
@@ -62,6 +62,6 @@ func HttpErrHandler(name string) func(ctx context.Context, err error) (int, any)
 		// 日志记录
 		logx.WithContext(ctx).Errorf("【%s】 err %v", name, err)
 
-		return http.StatusBadRequest, HttpFail(errCode, errMsg)
+		return http.StatusBadRequest, Fail(errCode, errMsg)
 	}
 }

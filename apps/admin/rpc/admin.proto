@@ -45,6 +45,7 @@ message UpdateUserReq {
     int32 sort = 5;
     string remark = 6;
     int64 tenant_id = 7;
+    string username = 8;
 }
 message UpdateUserResp {}
 

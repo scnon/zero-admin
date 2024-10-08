@@ -3,11 +3,11 @@ POST {{host}}/system/user/login
 Content-Type: application/json
 
 {
-    "username": "admin",
+    "username": "xadmin",
     "password": "a1234123"
 }
 > {%
-    client.global.set("token", response.body.data.accessToken);
+    if(response.body.success) client.global.set("token", response.body.data.accessToken);
 %}
 ### create user
 POST {{host}}/system/user/create
@@ -15,9 +15,10 @@ Content-Type: application/json
 Authorization: Bearer {{token}}
 
 {
-    "username": "admin",
+    "username": "user",
     "password": "a1234123",
-    "nickName": "管理员"
+    "nickname": "link",
+    "remark": "link"
 }
 ### update user
 POST {{host}}/system/user/update
@@ -25,8 +26,13 @@ Content-Type: application/json
 Authorization: Bearer {{token}}
 
 {
-    "id": 1,
-    "username": "admin"
+    "id": 30,
+    "username": "some",
+    "password": "a1234123",
+    "nickname": "张三",
+    "remark": "法外狂徒",
+    "status": 1,
+    "sort":2
 }
 ### get user list
 GET {{host}}/system/user/list?status=1&page=1&pageSize=10
@@ -38,7 +44,7 @@ Content-Type: application/json
 Authorization: Bearer {{token}}
 
 {
-    "id": 1
+    "ids": [5]
 }
 
 

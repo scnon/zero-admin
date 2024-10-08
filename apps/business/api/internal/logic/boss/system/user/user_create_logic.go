@@ -32,6 +32,7 @@ func (l *UserCreateLogic) UserCreate(req *types.UserCreateReq) (resp *types.User
 		Sort:     req.Sort,
 		Remark:   req.Remark,
 		Status:   req.Status,
+		TenantId: l.svcCtx.Config.Tenant,
 	})
 	if err != nil {
 		return nil, err

@@ -35,7 +35,7 @@ type LoginReq struct {
 
 type LoginResp struct {
 	Base
-	Data LoginData `json:"data"`
+	Data LoginData `json:"data,omitempty"`
 }
 
 type MenuCreateReq struct {
@@ -126,7 +126,7 @@ type StoreListResp struct {
 type UserCreateReq struct {
 	Username string `json:"username"`
 	Password string `json:"password"`
-	NickName string `json:"nickName"`
+	NickName string `json:"nickname"`
 	Status   int32  `json:"status,default=1"`
 	Sort     int32  `json:"sort,default=0"`
 	Remark   string `json:"remark,default=''"`
@@ -139,7 +139,7 @@ type UserCreateResp struct {
 type UserData struct {
 	Id         int64  `json:"id"`
 	Username   string `json:"username"`
-	NickName   string `json:"nickName"`
+	NickName   string `json:"nickname"`
 	Status     int32  `json:"status"`
 	Sort       int32  `json:"sort"`
 	Remark     string `json:"remark"`
@@ -161,7 +161,7 @@ type UserDetailReq struct {
 
 type UserDetailResp struct {
 	Base
-	Data UserData `json:"data"`
+	Data UserData `json:"data,omitempty"`
 }
 
 type UserListData struct {
@@ -171,14 +171,14 @@ type UserListData struct {
 
 type UserListReq struct {
 	PageData
-	Username string `json:"userName,optional"`
-	NickName string `json:"nickName,optional"`
+	Username string `json:"username,optional"`
+	NickName string `json:"nickname,optional"`
 	Status   int32  `json:"status,default=1"`
 }
 
 type UserListResp struct {
 	Base
-	Data UserListData `json:"data"`
+	Data UserListData `json:"data,omitempty"`
 }
 
 type UserMenuInfo struct {
@@ -193,8 +193,9 @@ type UserMenuInfo struct {
 
 type UserUpdateReq struct {
 	Id       int64  `json:"id"`
+	Username string `json:"username"`
 	Password string `json:"password"`
-	NickName string `json:"nickName"`
+	NickName string `json:"nickname"`
 	Status   int32  `json:"status"`
 	Sort     int32  `json:"sort"`
 	Remark   string `json:"remark"`

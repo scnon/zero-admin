@@ -2,6 +2,7 @@ package logic
 
 import (
 	"context"
+	"zero-admin/pkg/encrypt"
 
 	"zero-admin/apps/admin/rpc/admin"
 	"zero-admin/apps/admin/rpc/internal/svc"
@@ -29,7 +30,19 @@ func NewUpdateUserLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Update
 
 func (l *UpdateUserLogic) UpdateUser(in *admin.UpdateUserReq) (*admin.UpdateUserResp, error) {
 	var entity model.SysUser
-	copier.Copy(&entity, &in)
+	err := copier.Copy(&entity, &in)
+	if err != nil {
+		return nil, errors.Wrapf(xerr.NewInternalErr(), "copy entity err %v", err)
+	}
+
+	if len(in.Password) > 0 {
+		genPassword, err := encrypt.GenPasswordHash([]byte(in.Password))
+		if err != nil {
+			return nil, errors.Wrapf(xerr.NewInternalErr(), "gen password err %v", err)
+		}
+
+		entity.Password = string(genPassword)
+	}
 
 	if err := l.svcCtx.UserModel.Update(l.ctx, &entity); err != nil {
 		return nil, errors.Wrapf(xerr.NewDBErr(), "update user err %v", err)

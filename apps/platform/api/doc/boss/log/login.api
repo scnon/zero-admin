@@ -1,0 +1,13 @@
+info (
+	title: "用户登陆记录"
+	version: "v1"
+)
+
+@server (
+	jwt: Auth
+	group: boss/log/login
+	prefix: /api/v1/log/login
+)
+
+service admin {
+}

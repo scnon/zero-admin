@@ -1,0 +1,132 @@
+import "../base.api"
+
+info (
+	title: "用户信息"
+	version: "v1"
+)
+
+type UserData {
+	Id         int64  `json:"id"`
+	Username   string `json:"username"`
+	NickName   string `json:"nickName"`
+	Status     int32    `json:"status"`
+	Sort       int32    `json:"sort"`
+	Remark     string `json:"remark"`
+	CreateTime string `json:"createTime"`
+	UpdateTime string `json:"updateTime"`
+}
+
+type (
+	UserCreateReq {
+		Username string `json:"username"`
+		Password string `json:"password"`
+		NickName string `json:"nickName"`
+		Status   int32    `json:"status,default=1"`
+		Sort     int32    `json:"sort,default=0"`
+		Remark   string `json:"remark,default=''"`
+	}
+	UserCreateResp{
+		Base
+	}
+)
+
+type (
+	UserDeleteReq {
+		Ids []int64 `json:"ids"`
+	}
+	UserDeleteResp {
+		Base
+	}
+)
+
+type (
+	UserUpdateReq {
+		Id       int64  `json:"id"`
+		Password string `json:"password"`
+		NickName string `json:"nickName"`
+		Status   int32    `json:"status"`
+		Sort     int32    `json:"sort"`
+		Remark   string `json:"remark"`
+	}
+	UserUpdateResp {
+		Base
+	}
+)
+
+type (
+	UserListReq {
+		PageData
+		Username string `json:"userName,optional"`
+		NickName string `json:"nickName,optional"`
+		Status   int32    `json:"status,default=1"`
+	}
+	UserListData {
+		Total int64        `json:"total"`
+		List  []UserData `json:"list"`
+	}
+	UserListResp {
+		Base
+		Data UserListData `json:"data"`
+	}
+)
+
+type (
+	UserDetailReq {
+		Id int64 `json:"id"`
+	}
+	UserDetailResp {
+		Base
+		Data UserData `json:"data"`
+	}
+)
+
+@server (
+	jwt: Auth
+	group: boss/system/user
+	prefix: /api/v1/system/user
+)
+
+service business {
+	@handler userCreate
+	post /create (UserCreateReq) returns (UserCreateResp)
+
+	@handler userDetail
+	get /detail (UserDetailReq) returns (UserDetailResp)
+
+	@handler userDelete
+	post /delete (UserDeleteReq) returns (UserDeleteResp)
+
+	@handler userUpdate
+	post /update (UserUpdateReq) returns (UserUpdateResp)
+
+	@handler userList
+	get /list (UserListReq) returns (UserListResp)
+}
+
+type (
+	LoginReq {
+		Username string `json:"username"`
+		Password string `json:"password"`
+	}
+
+	LoginData {
+		UserId       int64  `json:"userId"`
+		AccessToken  string `json:"accessToken"`
+		RefreshToken string `json:"refreshToken"`
+		ExpireTime   int64  `json:"expireTime"`
+	}
+	LoginResp {
+		Base
+		Data    LoginData `json:"data"`
+	}
+)
+
+@server (
+	group: boss/system/user
+	prefix: /api/v1/system/user
+)
+
+service business {
+	@handler userLogin
+	post /login (LoginReq) returns (LoginResp)
+}

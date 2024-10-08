@@ -1,0 +1,9 @@
+syntax = "v1"
+
+import "boss/boss.api"
+import "boss/store.api"
+
+info (
+	desc: "商家系统"
+)
+

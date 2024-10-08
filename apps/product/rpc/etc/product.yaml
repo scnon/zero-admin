@@ -1,0 +1,11 @@
+Name: product.rpc
+ListenOn: 127.0.0.1:9003
+Etcd:
+  Hosts:
+  - 127.0.0.1:2379
+  Key: product.rpc
+
+Cache:
+  - Host: 127.0.0.1:6379
+    Type: node 
+    Pass:

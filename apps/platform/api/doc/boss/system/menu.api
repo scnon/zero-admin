@@ -1,0 +1,13 @@
+info (
+	title: "菜单信息"
+	version: "v1"
+)
+
+@server (
+	jwt: Auth
+	group: boss/system/menu
+	prefix: /api/v1/system/menu
+)
+
+service admin {
+}

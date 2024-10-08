@@ -1,0 +1,92 @@
+info (
+	title: "用户信息"
+	version: "v1"
+)
+
+type AddUserReq {
+	Username string `json:"username"`
+	Password string `json:"password"`
+	NickName string `json:"nickName"`
+	Status   int    `json:"status,default=1"`
+	Sort     int    `json:"sort,default=0"`
+	Remark   string `json:"remark,default=''"`
+}
+
+type DeleteUserReq {
+	Ids []int64 `json:"ids"`
+}
+
+type UpdateUserReq {
+	Id       int64  `json:"id"`
+	Password string `json:"password"`
+	NickName string `json:"nickName"`
+	Status   int    `json:"status"`
+	Sort     int    `json:"sort"`
+	Remark   string `json:"remark"`
+}
+
+type QueryUserListReq {
+	Username string `json:"userName,optional"`
+	NickName string `json:"nickName,optional"`
+	Status   int    `json:"status,default=1"`
+	Page     int    `json:"page,default=1"`
+	PageSize int    `json:"pageSize,default=10"`
+}
+
+type QueryUserListResp {
+	Total int        `json:"total"`
+	List  []UserData `json:"list"`
+}
+
+type UserData {
+	Id         int64  `json:"id"`
+	Username   string `json:"username"`
+	NickName   string `json:"nickName"`
+	Status     int    `json:"status"`
+	Sort       int    `json:"sort"`
+	Remark     string `json:"remark"`
+	CreateTime string `json:"createTime"`
+	UpdateTime string `json:"updateTime"`
+}
+
+@server (
+	jwt: Auth
+	group: boss/system/user
+	prefix: /api/v1/system/user
+)
+
+service admin {
+	@handler addUser
+	post /add (AddUserReq) returns ()
+
+	@handler deleteUser
+	post /delete (DeleteUserReq) returns ()
+
+	@handler updateUser
+	post /update (UpdateUserReq) returns ()
+
+	@handler queryUserList
+	post /list (QueryUserListReq) returns (QueryUserListResp)
+}
+
+type LoginReq {
+	Username string `json:"username"`
+	Password string `json:"password"`
+}
+
+type LoginResp {
+	Username     string `json:"username"`
+	AccessToken  string `json:"accessToken"`
+	RefreshToken string `json:"refreshToken"`
+	ExpireTime   int64  `json:"expireTime"`
+}
+
+@server (
+	group: boss/system/user
+	prefix: /api/v1/system/user
+)
+
+service admin {
+	@handler userLogin
+	post /login (LoginReq) returns (LoginResp)
+}

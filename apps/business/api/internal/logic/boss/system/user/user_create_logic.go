@@ -25,7 +25,7 @@ func NewUserCreateLogic(ctx context.Context, svcCtx *svc.ServiceContext) *UserCr
 }
 
 func (l *UserCreateLogic) UserCreate(req *types.UserCreateReq) (resp *types.UserCreateResp, err error) {
-	_, err = l.svcCtx.Admin.AddUser(l.ctx, &admin.AddUserReq{
+	_, err = l.svcCtx.User.AddUser(l.ctx, &admin.AddUserReq{
 		Username: req.Username,
 		Nickname: req.NickName,
 		Password: req.Password,

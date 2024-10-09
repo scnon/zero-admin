@@ -6,6 +6,6 @@ type Base {
 }
 
 type PageData {
-    Page     int32 `json:"page,default=1"`
-    PageSize int32 `json:"page_size,default=10"`
+    Page     int64 `json:"page,default=1"`
+    PageSize int64 `json:"page_size,default=10"`
 }

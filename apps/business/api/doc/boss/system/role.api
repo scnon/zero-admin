@@ -9,7 +9,7 @@ type RoleData {
 	Id          int64  `json:"id"`
 	Name        string `json:"name"`
 	Remark      string `json:"remark"`
-	Status      int32    `json:"status"`
+	Status      int64    `json:"status"`
 	CreateTime  string `json:"createTime"`
 	UpdateTime  string `json:"updateTime"`
 }
@@ -18,7 +18,7 @@ type (
 	RoleListReq {
 		PageData
 		Name     string `json:"name,optional"`
-		Status   int32    `json:"status,default=1"`
+		Status   int64    `json:"status,default=1"`
 	}
 	RoleList {
 		Total int64        `json:"total"`
@@ -27,16 +27,6 @@ type (
 	RoleListResp {
 		Base
 		Data RoleList `json:"data"`
-	}
-)
-
-type (
-	RoleDetailReq {
-		Id int64 `json:"id"`
-	}
-	RoleDetailResp {
-		Base
-		Data RoleData `json:"data"`
 	}
 )
 
@@ -79,10 +69,6 @@ service business {
 	// 获取角色列表
 	@handler roleList
 	get /list (RoleListReq) returns (RoleListResp)
-
-	// 获取角色详情
-	@handler roleDetail
-	get /detail (RoleDetailReq) returns (RoleDetailResp)
 
 	// 创建角色
 	@handler roleCreate

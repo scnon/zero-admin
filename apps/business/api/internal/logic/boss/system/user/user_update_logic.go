@@ -25,7 +25,7 @@ func NewUserUpdateLogic(ctx context.Context, svcCtx *svc.ServiceContext) *UserUp
 }
 
 func (l *UserUpdateLogic) UserUpdate(req *types.UserUpdateReq) (resp *types.UserUpdateResp, err error) {
-	_, err = l.svcCtx.Admin.UpdateUser(l.ctx, &admin.UpdateUserReq{
+	_, err = l.svcCtx.User.UpdateUser(l.ctx, &admin.UpdateUserReq{
 		Id:       req.Id,
 		Username: req.Username,
 		Nickname: req.NickName,

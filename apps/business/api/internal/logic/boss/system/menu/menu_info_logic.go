@@ -26,7 +26,7 @@ func NewMenuInfoLogic(ctx context.Context, svcCtx *svc.ServiceContext) *MenuInfo
 
 func (l *MenuInfoLogic) MenuInfo() (resp []*types.UserMenuInfo, err error) {
 	// uid := ctxdata.GetUId(l.ctx)
-	menuList, err := l.svcCtx.Admin.GetMenu(l.ctx, &admin.GetMenuReq{
+	menuList, err := l.svcCtx.Menu.GetMenu(l.ctx, &admin.GetMenuReq{
 		TenantId: l.svcCtx.Config.Tenant,
 		Page:     1,
 		PageSize: 1000,

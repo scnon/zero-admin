@@ -3,11 +3,12 @@ package main
 import (
 	"flag"
 	"fmt"
-	"zero-admin/pkg/rpc"
 
 	"zero-admin/apps/admin/rpc/admin"
 	"zero-admin/apps/admin/rpc/internal/config"
-	"zero-admin/apps/admin/rpc/internal/server"
+	menuServer "zero-admin/apps/admin/rpc/internal/server/menu"
+	roleServer "zero-admin/apps/admin/rpc/internal/server/role"
+	userServer "zero-admin/apps/admin/rpc/internal/server/user"
 	"zero-admin/apps/admin/rpc/internal/svc"
 
 	"github.com/zeromicro/go-zero/core/conf"
@@ -27,13 +28,14 @@ func main() {
 	ctx := svc.NewServiceContext(c)
 
 	s := zrpc.MustNewServer(c.RpcServerConf, func(grpcServer *grpc.Server) {
-		admin.RegisterAdminServer(grpcServer, server.NewAdminServer(ctx))
+		admin.RegisterUserServer(grpcServer, userServer.NewUserServer(ctx))
+		admin.RegisterRoleServer(grpcServer, roleServer.NewRoleServer(ctx))
+		admin.RegisterMenuServer(grpcServer, menuServer.NewMenuServer(ctx))
 
 		if c.Mode == service.DevMode || c.Mode == service.TestMode {
 			reflection.Register(grpcServer)
 		}
 	})
-	s.AddUnaryInterceptors(rpc.LogInterceptor)
 	defer s.Stop()
 
 	fmt.Printf("Starting rpc server at %s...\n", c.ListenOn)

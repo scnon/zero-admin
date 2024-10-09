@@ -19,7 +19,7 @@ type (
 	SysUserModel interface {
 		sysUserModel
 		FindWithTid(ctx context.Context, username string, tid int64) (*SysUser, error)
-		FindAll(ctx context.Context, ids []int64, nickname, username string, status int32, tenantId int64, page, limit int32) ([]*SysUser, int64, error)
+		FindAll(ctx context.Context, ids []int64, nickname, username string, status int64, tenantId int64, page, limit int64) ([]*SysUser, int64, error)
 		DeleteAll(ctx context.Context, ids []int64) error
 	}
 
@@ -44,8 +44,8 @@ func (m *customSysUserModel) FindWithTid(ctx context.Context, username string, t
 	return &resp, nil
 }
 
-func (m *customSysUserModel) FindAll(ctx context.Context, ids []int64, nickname, username string, status int32,
-	tenantId int64, page, limit int32) ([]*SysUser, int64, error) {
+func (m *customSysUserModel) FindAll(ctx context.Context, ids []int64, nickname, username string, status int64,
+	tenantId int64, page, limit int64) ([]*SysUser, int64, error) {
 	query := fmt.Sprintf("select %s from %s", sysUserRows, m.table)
 	var args []interface{}
 	whereCondition := []string{}

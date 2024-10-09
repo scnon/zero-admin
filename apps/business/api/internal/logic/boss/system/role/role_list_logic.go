@@ -1,27 +1,30 @@
-package menu
+package role
 
 import (
 	"context"
+
 	"zero-admin/apps/business/api/internal/svc"
 	"zero-admin/apps/business/api/internal/types"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
-type MenuDetailLogic struct {
+type RoleListLogic struct {
 	logx.Logger
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
 }
 
-func NewMenuDetailLogic(ctx context.Context, svcCtx *svc.ServiceContext) *MenuDetailLogic {
-	return &MenuDetailLogic{
+func NewRoleListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *RoleListLogic {
+	return &RoleListLogic{
 		Logger: logx.WithContext(ctx),
 		ctx:    ctx,
 		svcCtx: svcCtx,
 	}
 }
 
-func (l *MenuDetailLogic) MenuDetail() (resp *types.MenuInfo, err error) {
+func (l *RoleListLogic) RoleList(req *types.RoleListReq) (resp *types.RoleListResp, err error) {
+	// todo: add your logic here and delete this line
+
 	return
 }

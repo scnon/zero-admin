@@ -11,7 +11,7 @@ type MenuInfo {
 	ParentID int64  `json:"parent_id"`
 	Title    string `json:"title"`
 	Path     string `json:"path"`
-	Sort     int32    `json:"sort"`
+	Sort     int64    `json:"sort"`
 }
 
 type (
@@ -19,7 +19,7 @@ type (
 		ParentID int64  `json:"parent_id"`
 		Title    string `json:"title"`
 		Path     string `json:"path"`
-		Sort     int32    `json:"sort"`
+		Sort     int64    `json:"sort"`
 		Name     string `json:"name"`
 	}
 	MenuCreateResp {
@@ -42,7 +42,7 @@ type (
 		ParentID int64  `json:"parent_id"`
 		Title    string `json:"title"`
 		Path     string `json:"path"`
-		Sort     int32    `json:"sort"`
+		Sort     int64    `json:"sort"`
 		Name     string `json:"name"`
 	}
 	MenuUpdateResp {
@@ -72,7 +72,7 @@ type (
 		ID       int64          `json:"id"`
 		ParentId int64          `json:"parent_id"`
 		Path     string         `json:"path"`
-		Sort     int32            `json:"sort"`
+		Sort     int64            `json:"sort"`
 		Name     string         `json:"name"`
 		Meta     MenuMetaInfo   `json:"meta"`
 		Children []UserMenuInfo `json:"children,omitempty"`
@@ -86,9 +86,6 @@ type (
 )
 
 service business {
-	@handler menuDetail
-	get /detail () returns (MenuInfo)
-
 	@handler menuCreate
 	post /create (MenuCreateReq) returns (MenuCreateResp)
 

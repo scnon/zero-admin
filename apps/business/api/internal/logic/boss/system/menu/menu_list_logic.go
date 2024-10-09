@@ -25,11 +25,14 @@ func NewMenuListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *MenuList
 }
 
 func (l *MenuListLogic) MenuList(req *types.MenuListReq) (resp *types.MenuListResp, err error) {
-	result, err := l.svcCtx.Admin.GetMenu(l.ctx, &admin.GetMenuReq{
-		Page:     int32(req.Page),
-		PageSize: int32(req.PageSize),
+	result, err := l.svcCtx.Menu.GetMenu(l.ctx, &admin.GetMenuReq{
+		Page:     req.Page,
+		PageSize: req.PageSize,
 		TenantId: l.svcCtx.Config.Tenant,
 	})
+	if err != nil {
+		return nil, err
+	}
 
 	menus := make([]types.MenuInfo, 0)
 	for _, menu := range result.Menu {

@@ -25,7 +25,7 @@ func NewMenuCreateLogic(ctx context.Context, svcCtx *svc.ServiceContext) *MenuCr
 }
 
 func (l *MenuCreateLogic) MenuCreate(req *types.MenuCreateReq) (resp *types.MenuCreateResp, err error) {
-	_, err = l.svcCtx.Admin.AddMenu(l.ctx, &admin.AddMenuReq{
+	_, err = l.svcCtx.Menu.AddMenu(l.ctx, &admin.AddMenuReq{
 		ParentId: req.ParentID,
 		Path:     req.Path,
 		Title:    req.Title,

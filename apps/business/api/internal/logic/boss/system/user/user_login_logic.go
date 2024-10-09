@@ -23,7 +23,7 @@ func NewUserLoginLogic(ctx context.Context, svcCtx *svc.ServiceContext) *UserLog
 }
 
 func (l *UserLoginLogic) UserLogin(req *types.LoginReq) (resp *types.LoginResp, err error) {
-	result, err := l.svcCtx.Admin.Login(l.ctx, &admin.LoginReq{
+	result, err := l.svcCtx.User.Login(l.ctx, &admin.LoginReq{
 		Username: req.Username,
 		Password: req.Password,
 		TenantId: l.svcCtx.Config.Tenant,
@@ -32,7 +32,7 @@ func (l *UserLoginLogic) UserLogin(req *types.LoginReq) (resp *types.LoginResp, 
 		return nil, err
 	}
 
-	resp = &types.LoginResp{
+	return &types.LoginResp{
 		Base: l.svcCtx.Success(),
 		Data: types.LoginData{
 			UserId:       result.UserId,
@@ -40,6 +40,5 @@ func (l *UserLoginLogic) UserLogin(req *types.LoginReq) (resp *types.LoginResp, 
 			ExpireTime:   result.Expire,
 			RefreshToken: result.RefreshToken,
 		},
-	}
-	return
+	}, nil
 }

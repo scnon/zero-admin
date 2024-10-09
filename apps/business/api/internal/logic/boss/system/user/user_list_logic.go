@@ -26,10 +26,12 @@ func NewUserListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *UserList
 }
 
 func (l *UserListLogic) UserList(req *types.UserListReq) (resp *types.UserListResp, err error) {
-	result, err := l.svcCtx.Admin.GetUser(l.ctx, &admin.GetUserReq{
+	result, err := l.svcCtx.User.UserList(l.ctx, &admin.UserListReq{
 		Page:     req.Page,
 		PageSize: req.PageSize,
 		Status:   req.Status,
+		Username: req.Username,
+		Nickname: req.NickName,
 		TenantId: l.svcCtx.Config.Tenant,
 	})
 	if err != nil {

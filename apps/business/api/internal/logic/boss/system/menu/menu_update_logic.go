@@ -25,7 +25,7 @@ func NewMenuUpdateLogic(ctx context.Context, svcCtx *svc.ServiceContext) *MenuUp
 }
 
 func (l *MenuUpdateLogic) MenuUpdate(req *types.MenuUpdateReq) (resp *types.MenuUpdateResp, err error) {
-	_, err = l.svcCtx.Admin.UpdateMenu(l.ctx, &admin.UpdateMenuReq{
+	_, err = l.svcCtx.Menu.UpdateMenu(l.ctx, &admin.UpdateMenuReq{
 		Id:       req.ID,
 		ParentId: req.ParentID,
 		Path:     req.Path,

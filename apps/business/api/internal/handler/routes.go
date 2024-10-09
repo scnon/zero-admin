@@ -8,6 +8,7 @@ import (
 
 	bossstore "zero-admin/apps/business/api/internal/handler/boss/store"
 	bosssystemmenu "zero-admin/apps/business/api/internal/handler/boss/system/menu"
+	bosssystemrole "zero-admin/apps/business/api/internal/handler/boss/system/role"
 	bosssystemuser "zero-admin/apps/business/api/internal/handler/boss/system/user"
 	"zero-admin/apps/business/api/internal/svc"
 
@@ -56,11 +57,6 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 			},
 			{
 				Method:  http.MethodGet,
-				Path:    "/detail",
-				Handler: bosssystemmenu.MenuDetailHandler(serverCtx),
-			},
-			{
-				Method:  http.MethodGet,
 				Path:    "/info",
 				Handler: bosssystemmenu.MenuInfoHandler(serverCtx),
 			},
@@ -84,17 +80,39 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 			{
 				Method:  http.MethodPost,
 				Path:    "/create",
+				Handler: bosssystemrole.RoleCreateHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/delete",
+				Handler: bosssystemrole.RoleDeleteHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodGet,
+				Path:    "/list",
+				Handler: bosssystemrole.RoleListHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/update",
+				Handler: bosssystemrole.RoleUpdateHandler(serverCtx),
+			},
+		},
+		rest.WithJwt(serverCtx.Config.Auth.AccessSecret),
+		rest.WithPrefix("/api/v1/system/role"),
+	)
+
+	server.AddRoutes(
+		[]rest.Route{
+			{
+				Method:  http.MethodPost,
+				Path:    "/create",
 				Handler: bosssystemuser.UserCreateHandler(serverCtx),
 			},
 			{
 				Method:  http.MethodPost,
 				Path:    "/delete",
 				Handler: bosssystemuser.UserDeleteHandler(serverCtx),
-			},
-			{
-				Method:  http.MethodGet,
-				Path:    "/detail",
-				Handler: bosssystemuser.UserDetailHandler(serverCtx),
 			},
 			{
 				Method:  http.MethodGet,

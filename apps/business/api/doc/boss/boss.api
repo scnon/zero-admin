@@ -1,4 +1,5 @@
 import "system/user.api"
+import "system/role.api"
 import "system/menu.api"
 
 info (

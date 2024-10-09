@@ -9,8 +9,8 @@ type UserData {
 	Id         int64  `json:"id"`
 	Username   string `json:"username"`
 	NickName   string `json:"nickname"`
-	Status     int32  `json:"status"`
-	Sort       int32  `json:"sort"`
+	Status     int64  `json:"status"`
+	Sort       int64  `json:"sort"`
 	Remark     string `json:"remark"`
 	CreateTime string `json:"createTime"`
 	UpdateTime string `json:"updateTime"`
@@ -21,8 +21,8 @@ type (
 		Username string `json:"username"`
 		Password string `json:"password"`
 		NickName string `json:"nickname"`
-		Status   int32  `json:"status,default=1"`
-		Sort     int32  `json:"sort,default=0"`
+		Status   int64  `json:"status,default=1"`
+		Sort     int64  `json:"sort,default=0"`
 		Remark   string `json:"remark,default=''"`
 	}
 	UserCreateResp{
@@ -45,8 +45,8 @@ type (
 		Username string `json:"username"`
 		Password string `json:"password"`
 		NickName string `json:"nickname"`
-		Status   int32  `json:"status"`
-		Sort     int32  `json:"sort"`
+		Status   int64  `json:"status"`
+		Sort     int64  `json:"sort"`
 		Remark   string `json:"remark"`
 	}
 	UserUpdateResp {
@@ -59,7 +59,7 @@ type (
 		PageData
 		Username string `json:"username,optional"`
 		NickName string `json:"nickname,optional"`
-		Status   int32  `json:"status,default=1"`
+		Status   int64  `json:"status,default=1"`
 	}
 	UserListData {
 		Total int64      `json:"total"`
@@ -68,16 +68,6 @@ type (
 	UserListResp {
 		Base
 		Data UserListData `json:"data,omitempty"`
-	}
-)
-
-type (
-	UserDetailReq {
-		Id int64 `json:"id"`
-	}
-	UserDetailResp {
-		Base
-		Data UserData `json:"data,omitempty"`
 	}
 )
 
@@ -90,9 +80,6 @@ type (
 service business {
 	@handler userCreate
 	post /create (UserCreateReq) returns (UserCreateResp)
-
-	@handler userDetail
-	get /detail (UserDetailReq) returns (UserDetailResp)
 
 	@handler userDelete
 	post /delete (UserDeleteReq) returns (UserDeleteResp)

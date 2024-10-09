@@ -1,4 +1,4 @@
-package user
+package userlogic
 
 import (
 	"context"

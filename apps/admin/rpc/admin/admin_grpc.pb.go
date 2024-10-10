@@ -485,6 +485,7 @@ type MenuClient interface {
 	AddMenu(ctx context.Context, in *AddMenuReq, opts ...grpc.CallOption) (*AddMenuResp, error)
 	DeleteMenu(ctx context.Context, in *DeleteMenuReq, opts ...grpc.CallOption) (*DeleteMenuResp, error)
 	UpdateMenu(ctx context.Context, in *UpdateMenuReq, opts ...grpc.CallOption) (*UpdateMenuResp, error)
+	MenuList(ctx context.Context, in *MenuListReq, opts ...grpc.CallOption) (*MenuListResp, error)
 	GetMenu(ctx context.Context, in *GetMenuReq, opts ...grpc.CallOption) (*GetMenuResp, error)
 }
 
@@ -523,6 +524,15 @@ func (c *menuClient) UpdateMenu(ctx context.Context, in *UpdateMenuReq, opts ...
 	return out, nil
 }
 
+func (c *menuClient) MenuList(ctx context.Context, in *MenuListReq, opts ...grpc.CallOption) (*MenuListResp, error) {
+	out := new(MenuListResp)
+	err := c.cc.Invoke(ctx, "/admin.menu/MenuList", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *menuClient) GetMenu(ctx context.Context, in *GetMenuReq, opts ...grpc.CallOption) (*GetMenuResp, error) {
 	out := new(GetMenuResp)
 	err := c.cc.Invoke(ctx, "/admin.menu/GetMenu", in, out, opts...)
@@ -539,6 +549,7 @@ type MenuServer interface {
 	AddMenu(context.Context, *AddMenuReq) (*AddMenuResp, error)
 	DeleteMenu(context.Context, *DeleteMenuReq) (*DeleteMenuResp, error)
 	UpdateMenu(context.Context, *UpdateMenuReq) (*UpdateMenuResp, error)
+	MenuList(context.Context, *MenuListReq) (*MenuListResp, error)
 	GetMenu(context.Context, *GetMenuReq) (*GetMenuResp, error)
 	mustEmbedUnimplementedMenuServer()
 }
@@ -555,6 +566,9 @@ func (UnimplementedMenuServer) DeleteMenu(context.Context, *DeleteMenuReq) (*Del
 }
 func (UnimplementedMenuServer) UpdateMenu(context.Context, *UpdateMenuReq) (*UpdateMenuResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateMenu not implemented")
+}
+func (UnimplementedMenuServer) MenuList(context.Context, *MenuListReq) (*MenuListResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method MenuList not implemented")
 }
 func (UnimplementedMenuServer) GetMenu(context.Context, *GetMenuReq) (*GetMenuResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetMenu not implemented")
@@ -626,6 +640,24 @@ func _Menu_UpdateMenu_Handler(srv interface{}, ctx context.Context, dec func(int
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Menu_MenuList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MenuListReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MenuServer).MenuList(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/admin.menu/MenuList",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MenuServer).MenuList(ctx, req.(*MenuListReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _Menu_GetMenu_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(GetMenuReq)
 	if err := dec(in); err != nil {
@@ -662,6 +694,10 @@ var Menu_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "UpdateMenu",
 			Handler:    _Menu_UpdateMenu_Handler,
+		},
+		{
+			MethodName: "MenuList",
+			Handler:    _Menu_MenuList_Handler,
 		},
 		{
 			MethodName: "GetMenu",

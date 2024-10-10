@@ -2,6 +2,7 @@ package model
 
 import (
 	"context"
+	"database/sql"
 	"fmt"
 	"zero-admin/pkg/utils"
 
@@ -17,7 +18,8 @@ type (
 	SysMenuModel interface {
 		sysMenuModel
 		DeleteAll(ctx context.Context, ids []int64) error
-		FindAll(ctx context.Context, tenantId int64, page, pageSize int64) (*[]SysMenu, int64, error)
+		FindAll(ctx context.Context, tenantId int64, page, pageSize int64) ([]*SysMenuData, int64, error)
+		FindAllByIds(ctx context.Context, ids []int64) ([]*SysMenuData, error)
 	}
 
 	customSysMenuModel struct {
@@ -41,20 +43,33 @@ func (m *customSysMenuModel) DeleteAll(ctx context.Context, ids []int64) error {
 	return nil
 }
 
-func (m *customSysMenuModel) FindAll(ctx context.Context, tenantId int64, page, pageSize int64) (*[]SysMenu, int64, error) {
-	query := `select * from sys_menu where tenant_id = ? limit ? offset ?`
+type SysMenuData struct {
+	SysMenu
+	CreatorName sql.NullString `db:"creator_name"`
+	UpdaterName sql.NullString `db:"updater_name"`
+}
+
+func (m *customSysMenuModel) FindAll(ctx context.Context, tenantId int64, page, pageSize int64) ([]*SysMenuData, int64, error) {
+	rows := utils.CreateJoinTableRows("sysMenu", sysMenuFieldNames)
+	query := fmt.Sprintf(`select %s,creatorUser.username as creator_name, updaterUser.username as updater_name
+		from %s as sysRole
+		left join %s as creatorUser on sysMenu.creator = creatorUser.id
+        left join %s as updaterUser on sysMenu.updater = updaterUser.id`,
+		rows, m.table, "sys_user", "sys_user")
 	offset := (page - 1) * pageSize
-	args := []interface{}{tenantId, pageSize, offset}
-	if tenantId == 0 {
-		query = `select * from sys_menu limit ? offset ?`
-		args = []interface{}{pageSize, offset}
+	args := []interface{}{pageSize, offset}
+
+	if tenantId != 0 {
+		query = fmt.Sprintf("%s where sysMenu.tenant_id = ? limit ? offset ?", query)
+		args = []interface{}{tenantId, pageSize, offset}
 	}
 
-	list := &[]SysMenu{}
+	list := make([]*SysMenuData, 0)
 	err := m.CachedConn.QueryRowsNoCacheCtx(ctx, list, query, args...)
 	if err != nil {
 		return nil, 0, err
 	}
+	// 获取总数
 	var total int64
 	query = `select count(*) from sys_menu where tenant_id = ?`
 	if tenantId == 0 {
@@ -66,4 +81,20 @@ func (m *customSysMenuModel) FindAll(ctx context.Context, tenantId int64, page, 
 	}
 
 	return list, total, nil
+}
+
+func (m *customSysMenuModel) FindAllByIds(ctx context.Context, ids []int64) ([]*SysMenuData, error) {
+	rows := utils.CreateJoinTableRows("sysMenu", sysMenuFieldNames)
+	query := fmt.Sprintf(`select %s,creatorUser.username as creator_name, updaterUser.username as updater_name
+		from %s as sysRole
+		left join %s as creatorUser on sysMenu.creator = creatorUser.id
+		left join %s as updaterUser on sysMenu.updater = updaterUser.id
+		where sysMenu.id in (%s)`,
+		rows, m.table, "sys_user", "sys_user", utils.CreateDBPlaceholders(len(ids)))
+	var list []*SysMenuData
+	err := m.CachedConn.QueryRowsNoCacheCtx(ctx, &list, query, ids)
+	if err != nil {
+		return nil, err
+	}
+	return list, nil
 }

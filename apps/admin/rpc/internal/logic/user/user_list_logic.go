@@ -37,6 +37,13 @@ func (l *UserListLogic) UserList(in *admin.UserListReq) (*admin.UserListResp, er
 		if err := copier.Copy(&user, &entity); err != nil {
 			return nil, errors.Wrapf(xerr.NewInternalErr(), "copy entity err %v", err)
 		}
+		user.CreateTime = entity.CreateTime.Unix()
+		user.UpdateTime = entity.UpdateTime.Unix()
+		user.Creator = entity.CreatorName.String
+		if entity.Creator == 0 {
+			user.Creator = "系统"
+		}
+		user.Updater = entity.UpdaterName.String
 		userList = append(userList, &user)
 	}
 

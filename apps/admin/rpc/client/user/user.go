@@ -31,6 +31,8 @@ type (
 	LoginReq       = admin.LoginReq
 	LoginResp      = admin.LoginResp
 	MenuData       = admin.MenuData
+	MenuListReq    = admin.MenuListReq
+	MenuListResp   = admin.MenuListResp
 	RefreshReq     = admin.RefreshReq
 	RoleData       = admin.RoleData
 	RoleListReq    = admin.RoleListReq

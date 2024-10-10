@@ -35,6 +35,14 @@ func (l *UpdateUserLogic) UpdateUser(in *admin.UpdateUserReq) (*admin.UpdateUser
 		return nil, errors.Wrapf(xerr.NewInternalErr(), "copy entity err %v", err)
 	}
 
+	oldEntity, err := l.svcCtx.UserModel.FindOne(l.ctx, in.Id)
+	if err != nil {
+		if errors.Is(err, model.ErrNotFound) {
+			return nil, errors.WithStack(ErrUserNotFound)
+		}
+		return nil, errors.Wrapf(xerr.NewDBErr(), "find user err %v", err)
+	}
+
 	if len(in.Password) > 0 {
 		genPassword, err := encrypt.GenPasswordHash([]byte(in.Password))
 		if err != nil {
@@ -42,8 +50,13 @@ func (l *UpdateUserLogic) UpdateUser(in *admin.UpdateUserReq) (*admin.UpdateUser
 		}
 
 		entity.Password = string(genPassword)
+	} else {
+		entity.Password = oldEntity.Password
 	}
 
+	entity.Creator = oldEntity.Creator
+	entity.TenantId = oldEntity.TenantId
+	entity.CreateTime = oldEntity.CreateTime
 	if err := l.svcCtx.UserModel.Update(l.ctx, &entity); err != nil {
 		return nil, errors.Wrapf(xerr.NewDBErr(), "update user err %v", err)
 	}

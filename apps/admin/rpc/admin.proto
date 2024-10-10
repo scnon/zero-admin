@@ -35,6 +35,9 @@ message UserData {
   int64 tenant_id = 9;
   int64 department = 10;
   string avatar = 11;
+  repeated int64 roles = 12;
+  string creator = 13;
+  string updater = 14;
 }
 // 添加用户
 message AddUserReq {
@@ -47,6 +50,8 @@ message AddUserReq {
   int64 tenant_id = 7;
   string avatar = 8;
   int64 department = 9;
+  repeated int64 roles = 10;
+  int64 creator = 11;
 }
 message AddUserResp {
   int64 id = 1;
@@ -64,8 +69,10 @@ message UpdateUserReq {
   int64 status = 4;
   int64 sort = 5;
   string remark = 6;
-  int64 tenant_id = 7;
-  string username = 8;
+  string username = 7;
+  string avatar = 8;
+  repeated int64 roles = 9;
+  int64 updater = 10;
 }
 message UpdateUserResp {}
 // 用户列表
@@ -82,12 +89,6 @@ message UserListResp {
   repeated UserData list = 1;
   int64 total = 2;
 }
-// 用户更新角色
-message UserUpdateRoleReq {
-  int64 user_id = 1;
-  repeated int64 role_ids = 2;
-}
-message UserUpdateRoleResp {}
 
 // 角色信息
 message RoleData {
@@ -97,11 +98,19 @@ message RoleData {
   int64 create_time = 4;
   int64 update_time = 5;
   int64 tenant_id = 6;
+  repeated int64 menus = 7;
+  string creator = 8;
+  string updater = 9;
 }
 // 添加角色
 message AddRoleReq {
   string name = 1;
   string remark = 2;
+  int64 status = 3;
+  int64 creator = 4;
+  int64  sort = 5;
+  int64 tenant_id = 6;
+  repeated int64 menus = 7;
 }
 message AddRoleResp {
   int64 id = 1;
@@ -116,23 +125,22 @@ message UpdateRoleReq {
   int64 id = 1;
   string name = 2;
   string remark = 3;
+  repeated int64 menus = 4;
+  int64 sort = 5;
+  int64 status = 6;
+  int64 updater = 7;
 }
 message UpdateRoleResp {}
 // 角色列表
 message RoleListReq {
   int64 page = 1;
   int64 page_size = 2;
+  int64 tenant_id = 3;
 }
 message RoleListResp {
   int64 total = 1;
   repeated RoleData list = 2;
 }
-// 角色更新菜单
-message RoleUpdateMenuReq {
-  int64 role_id = 1;
-  repeated int64 menu_ids = 2;
-}
-message RoleUpdateMenuResp {}
 
 // 菜单数据
 message MenuData {
@@ -143,6 +151,10 @@ message MenuData {
   int64 sort = 5;
   string name = 6;
   int64 tenant_id = 7;
+  string creator = 8;
+  string updater = 9;
+  int64 create_time = 10;
+  int64 update_time = 11;
 }
 // 添加菜单
 message AddMenuReq {
@@ -152,6 +164,7 @@ message AddMenuReq {
   int64 sort = 4;
   int64 tenant_id = 5;
   string name = 6;
+  int64 creator = 7;
 }
 message AddMenuResp {
   int64 id = 1;
@@ -170,18 +183,25 @@ message UpdateMenuReq {
   string path = 4;
   int64 sort = 5;
   int64 tenant_id = 6;
+  int64 updater = 7;
 }
 message UpdateMenuResp {}
 // 菜单列表
-message GetMenuReq {
+message MenuListReq {
   int64 tenant_id = 1;
   int64 page = 2;
   int64 page_size = 3;
+}
+message MenuListResp {
+  repeated MenuData list = 1;
+  int64 total = 2;
+}
+// 获取当前用户菜单
+message GetMenuReq {
   int64 admin_id = 4;
 }
 message GetMenuResp {
   repeated MenuData menu = 1;
-  int64 total = 2;
 }
 
 service user {
@@ -192,8 +212,6 @@ service user {
   rpc DeleteUser(DeleteUserReq) returns (DeleteUserResp) {}
   rpc UpdateUser(UpdateUserReq) returns (UpdateUserResp) {}
   rpc UserList(UserListReq) returns (UserListResp) {}
-
-  rpc UserUpdateRole(UserUpdateRoleReq) returns (UserUpdateRoleResp) {}
 }
 
 service role {
@@ -201,13 +219,13 @@ service role {
   rpc DeleteRole(DeleteRoleReq) returns (DeleteRoleResp) {}
   rpc UpdateRole(UpdateRoleReq) returns (UpdateRoleResp) {}
   rpc RoleList(RoleListReq) returns (RoleListResp) {}
-
-  rpc RoleUpdateMenu(RoleUpdateMenuReq) returns (RoleUpdateMenuResp) {}
 }
 
 service menu {
   rpc AddMenu(AddMenuReq) returns (AddMenuResp) {}
   rpc DeleteMenu(DeleteMenuReq) returns (DeleteMenuResp) {}
   rpc UpdateMenu(UpdateMenuReq) returns (UpdateMenuResp) {}
+  rpc MenuList(MenuListReq) returns (MenuListResp) {}
+
   rpc GetMenu(GetMenuReq) returns (GetMenuResp) {}
 }

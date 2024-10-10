@@ -23,3 +23,24 @@ func CreateDBPlaceholders(n int) string {
 	}
 	return strings.Join(placeholders, ", ")
 }
+
+func CreateJoinTableRows(name string, rows []string) string {
+	if len(rows) == 0 {
+		return ""
+	}
+	var rowsCopy = make([]string, len(rows))
+	for i, row := range rows {
+		rowsCopy[i] = name + "." + row
+	}
+	return strings.Join(rowsCopy, ", ")
+}
+
+func GetInt64ArryFromStr(str string) []int64 {
+	strs := strings.Split(str, ",")
+	var ids []int64
+	for _, v := range strs {
+		id, _ := strconv.ParseInt(v, 10, 64)
+		ids = append(ids, id)
+	}
+	return ids
+}

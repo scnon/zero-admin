@@ -31,6 +31,8 @@ type (
 	LoginReq       = admin.LoginReq
 	LoginResp      = admin.LoginResp
 	MenuData       = admin.MenuData
+	MenuListReq    = admin.MenuListReq
+	MenuListResp   = admin.MenuListResp
 	RefreshReq     = admin.RefreshReq
 	RoleData       = admin.RoleData
 	RoleListReq    = admin.RoleListReq
@@ -49,6 +51,7 @@ type (
 		AddMenu(ctx context.Context, in *AddMenuReq, opts ...grpc.CallOption) (*AddMenuResp, error)
 		DeleteMenu(ctx context.Context, in *DeleteMenuReq, opts ...grpc.CallOption) (*DeleteMenuResp, error)
 		UpdateMenu(ctx context.Context, in *UpdateMenuReq, opts ...grpc.CallOption) (*UpdateMenuResp, error)
+		MenuList(ctx context.Context, in *MenuListReq, opts ...grpc.CallOption) (*MenuListResp, error)
 		GetMenu(ctx context.Context, in *GetMenuReq, opts ...grpc.CallOption) (*GetMenuResp, error)
 	}
 
@@ -76,6 +79,11 @@ func (m *defaultMenu) DeleteMenu(ctx context.Context, in *DeleteMenuReq, opts ..
 func (m *defaultMenu) UpdateMenu(ctx context.Context, in *UpdateMenuReq, opts ...grpc.CallOption) (*UpdateMenuResp, error) {
 	client := admin.NewMenuClient(m.cli.Conn())
 	return client.UpdateMenu(ctx, in, opts...)
+}
+
+func (m *defaultMenu) MenuList(ctx context.Context, in *MenuListReq, opts ...grpc.CallOption) (*MenuListResp, error) {
+	client := admin.NewMenuClient(m.cli.Conn())
+	return client.MenuList(ctx, in, opts...)
 }
 
 func (m *defaultMenu) GetMenu(ctx context.Context, in *GetMenuReq, opts ...grpc.CallOption) (*GetMenuResp, error) {

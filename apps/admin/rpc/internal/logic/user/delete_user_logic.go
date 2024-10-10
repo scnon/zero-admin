@@ -25,9 +25,9 @@ func NewDeleteUserLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Delete
 	}
 }
 
-func (l *DeleteUserLogic) DeleteUser(in *admin.DeleteUserReq) (*admin.DeleteUserReq, error) {
+func (l *DeleteUserLogic) DeleteUser(in *admin.DeleteUserReq) (*admin.DeleteUserResp, error) {
 	if err := l.svcCtx.UserModel.DeleteAll(l.ctx, in.Ids); err != nil {
 		return nil, errors.Wrapf(xerr.NewDBErr(), "delete user err %v", err)
 	}
-	return &admin.DeleteUserReq{}, nil
+	return &admin.DeleteUserResp{}, nil
 }

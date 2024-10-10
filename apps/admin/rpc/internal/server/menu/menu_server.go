@@ -38,6 +38,11 @@ func (s *MenuServer) UpdateMenu(ctx context.Context, in *admin.UpdateMenuReq) (*
 	return l.UpdateMenu(in)
 }
 
+func (s *MenuServer) MenuList(ctx context.Context, in *admin.MenuListReq) (*admin.MenuListResp, error) {
+	l := menulogic.NewMenuListLogic(ctx, s.svcCtx)
+	return l.MenuList(in)
+}
+
 func (s *MenuServer) GetMenu(ctx context.Context, in *admin.GetMenuReq) (*admin.GetMenuResp, error) {
 	l := menulogic.NewGetMenuLogic(ctx, s.svcCtx)
 	return l.GetMenu(in)

@@ -41,15 +41,22 @@ type (
 	}
 
 	SysMenu struct {
-		Id         int64         `db:"id"`
-		ParentId   sql.NullInt64 `db:"parent_id"`
-		TenantId   int64         `db:"tenant_id"`
-		Name       string        `db:"name"`
-		Path       string        `db:"path"`
-		Title      string        `db:"title"`
-		Sort       int64         `db:"sort"`
-		CreateTime time.Time     `db:"create_time"`
-		UpdateTime time.Time     `db:"update_time"`
+		Id         int64     `db:"id"`          // 菜单ID
+		ParentId   int64     `db:"parent_id"`   // 父ID
+		TenantId   int64     `db:"tenant_id"`   // 租户ID
+		Name       string    `db:"name"`        // 名称
+		Icon       string    `db:"icon"`        // 图标
+		Path       string    `db:"path"`        // 路径
+		Title      string    `db:"title"`       // 标题
+		Sort       int64     `db:"sort"`        // 排序
+		Type       int64     `db:"type"`        // 类型(1:菜单,2:按钮,3:外链)
+		Permission string    `db:"permission"`  // 权限标识
+		Status     int64     `db:"status"`      // 状态(0:启用,1:禁用)
+		Visible    int64     `db:"visible"`     // 是否隐藏(0:隐藏,1:显示)
+		Creator    int64     `db:"creator"`     // 创建人
+		Updater    int64     `db:"updater"`     // 修改人
+		CreateTime time.Time `db:"create_time"` // 创建时间
+		UpdateTime time.Time `db:"update_time"` // 修改时间
 	}
 )
 
@@ -89,8 +96,8 @@ func (m *defaultSysMenuModel) FindOne(ctx context.Context, id int64) (*SysMenu, 
 func (m *defaultSysMenuModel) Insert(ctx context.Context, data *SysMenu) (sql.Result, error) {
 	sysMenuIdKey := fmt.Sprintf("%s%v", cacheSysMenuIdPrefix, data.Id)
 	ret, err := m.ExecCtx(ctx, func(ctx context.Context, conn sqlx.SqlConn) (result sql.Result, err error) {
-		query := fmt.Sprintf("insert into %s (%s) values (?, ?, ?, ?, ?, ?)", m.table, sysMenuRowsExpectAutoSet)
-		return conn.ExecCtx(ctx, query, data.ParentId, data.TenantId, data.Name, data.Path, data.Title, data.Sort)
+		query := fmt.Sprintf("insert into %s (%s) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", m.table, sysMenuRowsExpectAutoSet)
+		return conn.ExecCtx(ctx, query, data.ParentId, data.TenantId, data.Name, data.Icon, data.Path, data.Title, data.Sort, data.Type, data.Permission, data.Status, data.Visible, data.Creator, data.Updater)
 	}, sysMenuIdKey)
 	return ret, err
 }
@@ -99,7 +106,7 @@ func (m *defaultSysMenuModel) Update(ctx context.Context, data *SysMenu) error {
 	sysMenuIdKey := fmt.Sprintf("%s%v", cacheSysMenuIdPrefix, data.Id)
 	_, err := m.ExecCtx(ctx, func(ctx context.Context, conn sqlx.SqlConn) (result sql.Result, err error) {
 		query := fmt.Sprintf("update %s set %s where `id` = ?", m.table, sysMenuRowsWithPlaceHolder)
-		return conn.ExecCtx(ctx, query, data.ParentId, data.TenantId, data.Name, data.Path, data.Title, data.Sort, data.Id)
+		return conn.ExecCtx(ctx, query, data.ParentId, data.TenantId, data.Name, data.Icon, data.Path, data.Title, data.Sort, data.Type, data.Permission, data.Status, data.Visible, data.Creator, data.Updater, data.Id)
 	}, sysMenuIdKey)
 	return err
 }

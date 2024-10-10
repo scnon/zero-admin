@@ -15,7 +15,7 @@ import (
 )
 
 var (
-	ErrRoleNotFound = perr.New("角色不存在")
+	ErrRoleNotFound = xerr.NewMsg("角色不存在")
 )
 
 type UpdateRoleLogic struct {
@@ -37,12 +37,16 @@ func (l *UpdateRoleLogic) UpdateRole(in *admin.UpdateRoleReq) (*admin.UpdateRole
 	if err := copier.Copy(&entity, &in); err != nil {
 		return nil, perr.Wrapf(xerr.NewInternalErr(), "copy entity failed: %v", err)
 	}
-	if _, err := l.svcCtx.RoleModel.FindOne(l.ctx, in.Id); err != nil {
+	oldEntity, err := l.svcCtx.RoleModel.FindOne(l.ctx, in.Id)
+	if err != nil {
 		if errors.Is(err, model.ErrNotFound) {
 			return nil, perr.WithStack(ErrRoleNotFound)
 		}
 		return nil, perr.Wrapf(xerr.NewDBErr(), "find role error: %v", err)
 	}
+	entity.Creator = oldEntity.Creator
+	entity.TenantId = oldEntity.TenantId
+	entity.CreateTime = oldEntity.CreateTime
 	if err := l.svcCtx.RoleModel.Update(l.ctx, &entity); err != nil {
 		return nil, perr.Wrapf(xerr.NewDBErr(), "update role error: %v", err)
 	}

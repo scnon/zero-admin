@@ -45,6 +45,10 @@ func (l *UserListLogic) UserList(req *types.UserListReq) (resp *types.UserListRe
 			NickName:   item.Nickname,
 			Username:   item.Username,
 			Status:     item.Status,
+			Avatar:     item.Avatar,
+			Roles:      item.Roles,
+			Creator:    item.Creator,
+			Updator:    item.Updator,
 			CreateTime: time.Unix(item.CreateTime, 0).Format("2006-01-02 15:04:05"),
 			UpdateTime: time.Unix(item.UpdateTime, 0).Format("2006-01-02 15:04:05"),
 		})

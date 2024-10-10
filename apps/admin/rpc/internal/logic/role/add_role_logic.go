@@ -3,10 +3,9 @@ package rolelogic
 import (
 	"context"
 	"github.com/jinzhu/copier"
-	"zero-admin/apps/model"
-
 	"zero-admin/apps/admin/rpc/admin"
 	"zero-admin/apps/admin/rpc/internal/svc"
+	"zero-admin/apps/model"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )

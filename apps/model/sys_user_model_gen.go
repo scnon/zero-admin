@@ -48,6 +48,7 @@ type (
 		Password     string    `db:"password"`      // 密码
 		Nickname     string    `db:"nickname"`      // 昵称
 		Avatar       string    `db:"avatar"`        // 头像
+		Roles        string    `db:"roles"`         // 角色列表
 		Status       int64     `db:"status"`        // 状态(1:正常,0:禁用)
 		Sort         int64     `db:"sort"`          // 排序
 		Remark       string    `db:"remark"`        // 备注
@@ -124,8 +125,8 @@ func (m *defaultSysUserModel) Insert(ctx context.Context, data *SysUser) (sql.Re
 	sysUserIdKey := fmt.Sprintf("%s%v", cacheSysUserIdPrefix, data.Id)
 	sysUserUsernameKey := fmt.Sprintf("%s%v", cacheSysUserUsernamePrefix, data.Username)
 	ret, err := m.ExecCtx(ctx, func(ctx context.Context, conn sqlx.SqlConn) (result sql.Result, err error) {
-		query := fmt.Sprintf("insert into %s (%s) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", m.table, sysUserRowsExpectAutoSet)
-		return conn.ExecCtx(ctx, query, data.Username, data.Password, data.Nickname, data.Avatar, data.Status, data.Sort, data.Remark, data.DepartmentId, data.TenantId, data.Creator, data.Updater, data.IsDeleted)
+		query := fmt.Sprintf("insert into %s (%s) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", m.table, sysUserRowsExpectAutoSet)
+		return conn.ExecCtx(ctx, query, data.Username, data.Password, data.Nickname, data.Avatar, data.Roles, data.Status, data.Sort, data.Remark, data.DepartmentId, data.TenantId, data.Creator, data.Updater, data.IsDeleted)
 	}, sysUserIdKey, sysUserUsernameKey)
 	return ret, err
 }
@@ -140,7 +141,7 @@ func (m *defaultSysUserModel) Update(ctx context.Context, newData *SysUser) erro
 	sysUserUsernameKey := fmt.Sprintf("%s%v", cacheSysUserUsernamePrefix, data.Username)
 	_, err = m.ExecCtx(ctx, func(ctx context.Context, conn sqlx.SqlConn) (result sql.Result, err error) {
 		query := fmt.Sprintf("update %s set %s where `id` = ?", m.table, sysUserRowsWithPlaceHolder)
-		return conn.ExecCtx(ctx, query, newData.Username, newData.Password, newData.Nickname, newData.Avatar, newData.Status, newData.Sort, newData.Remark, newData.DepartmentId, newData.TenantId, newData.Creator, newData.Updater, newData.IsDeleted, newData.Id)
+		return conn.ExecCtx(ctx, query, newData.Username, newData.Password, newData.Nickname, newData.Avatar, newData.Roles, newData.Status, newData.Sort, newData.Remark, newData.DepartmentId, newData.TenantId, newData.Creator, newData.Updater, newData.IsDeleted, newData.Id)
 	}, sysUserIdKey, sysUserUsernameKey)
 	return err
 }

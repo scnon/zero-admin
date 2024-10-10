@@ -9,7 +9,11 @@ type RoleData {
 	Id          int64  `json:"id"`
 	Name        string `json:"name"`
 	Remark      string `json:"remark"`
+	Sort 	  int64  `json:"sort"`
 	Status      int64    `json:"status"`
+	Menus	   []int64 `json:"menus"`
+	Cretor    string  `json:"creator"`
+	Updator   string  `json:"updator"`
 	CreateTime  string `json:"createTime"`
 	UpdateTime  string `json:"updateTime"`
 }
@@ -45,6 +49,9 @@ type (
 		Id     int64  `json:"id"`
 		Name   string `json:"name"`
 		Remark string `json:"remark"`
+		Sort   int64  `json:"sort"`
+		Status int64  `json:"status"`
+		Menus  []int64 `json:"menus"`
 	}
 	RoleUpdateResp {
 		Base

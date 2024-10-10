@@ -16,8 +16,8 @@ import (
 )
 
 var (
-	ErrUserNotRegister = xerr.New(xerr.SERVER_COMMON_ERROR, "用户不存在")
-	ErrUserPwdError    = xerr.New(xerr.SERVER_COMMON_ERROR, "密码不正确")
+	ErrUserNotFound = xerr.New(xerr.SERVER_COMMON_ERROR, "用户不存在")
+	ErrUserPwdError = xerr.New(xerr.SERVER_COMMON_ERROR, "密码不正确")
 )
 
 type LoginLogic struct {
@@ -38,7 +38,7 @@ func (l *LoginLogic) Login(in *admin.LoginReq) (*admin.LoginResp, error) {
 	userEntity, err := l.svcCtx.UserModel.FindWithTid(l.ctx, in.Username, in.TenantId)
 	if err != nil {
 		if errors.Is(err, model.ErrNotFound) {
-			return nil, perr.WithStack(ErrUserNotRegister)
+			return nil, perr.WithStack(ErrUserNotFound)
 		}
 
 		return nil, perr.Wrapf(xerr.NewDBErr(), "find user err %v", err)

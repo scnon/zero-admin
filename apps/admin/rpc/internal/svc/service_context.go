@@ -10,9 +10,11 @@ import (
 type ServiceContext struct {
 	Config config.Config
 
-	UserModel model.SysUserModel
-	RoleModel model.SysRoleModel
-	MenuModel model.SysMenuModel
+	UserModel     model.SysUserModel
+	RoleModel     model.SysRoleModel
+	MenuModel     model.SysMenuModel
+	UserRoleModel model.SysUserRoleModel
+	RoleMenuModel model.SysRoleMenuModel
 }
 
 func NewServiceContext(c config.Config) *ServiceContext {
@@ -21,8 +23,10 @@ func NewServiceContext(c config.Config) *ServiceContext {
 	return &ServiceContext{
 		Config: c,
 
-		UserModel: model.NewSysUserModel(sqlConn, c.Cache),
-		RoleModel: model.NewSysRoleModel(sqlConn, c.Cache),
-		MenuModel: model.NewSysMenuModel(sqlConn, c.Cache),
+		UserModel:     model.NewSysUserModel(sqlConn, c.Cache),
+		RoleModel:     model.NewSysRoleModel(sqlConn, c.Cache),
+		MenuModel:     model.NewSysMenuModel(sqlConn, c.Cache),
+		UserRoleModel: model.NewSysUserRoleModel(sqlConn, c.Cache),
+		RoleMenuModel: model.NewSysRoleMenuModel(sqlConn, c.Cache),
 	}
 }

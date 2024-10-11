@@ -43,22 +43,21 @@ type (
 	}
 
 	SysUser struct {
-		Id           int64     `db:"id"`            // 主键
-		Username     string    `db:"username"`      // 用户名
-		Password     string    `db:"password"`      // 密码
-		Nickname     string    `db:"nickname"`      // 昵称
-		Avatar       string    `db:"avatar"`        // 头像
-		Roles        string    `db:"roles"`         // 角色列表
-		Status       int64     `db:"status"`        // 状态(1:正常,0:禁用)
-		Sort         int64     `db:"sort"`          // 排序
-		Remark       string    `db:"remark"`        // 备注
-		DepartmentId int64     `db:"department_id"` // 部门ID
-		TenantId     int64     `db:"tenant_id"`     // 租户ID
-		Creator      int64     `db:"creator"`       // 创建人 user_id
-		Updater      int64     `db:"updater"`       // 修改人 user_id
-		CreateTime   time.Time `db:"create_time"`   // 创建时间
-		UpdateTime   time.Time `db:"update_time"`   // 修改时间
-		IsDeleted    int64     `db:"is_deleted"`    // 是否删除(1:已删除,0:未删除)
+		Id           int64        `db:"id"`            // 主键
+		Username     string       `db:"username"`      // 用户名
+		Password     string       `db:"password"`      // 密码
+		Nickname     string       `db:"nickname"`      // 昵称
+		Avatar       string       `db:"avatar"`        // 头像
+		Status       int64        `db:"status"`        // 状态(1:正常,0:禁用)
+		Sort         int64        `db:"sort"`          // 排序
+		Remark       string       `db:"remark"`        // 备注
+		DepartmentId int64        `db:"department_id"` // 部门ID
+		TenantId     int64        `db:"tenant_id"`     // 租户ID
+		Creator      int64        `db:"creator"`       // 创建人 user_id
+		Updater      int64        `db:"updater"`       // 修改人 user_id
+		CreateTime   time.Time    `db:"create_time"`   // 创建时间
+		UpdateTime   sql.NullTime `db:"update_time"`   // 修改时间
+		IsDeleted    int64        `db:"is_deleted"`    // 是否删除(1:已删除,0:未删除)
 	}
 )
 
@@ -125,8 +124,8 @@ func (m *defaultSysUserModel) Insert(ctx context.Context, data *SysUser) (sql.Re
 	sysUserIdKey := fmt.Sprintf("%s%v", cacheSysUserIdPrefix, data.Id)
 	sysUserUsernameKey := fmt.Sprintf("%s%v", cacheSysUserUsernamePrefix, data.Username)
 	ret, err := m.ExecCtx(ctx, func(ctx context.Context, conn sqlx.SqlConn) (result sql.Result, err error) {
-		query := fmt.Sprintf("insert into %s (%s) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", m.table, sysUserRowsExpectAutoSet)
-		return conn.ExecCtx(ctx, query, data.Username, data.Password, data.Nickname, data.Avatar, data.Roles, data.Status, data.Sort, data.Remark, data.DepartmentId, data.TenantId, data.Creator, data.Updater, data.IsDeleted)
+		query := fmt.Sprintf("insert into %s (%s) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", m.table, sysUserRowsExpectAutoSet)
+		return conn.ExecCtx(ctx, query, data.Username, data.Password, data.Nickname, data.Avatar, data.Status, data.Sort, data.Remark, data.DepartmentId, data.TenantId, data.Creator, data.Updater, data.IsDeleted)
 	}, sysUserIdKey, sysUserUsernameKey)
 	return ret, err
 }
@@ -141,7 +140,7 @@ func (m *defaultSysUserModel) Update(ctx context.Context, newData *SysUser) erro
 	sysUserUsernameKey := fmt.Sprintf("%s%v", cacheSysUserUsernamePrefix, data.Username)
 	_, err = m.ExecCtx(ctx, func(ctx context.Context, conn sqlx.SqlConn) (result sql.Result, err error) {
 		query := fmt.Sprintf("update %s set %s where `id` = ?", m.table, sysUserRowsWithPlaceHolder)
-		return conn.ExecCtx(ctx, query, newData.Username, newData.Password, newData.Nickname, newData.Avatar, newData.Roles, newData.Status, newData.Sort, newData.Remark, newData.DepartmentId, newData.TenantId, newData.Creator, newData.Updater, newData.IsDeleted, newData.Id)
+		return conn.ExecCtx(ctx, query, newData.Username, newData.Password, newData.Nickname, newData.Avatar, newData.Status, newData.Sort, newData.Remark, newData.DepartmentId, newData.TenantId, newData.Creator, newData.Updater, newData.IsDeleted, newData.Id)
 	}, sysUserIdKey, sysUserUsernameKey)
 	return err
 }

@@ -19,6 +19,7 @@ type (
 	// and implement the added methods in customSysUserModel.
 	SysUserModel interface {
 		sysUserModel
+		InsertWithRoles(ctx context.Context, data *SysUser, roleIds []int64) (int64, error)
 		FindWithTid(ctx context.Context, username string, tid int64) (*SysUser, error)
 		FindAll(ctx context.Context, ids []int64, nickname, username string, status int64, tenantId int64, page, limit int64) ([]*SysUserData, int64, error)
 		DeleteAll(ctx context.Context, ids []int64) error
@@ -34,6 +35,38 @@ func NewSysUserModel(conn sqlx.SqlConn, c cache.CacheConf, opts ...cache.Option)
 	return &customSysUserModel{
 		defaultSysUserModel: newSysUserModel(conn, c, opts...),
 	}
+}
+
+func (m *customSysUserModel) InsertWithRoles(ctx context.Context, data *SysUser, roles []int64) (int64, error) {
+	var id int64 = 0
+	err := m.CachedConn.TransactCtx(ctx, func(ctx context.Context, conn sqlx.Session) error {
+		// 占位符数量减去 3 【id, create_time, update_time】
+		rows := utils.CreateDBPlaceholders(len(sysUserFieldNames) - 3)
+		query := fmt.Sprintf("insert into %s (%s) values (%s)", m.table, sysUserRowsExpectAutoSet, rows)
+		res, err := conn.ExecCtx(ctx, query, data.Username, data.Password, data.Nickname, data.Avatar, data.Status,
+			data.Sort, data.Remark, data.DepartmentId, data.TenantId, data.Creator, data.Updater, data.IsDeleted)
+		if err != nil {
+			return err
+		}
+		id, err = res.LastInsertId()
+		if err != nil {
+			return err
+		}
+		var args []interface{}
+		holderList := make([]string, 0)
+		for _, roleId := range roles {
+			args = append(args, id, roleId, data.Creator)
+			holderList = append(holderList, "(?, ?, ?)")
+		}
+		holders := strings.Join(holderList, ",")
+		query = fmt.Sprintf("insert into sys_user_role (user_id, role_id, creator) values %s", holders)
+		_, err = conn.ExecCtx(ctx, query, args...)
+		return err
+	})
+	if err != nil {
+		return 0, err
+	}
+	return id, nil
 }
 
 func (m *customSysUserModel) FindWithTid(ctx context.Context, username string, tid int64) (*SysUser, error) {

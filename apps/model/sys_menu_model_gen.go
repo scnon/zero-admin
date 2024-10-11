@@ -41,22 +41,22 @@ type (
 	}
 
 	SysMenu struct {
-		Id         int64     `db:"id"`          // 菜单ID
-		ParentId   int64     `db:"parent_id"`   // 父ID
-		TenantId   int64     `db:"tenant_id"`   // 租户ID
-		Name       string    `db:"name"`        // 名称
-		Icon       string    `db:"icon"`        // 图标
-		Path       string    `db:"path"`        // 路径
-		Title      string    `db:"title"`       // 标题
-		Sort       int64     `db:"sort"`        // 排序
-		Type       int64     `db:"type"`        // 类型(1:菜单,2:按钮,3:外链)
-		Permission string    `db:"permission"`  // 权限标识
-		Status     int64     `db:"status"`      // 状态(0:启用,1:禁用)
-		Visible    int64     `db:"visible"`     // 是否隐藏(0:隐藏,1:显示)
-		Creator    int64     `db:"creator"`     // 创建人
-		Updater    int64     `db:"updater"`     // 修改人
-		CreateTime time.Time `db:"create_time"` // 创建时间
-		UpdateTime time.Time `db:"update_time"` // 修改时间
+		Id         int64        `db:"id"`          // 菜单ID
+		ParentId   int64        `db:"parent_id"`   // 父ID
+		TenantId   int64        `db:"tenant_id"`   // 租户ID
+		Name       string       `db:"name"`        // 名称
+		Icon       string       `db:"icon"`        // 图标
+		Path       string       `db:"path"`        // 路径
+		Title      string       `db:"title"`       // 标题
+		Sort       int64        `db:"sort"`        // 排序
+		Type       int64        `db:"type"`        // 类型(1:菜单,2:按钮,3:外链)
+		Permission string       `db:"permission"`  // 权限标识
+		Status     int64        `db:"status"`      // 状态(0:启用,1:禁用)
+		Visible    int64        `db:"visible"`     // 是否隐藏(0:隐藏,1:显示)
+		Creator    int64        `db:"creator"`     // 创建人
+		Updater    int64        `db:"updater"`     // 修改人
+		CreateTime time.Time    `db:"create_time"` // 创建时间
+		UpdateTime sql.NullTime `db:"update_time"` // 修改时间
 	}
 )
 

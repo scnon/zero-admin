@@ -39,7 +39,7 @@ func (l *RoleListLogic) RoleList(in *admin.RoleListReq) (*admin.RoleListResp, er
 			return nil, errors.Wrapf(xerr.NewInternalErr(), "copy entity err %v", err)
 		}
 		role.CreateTime = entity.CreateTime.Unix()
-		role.UpdateTime = entity.UpdateTime.Unix()
+		role.UpdateTime = entity.UpdateTime.Time.Unix()
 		role.Creator = entity.CreatorName.String
 		if entity.Creator == 0 {
 			role.Creator = "系统"

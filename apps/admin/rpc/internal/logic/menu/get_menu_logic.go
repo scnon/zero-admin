@@ -3,11 +3,9 @@ package menulogic
 import (
 	"context"
 	"github.com/jinzhu/copier"
-	"zero-admin/apps/model"
-	"zero-admin/pkg/utils"
-
 	"zero-admin/apps/admin/rpc/admin"
 	"zero-admin/apps/admin/rpc/internal/svc"
+	"zero-admin/apps/model"
 	"zero-admin/pkg/xerr"
 
 	"github.com/pkg/errors"
@@ -15,7 +13,7 @@ import (
 )
 
 var (
-	ErrUserNotFound = xerr.NewMsg("菜单不存在")
+	ErrUserNotFound = xerr.NewMsg("用户不存在")
 )
 
 type GetMenuLogic struct {
@@ -33,7 +31,7 @@ func NewGetMenuLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetMenuLo
 }
 
 func (l *GetMenuLogic) GetMenu(in *admin.GetMenuReq) (*admin.GetMenuResp, error) {
-	userEntity, err := l.svcCtx.UserModel.FindOne(l.ctx, in.AdminId)
+	_, err := l.svcCtx.UserModel.FindOne(l.ctx, in.AdminId)
 	if err != nil {
 		if errors.Is(err, model.ErrNotFound) {
 			return nil, errors.WithStack(ErrUserNotFound)
@@ -41,8 +39,23 @@ func (l *GetMenuLogic) GetMenu(in *admin.GetMenuReq) (*admin.GetMenuResp, error)
 		return nil, errors.Wrapf(xerr.NewDBErr(), "find user error: %v", err)
 	}
 
-	roleIds := utils.GetInt64ArryFromStr(userEntity.Roles)
-	menuList, err := l.svcCtx.MenuModel.FindAllByIds(l.ctx, roleIds)
+	roles, err := l.svcCtx.UserRoleModel.FindAllByUserId(l.ctx, in.AdminId)
+	if err != nil {
+		return nil, errors.Wrapf(xerr.NewDBErr(), "find all role error: %v", err)
+	}
+	roleIds := make([]int64, 0)
+	for _, role := range roles {
+		roleIds = append(roleIds, role.RoleId)
+	}
+	menus, err := l.svcCtx.RoleMenuModel.FindAllByRoleIds(l.ctx, roleIds)
+	if err != nil {
+		return nil, errors.Wrapf(xerr.NewDBErr(), "find all role menu error: %v", err)
+	}
+	menuIds := make([]int64, 0)
+	for _, menu := range menus {
+		menuIds = append(menuIds, menu.MenuId)
+	}
+	menuList, err := l.svcCtx.MenuModel.FindAllByIds(l.ctx, menuIds)
 	if err != nil {
 		return nil, errors.Wrapf(xerr.NewDBErr(), "find all menu error: %v", err)
 	}
@@ -60,7 +73,7 @@ func (l *GetMenuLogic) GetMenu(in *admin.GetMenuReq) (*admin.GetMenuResp, error)
 		}
 		data.Updater = menu.UpdaterName.String
 		data.CreateTime = menu.CreateTime.Unix()
-		data.UpdateTime = menu.UpdateTime.Unix()
+		data.UpdateTime = menu.UpdateTime.Time.Unix()
 		list = append(list, data)
 	}
 

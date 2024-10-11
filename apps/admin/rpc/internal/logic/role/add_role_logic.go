@@ -30,12 +30,12 @@ func (l *AddRoleLogic) AddRole(in *admin.AddRoleReq) (*admin.AddRoleResp, error)
 	if err != nil {
 		return nil, err
 	}
-	_, err = l.svcCtx.RoleModel.Insert(l.ctx, &entity)
+	id, err := l.svcCtx.RoleModel.InsertWithMenus(l.ctx, &entity, in.Menus)
 	if err != nil {
 		return nil, err
 	}
 
 	return &admin.AddRoleResp{
-		Id: entity.Id,
+		Id: id,
 	}, nil
 }

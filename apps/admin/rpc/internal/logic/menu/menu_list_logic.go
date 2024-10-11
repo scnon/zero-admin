@@ -39,7 +39,7 @@ func (l *MenuListLogic) MenuList(in *admin.MenuListReq) (*admin.MenuListResp, er
 			return nil, errors.Wrapf(xerr.NewInternalErr(), "copy entity err %v", err)
 		}
 		menu.CreateTime = entity.CreateTime.Unix()
-		menu.UpdateTime = entity.UpdateTime.Unix()
+		menu.UpdateTime = entity.UpdateTime.Time.Unix()
 		menu.Creator = entity.CreatorName.String
 		if entity.Creator == 0 {
 			menu.Creator = "系统"

@@ -38,7 +38,7 @@ func (l *UserListLogic) UserList(in *admin.UserListReq) (*admin.UserListResp, er
 			return nil, errors.Wrapf(xerr.NewInternalErr(), "copy entity err %v", err)
 		}
 		user.CreateTime = entity.CreateTime.Unix()
-		user.UpdateTime = entity.UpdateTime.Unix()
+		user.UpdateTime = entity.UpdateTime.Time.Unix()
 		user.Creator = entity.CreatorName.String
 		if entity.Creator == 0 {
 			user.Creator = "系统"

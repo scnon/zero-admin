@@ -31,11 +31,13 @@ func NewAddMenuLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddMenuLo
 }
 
 func (l *AddMenuLogic) AddMenu(in *admin.AddMenuReq) (*admin.AddMenuResp, error) {
-	if _, err := l.svcCtx.MenuModel.FindOne(l.ctx, in.ParentId); err != nil {
-		if errors.Is(err, model.ErrNotFound) {
-			return nil, errors.WithStack(ErrParentNotFound)
+	if in.ParentId != 0 {
+		if _, err := l.svcCtx.MenuModel.FindOne(l.ctx, in.ParentId); err != nil {
+			if errors.Is(err, model.ErrNotFound) {
+				return nil, errors.WithStack(ErrParentNotFound)
+			}
+			return nil, errors.Wrapf(xerr.NewDBErr(), "find one menu error: %v", err)
 		}
-		return nil, errors.Wrapf(xerr.NewDBErr(), "find one menu error: %v", err)
 	}
 
 	entity := &model.SysMenu{}

@@ -52,7 +52,7 @@ type SysMenuData struct {
 func (m *customSysMenuModel) FindAll(ctx context.Context, tenantId int64, page, pageSize int64) ([]*SysMenuData, int64, error) {
 	rows := utils.CreateJoinTableRows("sysMenu", sysMenuFieldNames)
 	query := fmt.Sprintf(`select %s,creatorUser.username as creator_name, updaterUser.username as updater_name
-		from %s as sysRole
+		from %s as sysMenu
 		left join %s as creatorUser on sysMenu.creator = creatorUser.id
         left join %s as updaterUser on sysMenu.updater = updaterUser.id`,
 		rows, m.table, "sys_user", "sys_user")
@@ -62,10 +62,13 @@ func (m *customSysMenuModel) FindAll(ctx context.Context, tenantId int64, page, 
 	if tenantId != 0 {
 		query = fmt.Sprintf("%s where sysMenu.tenant_id = ? limit ? offset ?", query)
 		args = []interface{}{tenantId, pageSize, offset}
+	} else {
+		query = fmt.Sprintf("%s limit ? offset ?", query)
+		args = []interface{}{pageSize, offset}
 	}
 
-	list := make([]*SysMenuData, 0)
-	err := m.CachedConn.QueryRowsNoCacheCtx(ctx, list, query, args...)
+	var list []*SysMenuData
+	err := m.CachedConn.QueryRowsNoCacheCtx(ctx, &list, query, args...)
 	if err != nil {
 		return nil, 0, err
 	}
@@ -86,13 +89,17 @@ func (m *customSysMenuModel) FindAll(ctx context.Context, tenantId int64, page, 
 func (m *customSysMenuModel) FindAllByIds(ctx context.Context, ids []int64) ([]*SysMenuData, error) {
 	rows := utils.CreateJoinTableRows("sysMenu", sysMenuFieldNames)
 	query := fmt.Sprintf(`select %s,creatorUser.username as creator_name, updaterUser.username as updater_name
-		from %s as sysRole
+		from %s as sysMenu
 		left join %s as creatorUser on sysMenu.creator = creatorUser.id
 		left join %s as updaterUser on sysMenu.updater = updaterUser.id
 		where sysMenu.id in (%s)`,
 		rows, m.table, "sys_user", "sys_user", utils.CreateDBPlaceholders(len(ids)))
 	var list []*SysMenuData
-	err := m.CachedConn.QueryRowsNoCacheCtx(ctx, &list, query, ids)
+	var args []interface{}
+	for _, id := range ids {
+		args = append(args, id)
+	}
+	err := m.CachedConn.QueryRowsNoCacheCtx(ctx, &list, query, args...)
 	if err != nil {
 		return nil, err
 	}

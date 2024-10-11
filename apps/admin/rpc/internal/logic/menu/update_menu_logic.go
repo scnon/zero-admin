@@ -47,6 +47,7 @@ func (l *UpdateMenuLogic) UpdateMenu(in *admin.UpdateMenuReq) (*admin.UpdateMenu
 	entity.Creator = oldEntity.Creator
 	entity.TenantId = oldEntity.TenantId
 	entity.CreateTime = oldEntity.CreateTime
+	entity.UpdateTime = oldEntity.UpdateTime
 	err = l.svcCtx.MenuModel.Update(l.ctx, entity)
 	if err != nil {
 		return nil, errors.Wrapf(xerr.NewDBErr(), "update menu error: %v", err)

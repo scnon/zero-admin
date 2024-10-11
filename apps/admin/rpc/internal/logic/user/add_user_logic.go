@@ -50,11 +50,12 @@ func (l *AddUserLogic) AddUser(in *admin.AddUserReq) (*admin.AddUserResp, error)
 		entity.Password = string(genPassword)
 	}
 
-	if _, err := l.svcCtx.UserModel.Insert(l.ctx, entity); err != nil {
+	id, err := l.svcCtx.UserModel.InsertWithRoles(l.ctx, entity, in.Roles)
+	if err != nil {
 		return nil, perr.Wrapf(xerr.NewDBErr(), "insert user err %v", err)
 	}
 
 	return &admin.AddUserResp{
-		Id: entity.Id,
+		Id: id,
 	}, nil
 }

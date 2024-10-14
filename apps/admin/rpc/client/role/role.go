@@ -14,38 +14,40 @@ import (
 )
 
 type (
-	AddMenuReq     = admin.AddMenuReq
-	AddMenuResp    = admin.AddMenuResp
-	AddRoleReq     = admin.AddRoleReq
-	AddRoleResp    = admin.AddRoleResp
-	AddUserReq     = admin.AddUserReq
-	AddUserResp    = admin.AddUserResp
-	DeleteMenuReq  = admin.DeleteMenuReq
-	DeleteMenuResp = admin.DeleteMenuResp
-	DeleteRoleReq  = admin.DeleteRoleReq
-	DeleteRoleResp = admin.DeleteRoleResp
-	DeleteUserReq  = admin.DeleteUserReq
-	DeleteUserResp = admin.DeleteUserResp
-	GetMenuReq     = admin.GetMenuReq
-	GetMenuResp    = admin.GetMenuResp
-	LoginReq       = admin.LoginReq
-	LoginResp      = admin.LoginResp
-	MenuData       = admin.MenuData
-	MenuListReq    = admin.MenuListReq
-	MenuListResp   = admin.MenuListResp
-	RefreshReq     = admin.RefreshReq
-	RoleData       = admin.RoleData
-	RoleListReq    = admin.RoleListReq
-	RoleListResp   = admin.RoleListResp
-	UpdateMenuReq  = admin.UpdateMenuReq
-	UpdateMenuResp = admin.UpdateMenuResp
-	UpdateRoleReq  = admin.UpdateRoleReq
-	UpdateRoleResp = admin.UpdateRoleResp
-	UpdateUserReq  = admin.UpdateUserReq
-	UpdateUserResp = admin.UpdateUserResp
-	UserData       = admin.UserData
-	UserListReq    = admin.UserListReq
-	UserListResp   = admin.UserListResp
+	AddMenuReq      = admin.AddMenuReq
+	AddMenuResp     = admin.AddMenuResp
+	AddRoleReq      = admin.AddRoleReq
+	AddRoleResp     = admin.AddRoleResp
+	AddUserReq      = admin.AddUserReq
+	AddUserResp     = admin.AddUserResp
+	CasbinCheckReq  = admin.CasbinCheckReq
+	CasbinCheckResp = admin.CasbinCheckResp
+	DeleteMenuReq   = admin.DeleteMenuReq
+	DeleteMenuResp  = admin.DeleteMenuResp
+	DeleteRoleReq   = admin.DeleteRoleReq
+	DeleteRoleResp  = admin.DeleteRoleResp
+	DeleteUserReq   = admin.DeleteUserReq
+	DeleteUserResp  = admin.DeleteUserResp
+	GetMenuReq      = admin.GetMenuReq
+	GetMenuResp     = admin.GetMenuResp
+	LoginReq        = admin.LoginReq
+	LoginResp       = admin.LoginResp
+	MenuData        = admin.MenuData
+	MenuListReq     = admin.MenuListReq
+	MenuListResp    = admin.MenuListResp
+	RefreshReq      = admin.RefreshReq
+	RoleData        = admin.RoleData
+	RoleListReq     = admin.RoleListReq
+	RoleListResp    = admin.RoleListResp
+	UpdateMenuReq   = admin.UpdateMenuReq
+	UpdateMenuResp  = admin.UpdateMenuResp
+	UpdateRoleReq   = admin.UpdateRoleReq
+	UpdateRoleResp  = admin.UpdateRoleResp
+	UpdateUserReq   = admin.UpdateUserReq
+	UpdateUserResp  = admin.UpdateUserResp
+	UserData        = admin.UserData
+	UserListReq     = admin.UserListReq
+	UserListResp    = admin.UserListResp
 
 	Role interface {
 		AddRole(ctx context.Context, in *AddRoleReq, opts ...grpc.CallOption) (*AddRoleResp, error)

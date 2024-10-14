@@ -12,6 +12,10 @@ type Config struct {
 		Dsn string
 	}
 
+	Casbin struct {
+		Model string
+	}
+
 	JwtAuth struct {
 		Secret        string
 		Expire        int64

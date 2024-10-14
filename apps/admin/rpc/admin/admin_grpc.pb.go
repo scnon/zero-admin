@@ -707,3 +707,89 @@ var Menu_ServiceDesc = grpc.ServiceDesc{
 	Streams:  []grpc.StreamDesc{},
 	Metadata: "apps/admin/rpc/admin.proto",
 }
+
+// CasbinClient is the client API for Casbin service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+type CasbinClient interface {
+	Check(ctx context.Context, in *CasbinCheckReq, opts ...grpc.CallOption) (*CasbinCheckResp, error)
+}
+
+type casbinClient struct {
+	cc grpc.ClientConnInterface
+}
+
+func NewCasbinClient(cc grpc.ClientConnInterface) CasbinClient {
+	return &casbinClient{cc}
+}
+
+func (c *casbinClient) Check(ctx context.Context, in *CasbinCheckReq, opts ...grpc.CallOption) (*CasbinCheckResp, error) {
+	out := new(CasbinCheckResp)
+	err := c.cc.Invoke(ctx, "/admin.casbin/Check", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// CasbinServer is the server API for Casbin service.
+// All implementations must embed UnimplementedCasbinServer
+// for forward compatibility
+type CasbinServer interface {
+	Check(context.Context, *CasbinCheckReq) (*CasbinCheckResp, error)
+	mustEmbedUnimplementedCasbinServer()
+}
+
+// UnimplementedCasbinServer must be embedded to have forward compatible implementations.
+type UnimplementedCasbinServer struct {
+}
+
+func (UnimplementedCasbinServer) Check(context.Context, *CasbinCheckReq) (*CasbinCheckResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Check not implemented")
+}
+func (UnimplementedCasbinServer) mustEmbedUnimplementedCasbinServer() {}
+
+// UnsafeCasbinServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to CasbinServer will
+// result in compilation errors.
+type UnsafeCasbinServer interface {
+	mustEmbedUnimplementedCasbinServer()
+}
+
+func RegisterCasbinServer(s grpc.ServiceRegistrar, srv CasbinServer) {
+	s.RegisterService(&Casbin_ServiceDesc, srv)
+}
+
+func _Casbin_Check_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CasbinCheckReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CasbinServer).Check(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/admin.casbin/Check",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CasbinServer).Check(ctx, req.(*CasbinCheckReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+// Casbin_ServiceDesc is the grpc.ServiceDesc for Casbin service.
+// It's only intended for direct use with grpc.RegisterService,
+// and not to be introspected or modified (even as a copy)
+var Casbin_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "admin.casbin",
+	HandlerType: (*CasbinServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "Check",
+			Handler:    _Casbin_Check_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "apps/admin/rpc/admin.proto",
+}

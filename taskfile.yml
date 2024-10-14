@@ -4,32 +4,10 @@ tasks:
   api:
     cmds:
       - goctl api go -api ./apps/{{.a}}/api/doc/{{.a}}.api -dir ./apps/{{.a}}/api --style=go_zero
-  api2:
-    cmds:
-      - goctl api go -api ./apps/admin/api/doc/admin.api -dir ./apps/admin/api --style=go_zero
-  # rpc:
-  #   cmds:
-  #     - goctl rpc protoc ./apps/admin/rpc/admin.proto --go_out=./apps/admin/rpc
-  #       --go-grpc_out=./apps/admin/rpc --zrpc_out=./apps/admin/rpc --style go_zero
-  m-admin:
-    cmds:
-      - goctl model mysql ddl -src ./deploy/sql/sys_user.sql -dir ./apps/admin/model --style go_zero
-      - goctl model mysql ddl -src ./deploy/sql/sys_role.sql -dir ./apps/admin/model --style go_zero
-      - goctl model mysql ddl -src ./deploy/sql/sys_menu.sql -dir ./apps/admin/model --style go_zero
-  model:
-    cmds:
-      # - goctl model mysql ddl -src ./deploy/sql/customer.sql -dir ./apps/model --style go_zero
-      - goctl model mysql ddl -src ./deploy/sql/{{.a}}.sql -dir ./apps/model --style go_zero
-      # - goctl model mysql ddl -src ./deploy/sql/store.sql -dir ./apps/model --style go_zero
-      # - goctl model mysql ddl -src ./deploy/sql/product.sql -dir ./apps/model --style go_zero
-      # - goctl model mysql ddl -src ./deploy/sql/cate.sql -dir ./apps/model --style go_zero
-      # - goctl model mysql ddl -src ./deploy/sql/attr_name.sql -dir ./apps/model --style go_zero
-      # - goctl model mysql ddl -src ./deploy/sql/attr_value.sql -dir ./apps/model --style go_zero
-      # - goctl model mysql ddl -src ./deploy/sql/sku.sql -dir ./apps/model --style go_zero
-  modelc:
-    cmds:
-      - goctl model mysql ddl -src ./deploy/sql/{{.a}}.sql -dir ./apps/model -c --style go_zero
   rpc:
     cmds:
       - goctl rpc protoc ./apps/{{.a}}/rpc/{{.a}}.proto --go_out=./apps/{{.a}}/rpc
         --go-grpc_out=./apps/{{.a}}/rpc --zrpc_out=./apps/{{.a}}/rpc -m --style go_zero
+  gen:
+    cmds:
+      - go generate ./ent

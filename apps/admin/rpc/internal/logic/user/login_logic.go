@@ -2,11 +2,10 @@ package userlogic
 
 import (
 	"context"
-	"errors"
+	"zero-admin/ent/sysuser"
 
 	"zero-admin/apps/admin/rpc/admin"
 	"zero-admin/apps/admin/rpc/internal/svc"
-	"zero-admin/apps/model"
 	"zero-admin/pkg/ctxdata"
 	"zero-admin/pkg/encrypt"
 	"zero-admin/pkg/xerr"
@@ -35,21 +34,20 @@ func NewLoginLogic(ctx context.Context, svcCtx *svc.ServiceContext) *LoginLogic 
 }
 
 func (l *LoginLogic) Login(in *admin.LoginReq) (*admin.LoginResp, error) {
-	userEntity, err := l.svcCtx.UserModel.FindWithTid(l.ctx, in.Username, in.TenantId)
+	// 查询用户
+	entity, err := l.svcCtx.Ent.SysUser.Query().Where(sysuser.UsernameEQ(in.Username)).Only(l.ctx)
 	if err != nil {
-		if errors.Is(err, model.ErrNotFound) {
-			return nil, perr.WithStack(ErrUserNotFound)
-		}
-
 		return nil, perr.Wrapf(xerr.NewDBErr(), "find user err %v", err)
 	}
-
+	if entity == nil {
+		return nil, perr.WithStack(ErrUserNotFound)
+	}
 	// 密码验证
-	if !encrypt.ValidatePasswordHash(in.Password, userEntity.Password) {
+	if !encrypt.ValidatePasswordHash(in.Password, entity.Password) {
 		return nil, perr.WithStack(ErrUserPwdError)
 	}
 
 	// 生成token
 	return ctxdata.GetFullJwt(l.svcCtx.Config.JwtAuth.Secret,
-		l.svcCtx.Config.JwtAuth.Expire, l.svcCtx.Config.JwtAuth.RefreshExpire, *userEntity)
+		l.svcCtx.Config.JwtAuth.Expire, l.svcCtx.Config.JwtAuth.RefreshExpire, *entity)
 }

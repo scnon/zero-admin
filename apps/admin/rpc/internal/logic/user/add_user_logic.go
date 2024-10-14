@@ -2,11 +2,10 @@ package userlogic
 
 import (
 	"context"
-	"github.com/jinzhu/copier"
 	perr "github.com/pkg/errors"
 	"zero-admin/apps/admin/rpc/admin"
 	"zero-admin/apps/admin/rpc/internal/svc"
-	"zero-admin/apps/model"
+	"zero-admin/ent/sysuser"
 	"zero-admin/pkg/encrypt"
 	"zero-admin/pkg/xerr"
 
@@ -32,30 +31,39 @@ func NewAddUserLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddUserLo
 }
 
 func (l *AddUserLogic) AddUser(in *admin.AddUserReq) (*admin.AddUserResp, error) {
-	entity := &model.SysUser{}
-	err := copier.Copy(entity, in)
+	exist, err := l.svcCtx.Ent.SysUser.Query().Where(sysuser.UsernameEQ(in.Username)).Exist(l.ctx)
 	if err != nil {
-		return nil, perr.Wrapf(xerr.NewInternalErr(), "copy entity err %v", err)
+		return nil, perr.Wrapf(xerr.NewDBErr(), "find user err %v", err)
 	}
-	if _, err := l.svcCtx.UserModel.FindOneByUsername(l.ctx, in.Username); err == nil {
+	if exist {
 		return nil, perr.WithStack(ErrAlreadyExist)
 	}
 
+	var secretPwd string
 	if len(in.Password) > 0 {
 		genPassword, err := encrypt.GenPasswordHash([]byte(in.Password))
 		if err != nil {
 			return nil, perr.Wrapf(xerr.NewInternalErr(), "gen password err %v", err)
 		}
 
-		entity.Password = string(genPassword)
+		secretPwd = string(genPassword)
 	}
 
-	id, err := l.svcCtx.UserModel.InsertWithRoles(l.ctx, entity, in.Roles)
+	entity, err := l.svcCtx.Ent.SysUser.Create().
+		SetUsername(in.Username).
+		SetNickname(in.Nickname).
+		SetPassword(secretPwd).
+		SetAvatar(in.Avatar).
+		SetSort(int8(in.Sort)).
+		SetStatus(int8(in.Sort)).
+		SetCreator(in.Op).
+		Save(l.ctx)
+
 	if err != nil {
-		return nil, perr.Wrapf(xerr.NewDBErr(), "insert user err %v", err)
+		return nil, perr.Wrapf(xerr.NewDBErr(), "create user err %v", err)
 	}
 
 	return &admin.AddUserResp{
-		Id: id,
+		Id: entity.ID,
 	}, nil
 }

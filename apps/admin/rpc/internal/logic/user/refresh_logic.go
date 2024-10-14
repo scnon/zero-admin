@@ -2,6 +2,7 @@ package userlogic
 
 import (
 	"context"
+	"zero-admin/ent/sysuser"
 
 	"zero-admin/apps/admin/rpc/admin"
 	"zero-admin/apps/admin/rpc/internal/svc"
@@ -40,7 +41,7 @@ func (l *RefreshLogic) Refresh(in *admin.RefreshReq) (*admin.LoginResp, error) {
 
 	if claims, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
 		userId := claims[ctxdata.Identify].(int64)
-		userEntity, err := l.svcCtx.UserModel.FindOne(l.ctx, userId)
+		userEntity, err := l.svcCtx.Ent.SysUser.Query().Where(sysuser.IDEQ(userId)).Only(l.ctx)
 		if err != nil {
 			return nil, errors.Wrapf(xerr.NewDBErr(), "find user err %v", err)
 		}

@@ -3,7 +3,7 @@ package ctxdata
 import (
 	"time"
 	"zero-admin/apps/admin/rpc/admin"
-	"zero-admin/apps/model"
+	"zero-admin/ent"
 	"zero-admin/pkg/xerr"
 
 	"github.com/golang-jwt/jwt"
@@ -24,22 +24,22 @@ func GetJwtToken(secretKey string, iat, seconds int64, uid int64) (string, error
 	return token.SignedString([]byte(secretKey))
 }
 
-func GetFullJwt(secretKey string, expire, refreshExpire int64, entity model.SysUser) (*admin.LoginResp, error) {
+func GetFullJwt(secretKey string, expire, refreshExpire int64, entity ent.SysUser) (*admin.LoginResp, error) {
 	// 生成token
 	now := time.Now().Unix()
 	token, err := GetJwtToken(secretKey, now, expire,
-		entity.Id)
+		entity.ID)
 	if err != nil {
 		return nil, errors.Wrapf(xerr.NewDBErr(), "ctxdata get jwt token err %v", err)
 	}
 
-	refresh, err := GetJwtToken(secretKey, now, refreshExpire, entity.Id)
+	refresh, err := GetJwtToken(secretKey, now, refreshExpire, entity.ID)
 	if err != nil {
 		return nil, errors.Wrapf(xerr.NewDBErr(), "ctxdata get jwt token err %v", err)
 	}
 
 	return &admin.LoginResp{
-		UserId:       entity.Id,
+		UserId:       entity.ID,
 		Nickname:     entity.Nickname,
 		Token:        token,
 		Expire:       now + expire,

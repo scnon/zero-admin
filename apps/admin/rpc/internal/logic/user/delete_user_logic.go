@@ -2,6 +2,7 @@ package userlogic
 
 import (
 	"context"
+	"zero-admin/ent/sysuser"
 
 	"zero-admin/apps/admin/rpc/admin"
 	"zero-admin/apps/admin/rpc/internal/svc"
@@ -26,7 +27,7 @@ func NewDeleteUserLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Delete
 }
 
 func (l *DeleteUserLogic) DeleteUser(in *admin.DeleteUserReq) (*admin.DeleteUserResp, error) {
-	if err := l.svcCtx.UserModel.DeleteAll(l.ctx, in.Ids); err != nil {
+	if _, err := l.svcCtx.Ent.SysUser.Delete().Where(sysuser.IDIn(in.Ids...)).Exec(l.ctx); err != nil {
 		return nil, errors.Wrapf(xerr.NewDBErr(), "delete user err %v", err)
 	}
 	return &admin.DeleteUserResp{}, nil

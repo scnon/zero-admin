@@ -27,31 +27,30 @@ message UserData {
   int64 id = 1;
   string username = 2;
   string nickname = 3;
-  int64 status = 4;
-  int64 sort = 5;
+  int32 status = 4;
+  int32 sort = 5;
   string remark = 6;
   int64 create_time = 7;
   int64 update_time = 8;
   int64 tenant_id = 9;
   int64 department = 10;
   string avatar = 11;
-  repeated int64 roles = 12;
-  string creator = 13;
-  string updater = 14;
+  string creator = 12;
+  string updater = 13;
 }
 // 添加用户
 message AddUserReq {
   string username = 1;
   string password = 2;
   string nickname = 3;
-  int64 status = 4;
-  int64 sort = 5;
+  int32 status = 4;
+  int32 sort = 5;
   string remark = 6;
   int64 tenant_id = 7;
   string avatar = 8;
   int64 department = 9;
   repeated int64 roles = 10;
-  int64 creator = 11;
+  int64 op = 11;
 }
 message AddUserResp {
   int64 id = 1;
@@ -59,6 +58,7 @@ message AddUserResp {
 // 删除用户
 message DeleteUserReq {
   repeated int64 ids = 1;
+  int64 op = 2;
 }
 message DeleteUserResp {}
 // 更新用户
@@ -66,24 +66,24 @@ message UpdateUserReq {
   int64 id = 1;
   string password = 2;
   string nickname = 3;
-  int64 status = 4;
-  int64 sort = 5;
+  int32 status = 4;
+  int32 sort = 5;
   string remark = 6;
   string username = 7;
   string avatar = 8;
   repeated int64 roles = 9;
-  int64 updater = 10;
+  int64 op = 10;
 }
 message UpdateUserResp {}
 // 用户列表
 message UserListReq {
   repeated int64 ids = 1;
-  string username = 2;
-  string nickname = 3;
-  int64 status = 4;
-  int64 tenant_id = 5;
-  int64 page = 6;
-  int64 page_size = 7;
+  optional string username = 2;
+  optional string nickname = 3;
+  optional int32 status = 4;
+  optional int64 tenant_id = 5;
+  int32 page = 6;
+  int32 page_size = 7;
 }
 message UserListResp {
   repeated UserData list = 1;
@@ -106,11 +106,12 @@ message RoleData {
 message AddRoleReq {
   string name = 1;
   string remark = 2;
-  int64 status = 3;
+  int32 status = 3;
   int64 creator = 4;
-  int64  sort = 5;
+  int32 sort = 5;
   int64 tenant_id = 6;
   repeated int64 menus = 7;
+  int64 op = 8;
 }
 message AddRoleResp {
   int64 id = 1;
@@ -126,15 +127,15 @@ message UpdateRoleReq {
   string name = 2;
   string remark = 3;
   repeated int64 menus = 4;
-  int64 sort = 5;
-  int64 status = 6;
+  int32 sort = 5;
+  int32 status = 6;
   int64 updater = 7;
 }
 message UpdateRoleResp {}
 // 角色列表
 message RoleListReq {
-  int64 page = 1;
-  int64 page_size = 2;
+  int32 page = 1;
+  int32 page_size = 2;
   int64 tenant_id = 3;
 }
 message RoleListResp {
@@ -148,7 +149,7 @@ message MenuData {
   int64 parent_id = 2;
   string title = 3;
   string path = 4;
-  int64 sort = 5;
+  int32 sort = 5;
   string name = 6;
   int64 tenant_id = 7;
   string creator = 8;
@@ -161,7 +162,7 @@ message AddMenuReq {
   int64 parent_id = 1;
   string title = 2;
   string path = 3;
-  int64 sort = 4;
+  int32 sort = 4;
   int64 tenant_id = 5;
   string name = 6;
   int64 creator = 7;
@@ -181,7 +182,7 @@ message UpdateMenuReq {
   int64 parent_id = 2;
   string title = 3;
   string path = 4;
-  int64 sort = 5;
+  int32 sort = 5;
   int64 tenant_id = 6;
   int64 updater = 7;
 }
@@ -189,8 +190,8 @@ message UpdateMenuResp {}
 // 菜单列表
 message MenuListReq {
   int64 tenant_id = 1;
-  int64 page = 2;
-  int64 page_size = 3;
+  int32 page = 2;
+  int32 page_size = 3;
 }
 message MenuListResp {
   repeated MenuData list = 1;
@@ -202,6 +203,17 @@ message GetMenuReq {
 }
 message GetMenuResp {
   repeated MenuData menu = 1;
+}
+
+// casbin 权限检查
+message CasbinCheckReq {
+  string sub = 1;
+  string dom = 2;
+  string obj = 3;
+  string act = 4;
+}
+message CasbinCheckResp {
+  bool ok = 1;
 }
 
 service user {
@@ -228,4 +240,8 @@ service menu {
   rpc MenuList(MenuListReq) returns (MenuListResp) {}
 
   rpc GetMenu(GetMenuReq) returns (GetMenuResp) {}
+}
+
+service casbin {
+    rpc Check(CasbinCheckReq) returns (CasbinCheckResp) {}
 }

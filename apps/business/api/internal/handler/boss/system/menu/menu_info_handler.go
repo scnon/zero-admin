@@ -4,8 +4,8 @@ import (
 	"net/http"
 
 	"github.com/zeromicro/go-zero/rest/httpx"
-	"zero-admin/apps/business/api/internal/logic/boss/system/menu"
-	"zero-admin/apps/business/api/internal/svc"
+	"xlife/apps/business/api/internal/logic/boss/system/menu"
+	"xlife/apps/business/api/internal/svc"
 )
 
 func MenuInfoHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {

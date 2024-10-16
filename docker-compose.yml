@@ -3,24 +3,24 @@ version: "v3"
 services:
   zero-admin-mysql:
     image: mysql
-    container_name: zero-admin-mysql
+    container_name: zero-auth-mysql
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: 123456
-      MYSQL_DATABASE: zero-admin
+      MYSQL_DATABASE: zero-auth
     ports:
       - "3306:3306"
 
   zero-admin-redis:
     image: redis
-    container_name: zero-admin-redis
+    container_name: zero-auth-redis
     restart: always
     ports:
       - "6379:6379"
 
   zero-admin-etcd:
     image: bitnami/etcd
-    container_name: zero-admin-etcd
+    container_name: zero-auth-etcd
     restart: always
     environment:
       - ALLOW_NONE_AUTHENTICATION=yes

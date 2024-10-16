@@ -7,9 +7,9 @@ package server
 import (
 	"context"
 
-	"zero-admin/apps/business/rpc/business"
-	"zero-admin/apps/business/rpc/internal/logic"
-	"zero-admin/apps/business/rpc/internal/svc"
+	"xlife/apps/business/rpc/business"
+	"xlife/apps/business/rpc/internal/logic"
+	"xlife/apps/business/rpc/internal/svc"
 )
 
 type BusinessServer struct {

@@ -1,5 +1,0 @@
-<component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="business | create user" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" nameIsGenerated="true" path="$PROJECT_DIR$/apps/business/api/doc/business.http" index="2" requestIdentifier="create user" runType="Run single request">
-    <method v="2" />
-  </configuration>
-</component>

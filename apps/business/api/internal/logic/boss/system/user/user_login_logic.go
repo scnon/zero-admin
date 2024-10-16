@@ -3,9 +3,9 @@ package user
 import (
 	"context"
 	"github.com/zeromicro/go-zero/core/logx"
-	"zero-admin/apps/admin/rpc/admin"
-	"zero-admin/apps/business/api/internal/svc"
-	"zero-admin/apps/business/api/internal/types"
+	"xlife/apps/auth/rpc/admin"
+	"xlife/apps/business/api/internal/svc"
+	"xlife/apps/business/api/internal/types"
 )
 
 type UserLoginLogic struct {

@@ -2,11 +2,11 @@ package svc
 
 import (
 	"github.com/zeromicro/go-zero/zrpc"
-	"zero-admin/apps/admin/rpc/client/menu"
-	"zero-admin/apps/admin/rpc/client/user"
-	"zero-admin/apps/business/api/internal/config"
-	"zero-admin/apps/business/api/internal/types"
-	"zero-admin/apps/business/rpc/business_client"
+	"xlife/apps/auth/rpc/client/menu"
+	"xlife/apps/auth/rpc/client/user"
+	"xlife/apps/business/api/internal/config"
+	"xlife/apps/business/api/internal/types"
+	"xlife/apps/business/rpc/business_client"
 )
 
 type ServiceContext struct {

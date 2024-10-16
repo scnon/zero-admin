@@ -7,7 +7,7 @@ package store_client
 import (
 	"context"
 
-	"zero-admin/apps/store/rpc/store"
+	"xlife/apps/store/rpc/store"
 
 	"github.com/zeromicro/go-zero/zrpc"
 	"google.golang.org/grpc"

@@ -4,10 +4,10 @@ import (
 	"flag"
 	"fmt"
 
-	"zero-admin/apps/customer/rpc/customer"
-	"zero-admin/apps/customer/rpc/internal/config"
-	"zero-admin/apps/customer/rpc/internal/server"
-	"zero-admin/apps/customer/rpc/internal/svc"
+	"xlife/apps/customer/rpc/customer"
+	"xlife/apps/customer/rpc/internal/config"
+	"xlife/apps/customer/rpc/internal/server"
+	"xlife/apps/customer/rpc/internal/svc"
 
 	"github.com/zeromicro/go-zero/core/conf"
 	"github.com/zeromicro/go-zero/core/service"

@@ -1,8 +1,8 @@
 package svc
 
 import (
-	"zero-admin/apps/customer/rpc/internal/config"
-	"zero-admin/apps/model"
+	"xlife/apps/customer/rpc/internal/config"
+	"xlife/apps/model"
 
 	"github.com/zeromicro/go-zero/core/stores/sqlx"
 )

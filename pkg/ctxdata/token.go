@@ -2,17 +2,17 @@ package ctxdata
 
 import (
 	"time"
-	"zero-admin/apps/admin/rpc/admin"
-	"zero-admin/ent"
-	"zero-admin/pkg/xerr"
+	"xlife/apps/auth/rpc/auth"
+	"xlife/models"
+	"xlife/pkg/xerr"
 
 	"github.com/golang-jwt/jwt"
 	"github.com/pkg/errors"
 )
 
-const Identify = "zero-admin"
+const Identify = "zero-auth"
 
-func GetJwtToken(secretKey string, iat, seconds int64, uid int64) (string, error) {
+func GetJwtToken(secretKey string, iat, seconds int64, uid uint) (string, error) {
 	claims := make(jwt.MapClaims)
 	claims["exp"] = iat + seconds
 	claims["iat"] = iat
@@ -24,7 +24,7 @@ func GetJwtToken(secretKey string, iat, seconds int64, uid int64) (string, error
 	return token.SignedString([]byte(secretKey))
 }
 
-func GetFullJwt(secretKey string, expire, refreshExpire int64, entity ent.SysUser) (*admin.LoginResp, error) {
+func GetFullJwt(secretKey string, expire, refreshExpire int64, entity models.SysUser) (*auth.LoginResp, error) {
 	// 生成token
 	now := time.Now().Unix()
 	token, err := GetJwtToken(secretKey, now, expire,
@@ -38,11 +38,11 @@ func GetFullJwt(secretKey string, expire, refreshExpire int64, entity ent.SysUse
 		return nil, errors.Wrapf(xerr.NewDBErr(), "ctxdata get jwt token err %v", err)
 	}
 
-	return &admin.LoginResp{
-		UserId:       entity.ID,
+	return &auth.LoginResp{
+		UserId:       uint64(entity.ID),
 		Nickname:     entity.Nickname,
 		Token:        token,
-		Expire:       now + expire,
+		Expire:       uint64(now + expire),
 		RefreshToken: refresh,
 	}, nil
 }

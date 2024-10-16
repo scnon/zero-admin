@@ -7,9 +7,9 @@ package server
 import (
 	"context"
 
-	"zero-admin/apps/store/rpc/internal/logic"
-	"zero-admin/apps/store/rpc/internal/svc"
-	"zero-admin/apps/store/rpc/store"
+	"xlife/apps/store/rpc/internal/logic"
+	"xlife/apps/store/rpc/internal/svc"
+	"xlife/apps/store/rpc/store"
 )
 
 type StoreServer struct {

@@ -7,9 +7,9 @@ package server
 import (
 	"context"
 
-	"zero-admin/apps/customer/rpc/customer"
-	"zero-admin/apps/customer/rpc/internal/logic"
-	"zero-admin/apps/customer/rpc/internal/svc"
+	"xlife/apps/customer/rpc/customer"
+	"xlife/apps/customer/rpc/internal/logic"
+	"xlife/apps/customer/rpc/internal/svc"
 )
 
 type CustomerServer struct {

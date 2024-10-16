@@ -3,10 +3,10 @@ package logic
 import (
 	"context"
 
-	"zero-admin/apps/model"
-	"zero-admin/apps/store/rpc/internal/svc"
-	"zero-admin/apps/store/rpc/store"
-	"zero-admin/pkg/xerr"
+	"xlife/apps/model"
+	"xlife/apps/store/rpc/internal/svc"
+	"xlife/apps/store/rpc/store"
+	"xlife/pkg/xerr"
 
 	"github.com/jinzhu/copier"
 	"github.com/pkg/errors"

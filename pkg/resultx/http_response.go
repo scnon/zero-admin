@@ -14,7 +14,7 @@ import (
 	zrpcErr "github.com/zeromicro/x/errors"
 	"google.golang.org/grpc/status"
 
-	"zero-admin/pkg/xerr"
+	"xlife/pkg/xerr"
 )
 
 type HttpResponse struct {

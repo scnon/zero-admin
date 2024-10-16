@@ -6,10 +6,10 @@ import (
 	"github.com/zeromicro/go-zero/core/conf"
 	"github.com/zeromicro/go-zero/rest"
 	"github.com/zeromicro/go-zero/rest/httpx"
-	"zero-admin/apps/business/api/internal/config"
-	"zero-admin/apps/business/api/internal/handler"
-	"zero-admin/apps/business/api/internal/svc"
-	"zero-admin/pkg/resultx"
+	"xlife/apps/business/api/internal/config"
+	"xlife/apps/business/api/internal/handler"
+	"xlife/apps/business/api/internal/svc"
+	"xlife/pkg/resultx"
 )
 
 var configFile = flag.String("f", "etc/business.yaml", "the config file")

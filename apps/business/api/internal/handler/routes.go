@@ -6,11 +6,11 @@ package handler
 import (
 	"net/http"
 
-	bossstore "zero-admin/apps/business/api/internal/handler/boss/store"
-	bosssystemmenu "zero-admin/apps/business/api/internal/handler/boss/system/menu"
-	bosssystemrole "zero-admin/apps/business/api/internal/handler/boss/system/role"
-	bosssystemuser "zero-admin/apps/business/api/internal/handler/boss/system/user"
-	"zero-admin/apps/business/api/internal/svc"
+	bossstore "xlife/apps/business/api/internal/handler/boss/store"
+	bosssystemmenu "xlife/apps/business/api/internal/handler/boss/system/menu"
+	bosssystemrole "xlife/apps/business/api/internal/handler/boss/system/role"
+	bosssystemuser "xlife/apps/business/api/internal/handler/boss/system/user"
+	"xlife/apps/business/api/internal/svc"
 
 	"github.com/zeromicro/go-zero/rest"
 )

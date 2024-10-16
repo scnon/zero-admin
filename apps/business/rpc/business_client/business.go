@@ -7,7 +7,7 @@ package business_client
 import (
 	"context"
 
-	"zero-admin/apps/business/rpc/business"
+	"xlife/apps/business/rpc/business"
 
 	"github.com/zeromicro/go-zero/zrpc"
 	"google.golang.org/grpc"

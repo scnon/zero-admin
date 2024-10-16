@@ -7,9 +7,9 @@ package server
 import (
 	"context"
 
-	"zero-admin/apps/product/rpc/internal/logic"
-	"zero-admin/apps/product/rpc/internal/svc"
-	"zero-admin/apps/product/rpc/product"
+	"xlife/apps/product/rpc/internal/logic"
+	"xlife/apps/product/rpc/internal/svc"
+	"xlife/apps/product/rpc/product"
 )
 
 type ProductServer struct {

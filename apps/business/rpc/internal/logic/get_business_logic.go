@@ -3,9 +3,9 @@ package logic
 import (
 	"context"
 
-	"zero-admin/apps/business/rpc/business"
-	"zero-admin/apps/business/rpc/internal/svc"
-	"zero-admin/pkg/xerr"
+	"xlife/apps/business/rpc/business"
+	"xlife/apps/business/rpc/internal/svc"
+	"xlife/pkg/xerr"
 
 	"github.com/pkg/errors"
 	"github.com/zeromicro/go-zero/core/logx"

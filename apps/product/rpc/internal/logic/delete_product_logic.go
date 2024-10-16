@@ -3,10 +3,10 @@ package logic
 import (
 	"context"
 
-	"zero-admin/apps/model"
-	"zero-admin/apps/product/rpc/internal/svc"
-	"zero-admin/apps/product/rpc/product"
-	"zero-admin/pkg/xerr"
+	"xlife/apps/model"
+	"xlife/apps/product/rpc/internal/svc"
+	"xlife/apps/product/rpc/product"
+	"xlife/pkg/xerr"
 
 	"github.com/pkg/errors"
 	"github.com/zeromicro/go-zero/core/logx"

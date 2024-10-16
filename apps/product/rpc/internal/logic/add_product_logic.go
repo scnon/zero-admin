@@ -3,9 +3,9 @@ package logic
 import (
 	"context"
 
-	"zero-admin/apps/model"
-	"zero-admin/apps/product/rpc/internal/svc"
-	"zero-admin/apps/product/rpc/product"
+	"xlife/apps/model"
+	"xlife/apps/product/rpc/internal/svc"
+	"xlife/apps/product/rpc/product"
 
 	"github.com/jinzhu/copier"
 	"github.com/pkg/errors"

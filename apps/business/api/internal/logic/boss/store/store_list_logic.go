@@ -4,10 +4,10 @@ import (
 	"context"
 	"log"
 
-	"zero-admin/apps/business/api/internal/svc"
-	"zero-admin/apps/business/api/internal/types"
-	"zero-admin/apps/business/rpc/business"
-	"zero-admin/pkg/ctxdata"
+	"xlife/apps/business/api/internal/svc"
+	"xlife/apps/business/api/internal/types"
+	"xlife/apps/business/rpc/business"
+	"xlife/pkg/ctxdata"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )

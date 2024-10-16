@@ -5,13 +5,13 @@ Port: 8001
 Tenant: 1
 
 Auth:
-  AccessSecret: zero-admin
+  AccessSecret: zero-auth
 
 AdminRpc:
   Etcd:
     Hosts:
       - 127.0.0.1:2379
-    Key: admin.rpc
+    Key: auth.rpc
 
 BusinessRpc:
   Etcd:

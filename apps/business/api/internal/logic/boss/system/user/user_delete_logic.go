@@ -2,7 +2,6 @@ package user
 
 import (
 	"context"
-	"xlife/apps/auth/rpc/admin"
 
 	"xlife/apps/business/api/internal/svc"
 	"xlife/apps/business/api/internal/types"
@@ -25,15 +24,7 @@ func NewUserDeleteLogic(ctx context.Context, svcCtx *svc.ServiceContext) *UserDe
 }
 
 func (l *UserDeleteLogic) UserDelete(req *types.UserDeleteReq) (resp *types.UserDeleteResp, err error) {
-	_, err = l.svcCtx.User.DeleteUser(l.ctx, &admin.DeleteUserReq{
-		Ids: req.Ids,
-	})
-	if err != nil {
-		return nil, err
-	}
+	// todo: add your logic here and delete this line
 
-	return &types.UserDeleteResp{
-		Base: l.svcCtx.Success(),
-	}, nil
-
+	return
 }

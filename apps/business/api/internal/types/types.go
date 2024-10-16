@@ -22,10 +22,12 @@ type DeleteStoreReq struct {
 }
 
 type LoginData struct {
-	UserId       int64  `json:"userId"`
+	UserId       uint64 `json:"userId"`
+	NickName     string `json:"nickname"`
+	Avatar       string `json:"avatar"`
 	AccessToken  string `json:"accessToken"`
 	RefreshToken string `json:"refreshToken"`
-	ExpireTime   int64  `json:"expireTime"`
+	ExpireTime   uint64 `json:"expireTime"`
 }
 
 type LoginReq struct {
@@ -39,10 +41,10 @@ type LoginResp struct {
 }
 
 type MenuCreateReq struct {
-	ParentID int64  `json:"parent_id"`
+	ParentID uint64 `json:"parent_id"`
 	Title    string `json:"title"`
 	Path     string `json:"path"`
-	Sort     int64  `json:"sort"`
+	Sort     int32  `json:"sort"`
 	Name     string `json:"name"`
 }
 
@@ -51,7 +53,7 @@ type MenuCreateResp struct {
 }
 
 type MenuDeleteReq struct {
-	Ids []int64 `json:"ids"`
+	Ids []uint64 `json:"ids"`
 }
 
 type MenuDeleteResp struct {
@@ -59,16 +61,25 @@ type MenuDeleteResp struct {
 }
 
 type MenuInfo struct {
-	ID       int64  `json:"id"`
-	Name     string `json:"name"`
-	ParentID int64  `json:"parent_id"`
-	Title    string `json:"title"`
-	Path     string `json:"path"`
-	Sort     int64  `json:"sort"`
+	ID         uint64 `json:"id"`
+	Name       string `json:"name"`
+	ParentID   uint64 `json:"parent_id"`
+	Title      string `json:"title"`
+	Path       string `json:"path"`
+	Sort       int32  `json:"sort"`
+	Creator    string `json:"creator"`
+	Updater    string `json:"updater"`
+	CreateTime uint64 `json:"create_time"`
+	UpdateTime uint64 `json:"update_time"`
+}
+
+type MenuInfoResp struct {
+	Base
+	Data []UserMenuInfo `json:"data"`
 }
 
 type MenuListData struct {
-	Total int64      `json:"total"`
+	Total uint64     `json:"total"`
 	List  []MenuInfo `json:"list"`
 }
 
@@ -86,11 +97,11 @@ type MenuMetaInfo struct {
 }
 
 type MenuUpdateReq struct {
-	ID       int64  `json:"id"`
-	ParentID int64  `json:"parent_id"`
+	ID       uint64 `json:"id"`
+	ParentID uint64 `json:"parent_id"`
 	Title    string `json:"title"`
 	Path     string `json:"path"`
-	Sort     int64  `json:"sort"`
+	Sort     int32  `json:"sort"`
 	Name     string `json:"name"`
 }
 
@@ -99,8 +110,8 @@ type MenuUpdateResp struct {
 }
 
 type PageData struct {
-	Page     int64 `json:"page,default=1"`
-	PageSize int64 `json:"page_size,default=10"`
+	Page     uint32 `json:"page,default=1"`
+	PageSize uint32 `json:"page_size,default=10"`
 }
 
 type RoleCreateReq struct {
@@ -113,20 +124,19 @@ type RoleCreateResp struct {
 }
 
 type RoleData struct {
-	Id         int64   `json:"id"`
-	Name       string  `json:"name"`
-	Remark     string  `json:"remark"`
-	Sort       int64   `json:"sort"`
-	Status     int64   `json:"status"`
-	Menus      []int64 `json:"menus"`
-	Cretor     string  `json:"creator"`
-	Updator    string  `json:"updator"`
-	CreateTime string  `json:"createTime"`
-	UpdateTime string  `json:"updateTime"`
+	Id         uint64 `json:"id"`
+	Name       string `json:"name"`
+	Remark     string `json:"remark"`
+	Sort       int32  `json:"sort"`
+	Status     int32  `json:"status"`
+	Cretor     string `json:"creator"`
+	Updater    string `json:"updator"`
+	CreateTime uint64 `json:"createTime"`
+	UpdateTime uint64 `json:"updateTime"`
 }
 
 type RoleDeleteReq struct {
-	Ids []int64 `json:"ids"`
+	Ids []uint64 `json:"ids"`
 }
 
 type RoleDeleteResp struct {
@@ -134,14 +144,14 @@ type RoleDeleteResp struct {
 }
 
 type RoleList struct {
-	Total int64      `json:"total"`
+	Total uint64     `json:"total"`
 	List  []RoleData `json:"list"`
 }
 
 type RoleListReq struct {
 	PageData
 	Name   string `json:"name,optional"`
-	Status int64  `json:"status,default=1"`
+	Status int32  `json:"status,default=1"`
 }
 
 type RoleListResp struct {
@@ -150,12 +160,11 @@ type RoleListResp struct {
 }
 
 type RoleUpdateReq struct {
-	Id     int64   `json:"id"`
-	Name   string  `json:"name"`
-	Remark string  `json:"remark"`
-	Sort   int64   `json:"sort"`
-	Status int64   `json:"status"`
-	Menus  []int64 `json:"menus"`
+	Id     uint64 `json:"id"`
+	Name   string `json:"name"`
+	Remark string `json:"remark"`
+	Sort   int32  `json:"sort"`
+	Status int32  `json:"status"`
 }
 
 type RoleUpdateResp struct {
@@ -183,14 +192,13 @@ type StoreListResp struct {
 }
 
 type UserCreateReq struct {
-	Username string  `json:"username"`
-	Password string  `json:"password"`
-	Avatar   string  `json:"avatar"`
-	NickName string  `json:"nickname"`
-	Status   int64   `json:"status,default=1"`
-	Sort     int64   `json:"sort,default=0"`
-	Roles    []int64 `json:"roles"`
-	Remark   string  `json:"remark,default=''"`
+	Username string `json:"username"`
+	Password string `json:"password"`
+	Avatar   string `json:"avatar"`
+	NickName string `json:"nickname"`
+	Status   int32  `json:"status,default=1"`
+	Sort     int32  `json:"sort,default=0"`
+	Remark   string `json:"remark,default=''"`
 }
 
 type UserCreateResp struct {
@@ -198,22 +206,21 @@ type UserCreateResp struct {
 }
 
 type UserData struct {
-	Id         int64   `json:"id"`
-	Username   string  `json:"username"`
-	NickName   string  `json:"nickname"`
-	Avatar     string  `json:"avatar"`
-	Status     int64   `json:"status"`
-	Sort       int64   `json:"sort"`
-	Remark     string  `json:"remark"`
-	Roles      []int64 `json:"roles"`
-	Creator    string  `json:"creator"`
-	Updator    string  `json:"updator"`
-	CreateTime string  `json:"createTime"`
-	UpdateTime string  `json:"updateTime"`
+	Id         uint64 `json:"id"`
+	Username   string `json:"username"`
+	NickName   string `json:"nickname"`
+	Avatar     string `json:"avatar"`
+	Status     int32  `json:"status"`
+	Sort       int32  `json:"sort"`
+	Remark     string `json:"remark"`
+	Creator    string `json:"creator"`
+	Updator    string `json:"updator"`
+	CreateTime uint64 `json:"createTime"`
+	UpdateTime uint64 `json:"updateTime"`
 }
 
 type UserDeleteReq struct {
-	Ids []int64 `json:"ids"`
+	Ids []uint64 `json:"ids"`
 }
 
 type UserDeleteResp struct {
@@ -221,15 +228,15 @@ type UserDeleteResp struct {
 }
 
 type UserListData struct {
-	Total int64      `json:"total"`
+	Total uint64     `json:"total"`
 	List  []UserData `json:"list"`
 }
 
 type UserListReq struct {
 	PageData
-	Username string `json:"username,optional"`
-	NickName string `json:"nickname,optional"`
-	Status   int64  `json:"status,default=1"`
+	Username *string `json:"username,optional"`
+	NickName *string `json:"nickname,optional"`
+	Status   *int32  `json:"status,default=1"`
 }
 
 type UserListResp struct {
@@ -238,25 +245,24 @@ type UserListResp struct {
 }
 
 type UserMenuInfo struct {
-	ID       int64          `json:"id"`
-	ParentId int64          `json:"parent_id"`
+	ID       uint64         `json:"id"`
+	ParentId uint64         `json:"parent_id"`
 	Path     string         `json:"path"`
-	Sort     int64          `json:"sort"`
+	Sort     int32          `json:"sort"`
 	Name     string         `json:"name"`
 	Meta     MenuMetaInfo   `json:"meta"`
 	Children []UserMenuInfo `json:"children,omitempty"`
 }
 
 type UserUpdateReq struct {
-	Id       int64   `json:"id"`
-	Username string  `json:"username"`
-	Password string  `json:"password"`
-	Avatar   string  `json:"avatar"`
-	NickName string  `json:"nickname"`
-	Status   int64   `json:"status"`
-	Sort     int64   `json:"sort"`
-	Remark   string  `json:"remark"`
-	Roles    []int64 `json:"roles"`
+	Id       uint64 `json:"id"`
+	Username string `json:"username"`
+	Password string `json:"password"`
+	Avatar   string `json:"avatar"`
+	NickName string `json:"nickname"`
+	Status   int32  `json:"status"`
+	Sort     int32  `json:"sort"`
+	Remark   string `json:"remark"`
 }
 
 type UserUpdateResp struct {

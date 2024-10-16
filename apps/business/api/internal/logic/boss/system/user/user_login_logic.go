@@ -3,7 +3,7 @@ package user
 import (
 	"context"
 	"github.com/zeromicro/go-zero/core/logx"
-	"xlife/apps/auth/rpc/admin"
+	"xlife/apps/auth/rpc/auth"
 	"xlife/apps/business/api/internal/svc"
 	"xlife/apps/business/api/internal/types"
 )
@@ -23,7 +23,7 @@ func NewUserLoginLogic(ctx context.Context, svcCtx *svc.ServiceContext) *UserLog
 }
 
 func (l *UserLoginLogic) UserLogin(req *types.LoginReq) (resp *types.LoginResp, err error) {
-	result, err := l.svcCtx.User.Login(l.ctx, &admin.LoginReq{
+	result, err := l.svcCtx.User.Login(l.ctx, &auth.LoginReq{
 		Username: req.Username,
 		Password: req.Password,
 		TenantId: l.svcCtx.Config.Tenant,
@@ -36,6 +36,8 @@ func (l *UserLoginLogic) UserLogin(req *types.LoginReq) (resp *types.LoginResp, 
 		Base: l.svcCtx.Success(),
 		Data: types.LoginData{
 			UserId:       result.UserId,
+			NickName:     result.Nickname,
+			Avatar:       result.Avatar,
 			AccessToken:  result.Token,
 			ExpireTime:   result.Expire,
 			RefreshToken: result.RefreshToken,

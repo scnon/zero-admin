@@ -2,7 +2,7 @@ package menu
 
 import (
 	"context"
-	"xlife/apps/auth/rpc/admin"
+	"xlife/apps/auth/rpc/auth"
 
 	"xlife/apps/business/api/internal/svc"
 	"xlife/apps/business/api/internal/types"
@@ -25,7 +25,7 @@ func NewMenuUpdateLogic(ctx context.Context, svcCtx *svc.ServiceContext) *MenuUp
 }
 
 func (l *MenuUpdateLogic) MenuUpdate(req *types.MenuUpdateReq) (resp *types.MenuUpdateResp, err error) {
-	_, err = l.svcCtx.Menu.UpdateMenu(l.ctx, &admin.UpdateMenuReq{
+	_, err = l.svcCtx.Menu.UpdateMenu(l.ctx, &auth.UpdateMenuReq{
 		Id:       req.ID,
 		ParentId: req.ParentID,
 		Path:     req.Path,

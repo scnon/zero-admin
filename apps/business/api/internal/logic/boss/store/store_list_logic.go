@@ -2,14 +2,9 @@ package store
 
 import (
 	"context"
-	"log"
-
+	"github.com/zeromicro/go-zero/core/logx"
 	"xlife/apps/business/api/internal/svc"
 	"xlife/apps/business/api/internal/types"
-	"xlife/apps/business/rpc/business"
-	"xlife/pkg/ctxdata"
-
-	"github.com/zeromicro/go-zero/core/logx"
 )
 
 type StoreListLogic struct {
@@ -27,21 +22,21 @@ func NewStoreListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *StoreLi
 }
 
 func (l *StoreListLogic) StoreList(req *types.StoreListReq) (resp *types.StoreListResp, err error) {
-	uid := ctxdata.GetUId(l.ctx)
-	if uid == 0 {
-		return nil, err
-	}
-	businesses, err := l.svcCtx.Business.GetBusiness(l.ctx, &business.GetBusinessReq{
-		AdminIds: []int64{uid},
-	})
-	if err != nil {
-		return nil, err
-	}
-	if len(businesses.Business) == 0 {
-		return nil, err
-	}
-
-	log.Println("businesses:", req.Page, req.PageSize)
+	//uid := ctxdata.GetUId(l.ctx)
+	//if uid == 0 {
+	//	return nil, err
+	//}
+	//businesses, err := l.svcCtx.Business.GetBusiness(l.ctx, &business.GetBusinessReq{
+	//	AdminIds: []int64{uid},
+	//})
+	//if err != nil {
+	//	return nil, err
+	//}
+	//if len(businesses.Business) == 0 {
+	//	return nil, err
+	//}
+	//
+	//log.Println("businesses:", req.Page, req.PageSize)
 	//result, err := l.svcCtx.Store.GetStore(l.ctx, &store.GetStoreReq{
 	//	BusinessIds: []int64{businesses.Business[0].Id},
 	//	Page:        int32(req.Page),

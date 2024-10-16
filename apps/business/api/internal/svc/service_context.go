@@ -6,7 +6,6 @@ import (
 	"xlife/apps/auth/rpc/client/user"
 	"xlife/apps/business/api/internal/config"
 	"xlife/apps/business/api/internal/types"
-	"xlife/apps/business/rpc/business_client"
 )
 
 type ServiceContext struct {
@@ -14,7 +13,7 @@ type ServiceContext struct {
 
 	user.User
 	menu.Menu
-	business_client.Business
+	//business_client.Business
 	//store_client.Store
 	// product_client.Product
 }
@@ -23,9 +22,9 @@ func NewServiceContext(c config.Config) *ServiceContext {
 	return &ServiceContext{
 		Config: c,
 
-		User:     user.NewUser(zrpc.MustNewClient(c.AdminRpc)),
-		Menu:     menu.NewMenu(zrpc.MustNewClient(c.AdminRpc)),
-		Business: business_client.NewBusiness(zrpc.MustNewClient(c.BusinessRpc)),
+		User: user.NewUser(zrpc.MustNewClient(c.AdminRpc)),
+		Menu: menu.NewMenu(zrpc.MustNewClient(c.AdminRpc)),
+		//Business: business_client.NewBusiness(zrpc.MustNewClient(c.BusinessRpc)),
 		//Store:    store_client.NewStore(zrpc.MustNewClient(c.StoreRpc)),
 		// Product:  product_client.NewProduct(zrpc.MustNewClient(c.ProductRpc)),
 	}

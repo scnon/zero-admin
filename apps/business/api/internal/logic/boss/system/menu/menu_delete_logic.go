@@ -2,7 +2,7 @@ package menu
 
 import (
 	"context"
-	"xlife/apps/auth/rpc/admin"
+	"xlife/apps/auth/rpc/auth"
 
 	"xlife/apps/business/api/internal/svc"
 	"xlife/apps/business/api/internal/types"
@@ -25,7 +25,7 @@ func NewMenuDeleteLogic(ctx context.Context, svcCtx *svc.ServiceContext) *MenuDe
 }
 
 func (l *MenuDeleteLogic) MenuDelete(req *types.MenuDeleteReq) (resp *types.MenuDeleteResp, err error) {
-	_, err = l.svcCtx.Menu.DeleteMenu(l.ctx, &admin.DeleteMenuReq{
+	_, err = l.svcCtx.Menu.DeleteMenu(l.ctx, &auth.DeleteMenuReq{
 		Ids:      req.Ids,
 		TenantId: l.svcCtx.Config.Tenant,
 	})

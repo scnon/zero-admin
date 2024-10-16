@@ -11,7 +11,7 @@ type Config struct {
 		AccessSecret string
 	}
 
-	Tenant      int64
+	Tenant      uint64
 	AdminRpc    zrpc.RpcClientConf
 	BusinessRpc zrpc.RpcClientConf
 	StoreRpc    zrpc.RpcClientConf

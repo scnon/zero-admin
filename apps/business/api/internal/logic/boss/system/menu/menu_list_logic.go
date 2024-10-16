@@ -2,8 +2,8 @@ package menu
 
 import (
 	"context"
+	"xlife/apps/auth/rpc/auth"
 
-	"xlife/apps/auth/rpc/admin"
 	"xlife/apps/business/api/internal/svc"
 	"xlife/apps/business/api/internal/types"
 
@@ -25,9 +25,7 @@ func NewMenuListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *MenuList
 }
 
 func (l *MenuListLogic) MenuList(req *types.MenuListReq) (resp *types.MenuListResp, err error) {
-	result, err := l.svcCtx.Menu.GetMenu(l.ctx, &admin.GetMenuReq{
-		Page:     req.Page,
-		PageSize: req.PageSize,
+	result, err := l.svcCtx.Menu.GetMenu(l.ctx, &auth.GetMenuReq{
 		TenantId: l.svcCtx.Config.Tenant,
 	})
 	if err != nil {
@@ -47,8 +45,7 @@ func (l *MenuListLogic) MenuList(req *types.MenuListReq) (resp *types.MenuListRe
 	resp = &types.MenuListResp{
 		Base: l.svcCtx.Success(),
 		Data: types.MenuListData{
-			Total: result.Total,
-			List:  menus,
+			List: menus,
 		},
 	}
 	return

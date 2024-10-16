@@ -2,9 +2,7 @@ package user
 
 import (
 	"context"
-	"time"
-	"xlife/apps/auth/rpc/admin"
-
+	"xlife/apps/auth/rpc/auth"
 	"xlife/apps/business/api/internal/svc"
 	"xlife/apps/business/api/internal/types"
 
@@ -26,13 +24,13 @@ func NewUserListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *UserList
 }
 
 func (l *UserListLogic) UserList(req *types.UserListReq) (resp *types.UserListResp, err error) {
-	result, err := l.svcCtx.User.UserList(l.ctx, &admin.UserListReq{
+	result, err := l.svcCtx.User.UserList(l.ctx, &auth.UserListReq{
 		Page:     req.Page,
 		PageSize: req.PageSize,
 		Status:   req.Status,
 		Username: req.Username,
 		Nickname: req.NickName,
-		TenantId: l.svcCtx.Config.Tenant,
+		TenantId: &l.svcCtx.Config.Tenant,
 	})
 	if err != nil {
 		return nil, err
@@ -46,11 +44,10 @@ func (l *UserListLogic) UserList(req *types.UserListReq) (resp *types.UserListRe
 			Username:   item.Username,
 			Status:     item.Status,
 			Avatar:     item.Avatar,
-			Roles:      item.Roles,
 			Creator:    item.Creator,
-			Updator:    item.Updator,
-			CreateTime: time.Unix(item.CreateTime, 0).Format("2006-01-02 15:04:05"),
-			UpdateTime: time.Unix(item.UpdateTime, 0).Format("2006-01-02 15:04:05"),
+			Updator:    item.Updater,
+			CreateTime: item.CreateTime,
+			UpdateTime: item.UpdateTime,
 		})
 	}
 

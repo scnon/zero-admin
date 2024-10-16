@@ -2,13 +2,9 @@ package store
 
 import (
 	"context"
+	"github.com/zeromicro/go-zero/core/logx"
 	"xlife/apps/business/api/internal/svc"
 	"xlife/apps/business/api/internal/types"
-	"xlife/apps/business/rpc/business"
-	"xlife/pkg/ctxdata"
-	"xlife/pkg/xerr"
-
-	"github.com/zeromicro/go-zero/core/logx"
 )
 
 type AddStoreLogic struct {
@@ -26,19 +22,19 @@ func NewAddStoreLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddStore
 }
 
 func (l *AddStoreLogic) AddStore(req *types.AddStoreReq) (resp *types.StoreInfo, err error) {
-	uid := ctxdata.GetUId(l.ctx)
-	if uid == 0 {
-		return nil, xerr.NewMsg("用户未登录")
-	}
-	businesses, err := l.svcCtx.Business.GetBusiness(l.ctx, &business.GetBusinessReq{
-		AdminIds: []int64{uid},
-	})
-	if err != nil {
-		return nil, err
-	}
-	if len(businesses.Business) == 0 {
-		return nil, xerr.NewMsg("商户不存在")
-	}
+	//uid := ctxdata.GetUId(l.ctx)
+	//if uid == 0 {
+	//	return nil, xerr.NewMsg("用户未登录")
+	//}
+	//businesses, err := l.svcCtx.Business.GetBusiness(l.ctx, &business.GetBusinessReq{
+	//	AdminIds: []int64{uid},
+	//})
+	//if err != nil {
+	//	return nil, err
+	//}
+	//if len(businesses.Business) == 0 {
+	//	return nil, xerr.NewMsg("商户不存在")
+	//}
 	//business := businesses.Business[0]
 
 	//result, err := l.svcCtx.Store.AddStore(l.ctx, &store.AddStoreReq{

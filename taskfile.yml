@@ -1,8 +1,9 @@
-version: "v3"
+version: "3"
 
 tasks:
   api:
     cmds:
+      - goctl api format --dir ./apps/{{.a}}/api/doc/{{.a}}.api
       - goctl api go -api ./apps/{{.a}}/api/doc/{{.a}}.api -dir ./apps/{{.a}}/api --style=go_zero
   rpc:
     cmds:
@@ -11,3 +12,6 @@ tasks:
   gen:
     cmds:
       - go generate ./ent
+  ts:
+    cmds:
+      - goctl api ts -api ./apps/{{.a}}/api/doc/{{.a}}.api -dir ../business-boss/src/api

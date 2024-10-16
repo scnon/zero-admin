@@ -2,8 +2,7 @@ package user
 
 import (
 	"context"
-	"xlife/apps/auth/rpc/admin"
-
+	"xlife/apps/auth/rpc/auth"
 	"xlife/apps/business/api/internal/svc"
 	"xlife/apps/business/api/internal/types"
 
@@ -25,14 +24,13 @@ func NewUserCreateLogic(ctx context.Context, svcCtx *svc.ServiceContext) *UserCr
 }
 
 func (l *UserCreateLogic) UserCreate(req *types.UserCreateReq) (resp *types.UserCreateResp, err error) {
-	_, err = l.svcCtx.User.AddUser(l.ctx, &admin.AddUserReq{
+	_, err = l.svcCtx.User.AddUser(l.ctx, &auth.AddUserReq{
 		Username: req.Username,
 		Nickname: req.NickName,
 		Password: req.Password,
 		Sort:     req.Sort,
 		Remark:   req.Remark,
 		Status:   req.Status,
-		Roles:    req.Roles,
 		Avatar:   req.Avatar,
 		TenantId: l.svcCtx.Config.Tenant,
 	})

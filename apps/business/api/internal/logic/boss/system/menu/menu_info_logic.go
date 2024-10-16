@@ -2,8 +2,8 @@ package menu
 
 import (
 	"context"
+	"xlife/apps/auth/rpc/auth"
 
-	"xlife/apps/auth/rpc/admin"
 	"xlife/apps/business/api/internal/svc"
 	"xlife/apps/business/api/internal/types"
 
@@ -26,10 +26,8 @@ func NewMenuInfoLogic(ctx context.Context, svcCtx *svc.ServiceContext) *MenuInfo
 
 func (l *MenuInfoLogic) MenuInfo() (resp []*types.UserMenuInfo, err error) {
 	// uid := ctxdata.GetUId(l.ctx)
-	menuList, err := l.svcCtx.Menu.GetMenu(l.ctx, &admin.GetMenuReq{
+	menuList, err := l.svcCtx.Menu.GetMenu(l.ctx, &auth.GetMenuReq{
 		TenantId: l.svcCtx.Config.Tenant,
-		Page:     1,
-		PageSize: 1000,
 	})
 	if err != nil {
 		return nil, err
@@ -39,10 +37,10 @@ func (l *MenuInfoLogic) MenuInfo() (resp []*types.UserMenuInfo, err error) {
 	return resp, nil
 }
 
-func buildTree(list []*admin.MenuData) []*types.UserMenuInfo {
+func buildTree(list []*auth.MenuData) []*types.UserMenuInfo {
 	// 创建一个映射，将每个 ListItem 转换为 Node
-	nodeMap := make(map[int64][]*types.UserMenuInfo)
-	allNodes := make(map[int64]*types.UserMenuInfo)
+	nodeMap := make(map[uint64][]*types.UserMenuInfo)
+	allNodes := make(map[uint64]*types.UserMenuInfo)
 
 	// 遍历所有 ListItem，将其转换为 Node
 	for _, item := range list {
@@ -61,8 +59,8 @@ func buildTree(list []*admin.MenuData) []*types.UserMenuInfo {
 	}
 
 	// 递归构建树
-	var build func(parentID int64) []*types.UserMenuInfo
-	build = func(parentID int64) []*types.UserMenuInfo {
+	var build func(parentID uint64) []*types.UserMenuInfo
+	build = func(parentID uint64) []*types.UserMenuInfo {
 		// 获取 parentID 对应的所有子节点
 		children := nodeMap[parentID]
 		// 遍历每个子节点，递归构建它的子树

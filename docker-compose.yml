@@ -1,26 +1,26 @@
 version: "v3"
 
 services:
-  zero-admin-mysql:
+  xlife-mysql:
     image: mysql
-    container_name: zero-auth-mysql
+    container_name: xlife-mysql
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: 123456
-      MYSQL_DATABASE: zero-auth
+      MYSQL_DATABASE: xlife
     ports:
       - "3306:3306"
 
-  zero-admin-redis:
+  xlife-redis:
     image: redis
-    container_name: zero-auth-redis
+    container_name: xlife-redis
     restart: always
     ports:
       - "6379:6379"
 
-  zero-admin-etcd:
+  xlife-etcd:
     image: bitnami/etcd
-    container_name: zero-auth-etcd
+    container_name: xlife-etcd
     restart: always
     environment:
       - ALLOW_NONE_AUTHENTICATION=yes

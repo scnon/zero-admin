@@ -6,26 +6,25 @@ info (
 )
 
 type RoleData {
-	Id          int64  `json:"id"`
+	Id          uint64  `json:"id"`
 	Name        string `json:"name"`
 	Remark      string `json:"remark"`
-	Sort 	  int64  `json:"sort"`
-	Status      int64    `json:"status"`
-	Menus	   []int64 `json:"menus"`
+	Sort 	  int32  `json:"sort"`
+	Status      int32    `json:"status"`
 	Cretor    string  `json:"creator"`
-	Updator   string  `json:"updator"`
-	CreateTime  string `json:"createTime"`
-	UpdateTime  string `json:"updateTime"`
+	Updater   string  `json:"updator"`
+	CreateTime  uint64 `json:"createTime"`
+	UpdateTime  uint64 `json:"updateTime"`
 }
 
 type (
 	RoleListReq {
 		PageData
 		Name     string `json:"name,optional"`
-		Status   int64    `json:"status,default=1"`
+		Status   int32    `json:"status,default=1"`
 	}
 	RoleList {
-		Total int64        `json:"total"`
+		Total uint64        `json:"total"`
 		List  []RoleData `json:"list"`
 	}
 	RoleListResp {
@@ -46,12 +45,11 @@ type (
 
 type (
 	RoleUpdateReq {
-		Id     int64  `json:"id"`
+		Id     uint64  `json:"id"`
 		Name   string `json:"name"`
 		Remark string `json:"remark"`
-		Sort   int64  `json:"sort"`
-		Status int64  `json:"status"`
-		Menus  []int64 `json:"menus"`
+		Sort   int32  `json:"sort"`
+		Status int32  `json:"status"`
 	}
 	RoleUpdateResp {
 		Base
@@ -60,7 +58,7 @@ type (
 
 type (
 	RoleDeleteReq {
-		Ids []int64 `json:"ids"`
+		Ids []uint64 `json:"ids"`
 	}
 	RoleDeleteResp {
 		Base

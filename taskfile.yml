@@ -11,3 +11,7 @@ tasks:
   gen:
     cmds:
       - go generate ./ent
+
+  ts:
+    cmds:
+      - goctl api ts -api ./apps/{{.a}}/api/doc/{{.a}}.api -dir ../pure-admin-thin/src/api

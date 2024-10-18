@@ -65,7 +65,7 @@ func (l *MenuListLogic) MenuList(in *auth.MenuListReq) (*auth.MenuListResp, erro
 }
 
 func (l *MenuListLogic) makeQuery(in *auth.MenuListReq) *gorm.DB {
-	query := l.svcCtx.DB.Model(&models.SysUser{}).Preload("Creator").Preload("Updater")
+	query := l.svcCtx.DB.Model(&models.SysMenu{}).Preload("Creator").Preload("Updater")
 	if in.ParentId != nil {
 		query = query.Where("id = ?", in.ParentId)
 	}

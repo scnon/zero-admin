@@ -20,6 +20,10 @@ type (
 	AddRoleResp     = auth.AddRoleResp
 	AddUserReq      = auth.AddUserReq
 	AddUserResp     = auth.AddUserResp
+	AssignMenuReq   = auth.AssignMenuReq
+	AssignMenuResp  = auth.AssignMenuResp
+	AssignRoleReq   = auth.AssignRoleReq
+	AssignRoleResp  = auth.AssignRoleResp
 	CasbinCheckReq  = auth.CasbinCheckReq
 	CasbinCheckResp = auth.CasbinCheckResp
 	DeleteMenuReq   = auth.DeleteMenuReq
@@ -30,6 +34,8 @@ type (
 	DeleteUserResp  = auth.DeleteUserResp
 	GetMenuReq      = auth.GetMenuReq
 	GetMenuResp     = auth.GetMenuResp
+	GetRolesReq     = auth.GetRolesReq
+	GetRolesResp    = auth.GetRolesResp
 	LoginReq        = auth.LoginReq
 	LoginResp       = auth.LoginResp
 	MenuData        = auth.MenuData
@@ -54,6 +60,7 @@ type (
 		DeleteRole(ctx context.Context, in *DeleteRoleReq, opts ...grpc.CallOption) (*DeleteRoleResp, error)
 		UpdateRole(ctx context.Context, in *UpdateRoleReq, opts ...grpc.CallOption) (*UpdateRoleResp, error)
 		RoleList(ctx context.Context, in *RoleListReq, opts ...grpc.CallOption) (*RoleListResp, error)
+		AssignMenu(ctx context.Context, in *AssignMenuReq, opts ...grpc.CallOption) (*AssignMenuResp, error)
 	}
 
 	defaultRole struct {
@@ -85,4 +92,9 @@ func (m *defaultRole) UpdateRole(ctx context.Context, in *UpdateRoleReq, opts ..
 func (m *defaultRole) RoleList(ctx context.Context, in *RoleListReq, opts ...grpc.CallOption) (*RoleListResp, error) {
 	client := auth.NewRoleClient(m.cli.Conn())
 	return client.RoleList(ctx, in, opts...)
+}
+
+func (m *defaultRole) AssignMenu(ctx context.Context, in *AssignMenuReq, opts ...grpc.CallOption) (*AssignMenuResp, error) {
+	client := auth.NewRoleClient(m.cli.Conn())
+	return client.AssignMenu(ctx, in, opts...)
 }

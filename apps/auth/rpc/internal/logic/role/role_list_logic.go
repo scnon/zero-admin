@@ -31,7 +31,7 @@ func (l *RoleListLogic) RoleList(in *auth.RoleListReq) (*auth.RoleListResp, erro
 	var roles []models.SysRole
 	res := l.makeQuery(in).Offset(int((in.Page - 1) * in.PageSize)).Limit(int(in.PageSize)).Find(&roles)
 	if res.Error != nil {
-		return nil, errors.Wrapf(xerr.NewDBErr(), "查询用户失败 %v", res.Error)
+		return nil, errors.Wrapf(xerr.NewDBErr(), "查询角色失败 %v", res.Error)
 	}
 
 	var list []*auth.RoleData
@@ -64,7 +64,7 @@ func (l *RoleListLogic) RoleList(in *auth.RoleListReq) (*auth.RoleListResp, erro
 }
 
 func (l *RoleListLogic) makeQuery(in *auth.RoleListReq) *gorm.DB {
-	query := l.svcCtx.DB.Model(&models.SysUser{}).Preload("Creator").Preload("Updater")
+	query := l.svcCtx.DB.Model(&models.SysRole{}).Preload("Creator").Preload("Updater")
 	if in.Ids != nil {
 		query = query.Where("id IN (?)", in.Ids)
 	}

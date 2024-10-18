@@ -52,3 +52,13 @@ func (s *UserServer) UserList(ctx context.Context, in *auth.UserListReq) (*auth.
 	l := userlogic.NewUserListLogic(ctx, s.svcCtx)
 	return l.UserList(in)
 }
+
+func (s *UserServer) AssignRole(ctx context.Context, in *auth.AssignRoleReq) (*auth.AssignRoleResp, error) {
+	l := userlogic.NewAssignRoleLogic(ctx, s.svcCtx)
+	return l.AssignRole(in)
+}
+
+func (s *UserServer) GetRoles(ctx context.Context, in *auth.GetRolesReq) (*auth.GetRolesResp, error) {
+	l := userlogic.NewGetRolesLogic(ctx, s.svcCtx)
+	return l.GetRoles(in)
+}

@@ -28,6 +28,8 @@ type UserClient interface {
 	DeleteUser(ctx context.Context, in *DeleteUserReq, opts ...grpc.CallOption) (*DeleteUserResp, error)
 	UpdateUser(ctx context.Context, in *UpdateUserReq, opts ...grpc.CallOption) (*UpdateUserResp, error)
 	UserList(ctx context.Context, in *UserListReq, opts ...grpc.CallOption) (*UserListResp, error)
+	AssignRole(ctx context.Context, in *AssignRoleReq, opts ...grpc.CallOption) (*AssignRoleResp, error)
+	GetRoles(ctx context.Context, in *GetRolesReq, opts ...grpc.CallOption) (*GetRolesResp, error)
 }
 
 type userClient struct {
@@ -92,6 +94,24 @@ func (c *userClient) UserList(ctx context.Context, in *UserListReq, opts ...grpc
 	return out, nil
 }
 
+func (c *userClient) AssignRole(ctx context.Context, in *AssignRoleReq, opts ...grpc.CallOption) (*AssignRoleResp, error) {
+	out := new(AssignRoleResp)
+	err := c.cc.Invoke(ctx, "/auth.user/AssignRole", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userClient) GetRoles(ctx context.Context, in *GetRolesReq, opts ...grpc.CallOption) (*GetRolesResp, error) {
+	out := new(GetRolesResp)
+	err := c.cc.Invoke(ctx, "/auth.user/GetRoles", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // UserServer is the server API for User service.
 // All implementations must embed UnimplementedUserServer
 // for forward compatibility
@@ -102,6 +122,8 @@ type UserServer interface {
 	DeleteUser(context.Context, *DeleteUserReq) (*DeleteUserResp, error)
 	UpdateUser(context.Context, *UpdateUserReq) (*UpdateUserResp, error)
 	UserList(context.Context, *UserListReq) (*UserListResp, error)
+	AssignRole(context.Context, *AssignRoleReq) (*AssignRoleResp, error)
+	GetRoles(context.Context, *GetRolesReq) (*GetRolesResp, error)
 	mustEmbedUnimplementedUserServer()
 }
 
@@ -126,6 +148,12 @@ func (UnimplementedUserServer) UpdateUser(context.Context, *UpdateUserReq) (*Upd
 }
 func (UnimplementedUserServer) UserList(context.Context, *UserListReq) (*UserListResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UserList not implemented")
+}
+func (UnimplementedUserServer) AssignRole(context.Context, *AssignRoleReq) (*AssignRoleResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AssignRole not implemented")
+}
+func (UnimplementedUserServer) GetRoles(context.Context, *GetRolesReq) (*GetRolesResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetRoles not implemented")
 }
 func (UnimplementedUserServer) mustEmbedUnimplementedUserServer() {}
 
@@ -248,6 +276,42 @@ func _User_UserList_Handler(srv interface{}, ctx context.Context, dec func(inter
 	return interceptor(ctx, in, info, handler)
 }
 
+func _User_AssignRole_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AssignRoleReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServer).AssignRole(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/auth.user/AssignRole",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServer).AssignRole(ctx, req.(*AssignRoleReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _User_GetRoles_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetRolesReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServer).GetRoles(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/auth.user/GetRoles",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServer).GetRoles(ctx, req.(*GetRolesReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // User_ServiceDesc is the grpc.ServiceDesc for User service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -279,6 +343,14 @@ var User_ServiceDesc = grpc.ServiceDesc{
 			MethodName: "UserList",
 			Handler:    _User_UserList_Handler,
 		},
+		{
+			MethodName: "AssignRole",
+			Handler:    _User_AssignRole_Handler,
+		},
+		{
+			MethodName: "GetRoles",
+			Handler:    _User_GetRoles_Handler,
+		},
 	},
 	Streams:  []grpc.StreamDesc{},
 	Metadata: "apps/auth/rpc/auth.proto",
@@ -292,6 +364,7 @@ type RoleClient interface {
 	DeleteRole(ctx context.Context, in *DeleteRoleReq, opts ...grpc.CallOption) (*DeleteRoleResp, error)
 	UpdateRole(ctx context.Context, in *UpdateRoleReq, opts ...grpc.CallOption) (*UpdateRoleResp, error)
 	RoleList(ctx context.Context, in *RoleListReq, opts ...grpc.CallOption) (*RoleListResp, error)
+	AssignMenu(ctx context.Context, in *AssignMenuReq, opts ...grpc.CallOption) (*AssignMenuResp, error)
 }
 
 type roleClient struct {
@@ -338,6 +411,15 @@ func (c *roleClient) RoleList(ctx context.Context, in *RoleListReq, opts ...grpc
 	return out, nil
 }
 
+func (c *roleClient) AssignMenu(ctx context.Context, in *AssignMenuReq, opts ...grpc.CallOption) (*AssignMenuResp, error) {
+	out := new(AssignMenuResp)
+	err := c.cc.Invoke(ctx, "/auth.role/AssignMenu", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // RoleServer is the server API for Role service.
 // All implementations must embed UnimplementedRoleServer
 // for forward compatibility
@@ -346,6 +428,7 @@ type RoleServer interface {
 	DeleteRole(context.Context, *DeleteRoleReq) (*DeleteRoleResp, error)
 	UpdateRole(context.Context, *UpdateRoleReq) (*UpdateRoleResp, error)
 	RoleList(context.Context, *RoleListReq) (*RoleListResp, error)
+	AssignMenu(context.Context, *AssignMenuReq) (*AssignMenuResp, error)
 	mustEmbedUnimplementedRoleServer()
 }
 
@@ -364,6 +447,9 @@ func (UnimplementedRoleServer) UpdateRole(context.Context, *UpdateRoleReq) (*Upd
 }
 func (UnimplementedRoleServer) RoleList(context.Context, *RoleListReq) (*RoleListResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RoleList not implemented")
+}
+func (UnimplementedRoleServer) AssignMenu(context.Context, *AssignMenuReq) (*AssignMenuResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AssignMenu not implemented")
 }
 func (UnimplementedRoleServer) mustEmbedUnimplementedRoleServer() {}
 
@@ -450,6 +536,24 @@ func _Role_RoleList_Handler(srv interface{}, ctx context.Context, dec func(inter
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Role_AssignMenu_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AssignMenuReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(RoleServer).AssignMenu(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/auth.role/AssignMenu",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(RoleServer).AssignMenu(ctx, req.(*AssignMenuReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Role_ServiceDesc is the grpc.ServiceDesc for Role service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -472,6 +576,10 @@ var Role_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "RoleList",
 			Handler:    _Role_RoleList_Handler,
+		},
+		{
+			MethodName: "AssignMenu",
+			Handler:    _Role_AssignMenu_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

@@ -3,6 +3,7 @@ package menulogic
 import (
 	"context"
 	"gorm.io/gorm"
+	"strconv"
 	"xlife/apps/auth/rpc/auth"
 	"xlife/apps/auth/rpc/internal/svc"
 	"xlife/models"
@@ -31,51 +32,56 @@ func NewGetMenuLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetMenuLo
 }
 
 func (l *GetMenuLogic) GetMenu(in *auth.GetMenuReq) (*auth.GetMenuResp, error) {
-	res := l.svcCtx.DB.Where("id = ?", in.AdminId).First(&models.SysUser{})
+	// 1. 获取到用户
+	user := models.SysUser{}
+	res := l.svcCtx.DB.Where("id = ?", in.AdminId).First(&user)
 	if res.Error != nil {
 		if errors.Is(res.Error, gorm.ErrRecordNotFound) {
 			return nil, errors.WithStack(ErrUserNotFound)
 		}
 		return nil, errors.Wrapf(xerr.NewDBErr(), "find user error: %v", res.Error)
 	}
+	tenant := strconv.FormatUint(in.TenantId, 10)
 
-	//roles, err := l.svcCtx.UserRoleModel.FindAllByUserId(l.ctx, in.AdminId)
-	//if err != nil {
-	//	return nil, errors.Wrapf(xerr.NewDBErr(), "find all role error: %v", err)
-	//}
-	//roleIds := make([]int64, 0)
-	//for _, role := range roles {
-	//	roleIds = append(roleIds, role.RoleId)
-	//}
-	//menus, err := l.svcCtx.RoleMenuModel.FindAllByRoleIds(l.ctx, roleIds)
-	//if err != nil {
-	//	return nil, errors.Wrapf(xerr.NewDBErr(), "find all role menu error: %v", err)
-	//}
-	//menuIds := make([]int64, 0)
-	//for _, menu := range menus {
-	//	menuIds = append(menuIds, menu.MenuId)
-	//}
-	//menuList, err := l.svcCtx.MenuModel.FindAllByIds(l.ctx, menuIds)
-	//if err != nil {
-	//	return nil, errors.Wrapf(xerr.NewDBErr(), "find all menu error: %v", err)
-	//}
-	//
-	//var list []*admin.MenuData
-	//for _, menu := range menuList {
-	//	data := &admin.MenuData{}
-	//	err := copier.Copy(data, menu)
-	//	if err != nil {
-	//		return nil, errors.Wrapf(xerr.NewInternalErr(), "copy entity err %v", err)
-	//	}
-	//	data.Creator = menu.CreatorName.String
-	//	if menu.Creator == 0 {
-	//		data.Creator = "系统"
-	//	}
-	//	data.Updater = menu.UpdaterName.String
-	//	data.CreateTime = menu.CreateTime.Unix()
-	//	data.UpdateTime = menu.UpdateTime.Time.Unix()
-	//	list = append(list, data)
-	//}
+	// 2. 查询到该用户的角色列表
+	roles := l.svcCtx.Casbin.GetRolesForUserInDomain(strconv.FormatUint(uint64(user.ID), 10), tenant)
+	// 3. 查询到该用户的资源列表
+	var resources []string
+	for _, role := range roles {
+		policies, err := l.svcCtx.Casbin.GetFilteredPolicy(0, role, tenant, "", "read")
+		if err != nil {
+			return nil, err
+		}
+		for _, policy := range policies {
+			resources = append(resources, policy[2])
+		}
+	}
+	// 去重处理（如果角色重叠导致重复的资源）
+	menuIds := make([]uint64, 0)
+	for _, res := range resources {
+		id, err := strconv.ParseUint(res, 10, 64)
+		if err != nil {
+			return nil, errors.Wrapf(xerr.NewInternalErr(), "parse id error: %v", err)
+		}
+		menuIds = append(menuIds, id)
+	}
+	// 4. 查询到资源列表
+	var menus []models.SysMenu
+	res = l.svcCtx.DB.Where("id IN (?)", menuIds).Find(&menus)
+	if res.Error != nil {
+		return nil, errors.Wrapf(xerr.NewDBErr(), "find menu error: %v", res.Error)
+	}
+	var menuList []*auth.MenuData
+	for _, menu := range menus {
+		menuList = append(menuList, &auth.MenuData{
+			Id:       uint64(menu.ID),
+			Title:    menu.Title,
+			ParentId: uint64(menu.ParentID),
+			Path:     menu.Path,
+		})
+	}
 
-	return &auth.GetMenuResp{}, nil
+	return &auth.GetMenuResp{
+		Menu: menuList,
+	}, nil
 }

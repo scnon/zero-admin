@@ -20,6 +20,10 @@ type (
 	AddRoleResp     = auth.AddRoleResp
 	AddUserReq      = auth.AddUserReq
 	AddUserResp     = auth.AddUserResp
+	AssignMenuReq   = auth.AssignMenuReq
+	AssignMenuResp  = auth.AssignMenuResp
+	AssignRoleReq   = auth.AssignRoleReq
+	AssignRoleResp  = auth.AssignRoleResp
 	CasbinCheckReq  = auth.CasbinCheckReq
 	CasbinCheckResp = auth.CasbinCheckResp
 	DeleteMenuReq   = auth.DeleteMenuReq
@@ -30,6 +34,8 @@ type (
 	DeleteUserResp  = auth.DeleteUserResp
 	GetMenuReq      = auth.GetMenuReq
 	GetMenuResp     = auth.GetMenuResp
+	GetRolesReq     = auth.GetRolesReq
+	GetRolesResp    = auth.GetRolesResp
 	LoginReq        = auth.LoginReq
 	LoginResp       = auth.LoginResp
 	MenuData        = auth.MenuData

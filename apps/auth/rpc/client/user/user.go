@@ -20,6 +20,10 @@ type (
 	AddRoleResp     = auth.AddRoleResp
 	AddUserReq      = auth.AddUserReq
 	AddUserResp     = auth.AddUserResp
+	AssignMenuReq   = auth.AssignMenuReq
+	AssignMenuResp  = auth.AssignMenuResp
+	AssignRoleReq   = auth.AssignRoleReq
+	AssignRoleResp  = auth.AssignRoleResp
 	CasbinCheckReq  = auth.CasbinCheckReq
 	CasbinCheckResp = auth.CasbinCheckResp
 	DeleteMenuReq   = auth.DeleteMenuReq
@@ -30,6 +34,8 @@ type (
 	DeleteUserResp  = auth.DeleteUserResp
 	GetMenuReq      = auth.GetMenuReq
 	GetMenuResp     = auth.GetMenuResp
+	GetRolesReq     = auth.GetRolesReq
+	GetRolesResp    = auth.GetRolesResp
 	LoginReq        = auth.LoginReq
 	LoginResp       = auth.LoginResp
 	MenuData        = auth.MenuData
@@ -56,6 +62,8 @@ type (
 		DeleteUser(ctx context.Context, in *DeleteUserReq, opts ...grpc.CallOption) (*DeleteUserResp, error)
 		UpdateUser(ctx context.Context, in *UpdateUserReq, opts ...grpc.CallOption) (*UpdateUserResp, error)
 		UserList(ctx context.Context, in *UserListReq, opts ...grpc.CallOption) (*UserListResp, error)
+		AssignRole(ctx context.Context, in *AssignRoleReq, opts ...grpc.CallOption) (*AssignRoleResp, error)
+		GetRoles(ctx context.Context, in *GetRolesReq, opts ...grpc.CallOption) (*GetRolesResp, error)
 	}
 
 	defaultUser struct {
@@ -97,4 +105,14 @@ func (m *defaultUser) UpdateUser(ctx context.Context, in *UpdateUserReq, opts ..
 func (m *defaultUser) UserList(ctx context.Context, in *UserListReq, opts ...grpc.CallOption) (*UserListResp, error) {
 	client := auth.NewUserClient(m.cli.Conn())
 	return client.UserList(ctx, in, opts...)
+}
+
+func (m *defaultUser) AssignRole(ctx context.Context, in *AssignRoleReq, opts ...grpc.CallOption) (*AssignRoleResp, error) {
+	client := auth.NewUserClient(m.cli.Conn())
+	return client.AssignRole(ctx, in, opts...)
+}
+
+func (m *defaultUser) GetRoles(ctx context.Context, in *GetRolesReq, opts ...grpc.CallOption) (*GetRolesResp, error) {
+	client := auth.NewUserClient(m.cli.Conn())
+	return client.GetRoles(ctx, in, opts...)
 }

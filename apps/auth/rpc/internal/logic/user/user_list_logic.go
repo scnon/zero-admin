@@ -43,8 +43,8 @@ func (l *UserListLogic) UserList(in *auth.UserListReq) (*auth.UserListResp, erro
 			Sort:       int32(user.Sort),
 			Remark:     user.Remark,
 			TenantId:   uint64(user.TenantID),
-			CreateTime: uint64(user.CreatedAt.Unix()),
-			UpdateTime: uint64(user.UpdatedAt.Unix()),
+			CreateTime: user.CreatedAt.Unix(),
+			UpdateTime: user.UpdatedAt.Unix(),
 		}
 		if user.Creator != nil {
 			data.Creator = user.Creator.Username

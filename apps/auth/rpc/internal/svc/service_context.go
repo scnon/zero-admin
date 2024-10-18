@@ -50,6 +50,67 @@ func initData(db *gorm.DB) {
 			}
 		}
 	}
+
+	var menuCount int64 = 0
+	res = db.Model(&models.SysMenu{}).Count(&menuCount)
+	if res.Error != nil {
+		panic(res.Error)
+	}
+	if menuCount == 0 {
+		sysMenu := models.SysMenu{
+			Name:     "system",
+			Title:    "系统管理",
+			ParentID: 0,
+			Path:     "/system",
+			ResModel: models.ResModel{
+				Sort:      99,
+				CreatorID: 1,
+			},
+		}
+		res = db.Create(&sysMenu)
+		if res.Error != nil {
+			panic(res.Error)
+		}
+		userMenu := models.SysMenu{
+			Name:     "user",
+			Title:    "用户管理",
+			ParentID: sysMenu.ID,
+			Path:     "/system/user",
+			ResModel: models.ResModel{
+				Sort:      0,
+				CreatorID: 1,
+			},
+		}
+		if res = db.Create(&userMenu); res.Error != nil {
+			panic(res.Error)
+		}
+		roleMenu := models.SysMenu{
+			Name:     "role",
+			Title:    "角色管理",
+			ParentID: sysMenu.ID,
+			Path:     "/system/role",
+			ResModel: models.ResModel{
+				Sort:      1,
+				CreatorID: 1,
+			},
+		}
+		if res = db.Create(&roleMenu); res.Error != nil {
+			panic(res.Error)
+		}
+		menuMenu := models.SysMenu{
+			Name:     "menu",
+			Title:    "菜单管理",
+			ParentID: sysMenu.ID,
+			Path:     "/system/menu",
+			ResModel: models.ResModel{
+				Sort:      2,
+				CreatorID: 1,
+			},
+		}
+		if res = db.Create(&menuMenu); res.Error != nil {
+			panic(res.Error)
+		}
+	}
 }
 
 func initCasbin(c config.Config) *casbin.SyncedCachedEnforcer {

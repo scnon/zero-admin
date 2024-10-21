@@ -1,0 +1,335 @@
+syntax = "proto3";
+
+package auth;
+option go_package = "./auth";
+
+// 登陆
+message LoginReq {
+  string username = 1;
+  string password = 2;
+  uint64 tenant_id = 3;
+}
+// 刷新 token
+message RefreshReq {
+  string refresh_token = 1;
+}
+message LoginResp {
+  string token = 1;
+  uint64 expire = 2;
+  uint64 user_id = 3;
+  string refresh_token = 4;
+  string nickname = 5;
+  string avatar = 6;
+}
+
+// 用户信息
+message UserData {
+  uint64 id = 1;
+  string username = 2;
+  string nickname = 3;
+  int32 status = 4;
+  int32 sort = 5;
+  string remark = 6;
+  uint64 create_time = 7;
+  uint64 update_time = 8;
+  uint64 tenant_id = 9;
+  uint64 department = 10;
+  string avatar = 11;
+  string creator = 12;
+  string updater = 13;
+}
+// 添加用户
+message AddUserReq {
+  string username = 1;
+  string password = 2;
+  string nickname = 3;
+  int32 status = 4;
+  int32 sort = 5;
+  string remark = 6;
+  uint64 tenant_id = 7;
+  string avatar = 8;
+  uint64 department = 9;
+  uint64 op = 10;
+}
+message AddUserResp {
+  uint64 id = 1;
+}
+// 删除用户
+message DeleteUserReq {
+  repeated uint64 ids = 1;
+  uint64 op = 2;
+  uint64 tenant_id = 3;
+}
+message DeleteUserResp {}
+// 更新用户
+message UpdateUserReq {
+  uint64 id = 1;
+  string password = 2;
+  string nickname = 3;
+  int32 status = 4;
+  int32 sort = 5;
+  string remark = 6;
+  string username = 7;
+  string avatar = 8;
+  uint64 op = 9;
+  uint64 tenant_id = 10;
+}
+message UpdateUserResp {}
+// 用户列表
+message UserListReq {
+  repeated uint64 ids = 1;
+  optional string username = 2;
+  optional string nickname = 3;
+  optional int32 status = 4;
+  optional uint64 tenant_id = 5;
+  uint32 page = 6;
+  uint32 page_size = 7;
+}
+message UserListResp {
+  repeated UserData list = 1;
+  uint64 total = 2;
+}
+
+// 角色信息
+message RoleData {
+  uint64 id = 1;
+  string name = 2;
+  string remark = 3;
+  uint64 create_time = 4;
+  uint64 update_time = 5;
+  uint64 tenant_id = 6;
+  string creator = 7;
+  string updater = 8;
+  int32 sort = 9;
+}
+// 添加角色
+message AddRoleReq {
+  string name = 1;
+  string remark = 2;
+  uint32 status = 3;
+  uint64 creator = 4;
+  int32 sort = 5;
+  uint64 tenant_id = 6;
+  uint64 op = 7;
+}
+message AddRoleResp {
+  uint64 id = 1;
+}
+// 删除角色
+message DeleteRoleReq {
+  repeated uint64 ids = 1;
+  uint64 op = 2;
+}
+message DeleteRoleResp {}
+// 更新角色
+message UpdateRoleReq {
+  uint64 id = 1;
+  string name = 2;
+  string remark = 3;
+  repeated int64 menus = 4;
+  int32 sort = 5;
+  uint32 status = 6;
+  uint64 op = 7;
+  uint64 tenant_id = 8;
+}
+message UpdateRoleResp {}
+// 角色列表
+message RoleListReq {
+  uint32 page = 1;
+  uint32 page_size = 2;
+  optional uint64 tenant_id = 3;
+  repeated uint64 ids = 4;
+  optional int32 status = 5;
+}
+message RoleListResp {
+  uint64 total = 1;
+  repeated RoleData list = 2;
+}
+
+// 菜单数据
+message MenuData {
+  uint64 id = 1;
+  uint64 parent_id = 2;
+  string title = 3;
+  string path = 4;
+  int32 sort = 5;
+  string name = 6;
+  uint64 tenant_id = 7;
+  string creator = 8;
+  string updater = 9;
+  uint64 create_time = 10;
+  uint64 update_time = 11;
+}
+// 添加菜单
+message AddMenuReq {
+  uint64 parent_id = 1;
+  string title = 2;
+  string path = 3;
+  int32 sort = 4;
+  uint64 tenant_id = 5;
+  string name = 6;
+  uint64 op = 7;
+}
+message AddMenuResp {
+  uint64 id = 1;
+}
+// 删除菜单
+message DeleteMenuReq {
+  repeated uint64 ids = 1;
+  uint64 tenant_id = 2;
+  uint64 op = 3;
+}
+message DeleteMenuResp {}
+// 更新菜单
+message UpdateMenuReq {
+  uint64 id = 1;
+  uint64 parent_id = 2;
+  string title = 3;
+  string path = 4;
+  int32 sort = 5;
+  uint64 tenant_id = 6;
+  uint64 op = 7;
+}
+message UpdateMenuResp {}
+// 菜单列表
+message MenuListReq {
+  optional uint64 tenant_id = 1;
+  optional uint64 parent_id = 2;
+  optional int32 status = 3;
+  uint32 page = 4;
+  uint32 page_size = 5;
+}
+message MenuListResp {
+  repeated MenuData list = 1;
+  uint64 total = 2;
+}
+// 获取当前用户菜单
+message GetMenuReq {
+  uint64 admin_id = 1;
+  uint64 tenant_id = 2;
+}
+message GetMenuResp {
+  repeated MenuData menu = 1;
+}
+
+// casbin 权限检查
+message CasbinCheckReq {
+  string sub = 1;
+  string dom = 2;
+  string obj = 3;
+  string act = 4;
+}
+message CasbinCheckResp {
+  bool ok = 1;
+}
+
+// 获取用户角色
+message UserRoleIdsReq {
+  uint64 user_id = 1;
+  uint64 tenant_id = 2;
+}
+message UserRoleIdsResp {
+  repeated uint64 role_ids = 1;
+}
+
+// 获取角色菜单
+message RoleMenuIdsReq {
+  uint64 role_id = 1;
+  uint64 tenant_id = 2;
+}
+message RoleMenuIdsResp {
+  repeated uint64 menu_ids = 1;
+}
+
+// 添加部门
+message AddDeptReq {
+  uint64 parent_id = 1;
+  string name = 2;
+  int32 status = 3;
+  uint64 tenant_id = 4;
+  int32 sort = 5;
+  uint64 op = 6;
+}
+message AddDeptResp {
+  uint64 id = 1;
+}
+// 删除部门
+message DeleteDeptReq {
+  repeated uint64 ids = 1;
+  uint64 tenant_id = 2;
+  uint64 op = 3;
+}
+message DeleteDeptResp {}
+// 更新部门
+message UpdateDeptReq {
+  uint64 id = 1;
+  uint64 parent_id = 2;
+  string name = 3;
+  int32 status = 4;
+  uint64 op = 5;
+  uint64 tenant_id = 6;
+  int32 sort = 7;
+}
+message UpdateDeptResp {}
+// 部门列表
+message DeptData {
+  uint64 id = 1;
+  string name = 2;
+  uint64 parent_id = 3;
+  string creator = 4;
+  string updater = 5;
+  uint64 create_time = 6;
+  uint64 update_time = 7;
+  int32 status = 8;
+  uint64 tenant_id = 9;
+  int32 sort = 10;
+}
+message DeptListReq {
+  optional uint64 tenant_id = 1;
+  optional uint64 parent_id = 2;
+  optional int32 status = 3;
+}
+message DeptListResp {
+  repeated DeptData list = 1;
+}
+
+service user {
+  rpc Login(LoginReq) returns (LoginResp) {}
+  rpc Refresh(RefreshReq) returns (LoginResp) {}
+
+  rpc AddUser(AddUserReq) returns (AddUserResp) {}
+  rpc DeleteUser(DeleteUserReq) returns (DeleteUserResp) {}
+  rpc UpdateUser(UpdateUserReq) returns (UpdateUserResp) {}
+  rpc UserList(UserListReq) returns (UserListResp) {}
+
+  rpc UserRoleIds(UserRoleIdsReq) returns (UserRoleIdsResp) {}
+}
+
+service role {
+  rpc AddRole(AddRoleReq) returns (AddRoleResp) {}
+  rpc DeleteRole(DeleteRoleReq) returns (DeleteRoleResp) {}
+  rpc UpdateRole(UpdateRoleReq) returns (UpdateRoleResp) {}
+  rpc RoleList(RoleListReq) returns (RoleListResp) {}
+
+  rpc RoleMenuIds(RoleMenuIdsReq) returns (RoleMenuIdsResp) {}
+}
+
+service menu {
+  rpc AddMenu(AddMenuReq) returns (AddMenuResp) {}
+  rpc DeleteMenu(DeleteMenuReq) returns (DeleteMenuResp) {}
+  rpc UpdateMenu(UpdateMenuReq) returns (UpdateMenuResp) {}
+  rpc MenuList(MenuListReq) returns (MenuListResp) {}
+
+  rpc GetMenu(GetMenuReq) returns (GetMenuResp) {}
+}
+
+service dept {
+  rpc AddDept(AddDeptReq) returns (AddDeptResp) {}
+  rpc DeleteDept(DeleteDeptReq) returns (DeleteDeptResp) {}
+  rpc UpdateDept(UpdateDeptReq) returns (UpdateDeptResp) {}
+  rpc DeptList(DeptListReq) returns (DeptListResp) {}
+}
+
+service casbin {
+    rpc Check(CasbinCheckReq) returns (CasbinCheckResp) {}
+}

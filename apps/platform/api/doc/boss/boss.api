@@ -1,0 +1,7 @@
+syntax = "v1"
+
+import "system/user.api"
+
+info (
+	desc: "商家管理后台"
+)

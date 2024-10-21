@@ -1,0 +1,43 @@
+syntax = "proto3";
+
+package customer;
+option go_package = "./customer";
+
+message CustomerInfo {
+    int64 id = 1;
+    string phone = 2;
+    string tgId = 3;
+    string tgUsername = 4;
+    string tgFirstName = 5;
+    string tgLastName = 6;
+    string tgLanguageCode = 7;
+}
+
+message AddCustomerReq {
+    string phone = 1;
+    string tgId = 2;
+    string tgUsername = 3;
+    string tgFirstName = 4;
+    string tgLastName = 5;
+    string tgLanguageCode = 6;
+}
+
+message DeleteCustomerReq {
+    repeated int64 ids = 1;
+}
+message DeleteCustomerResp{}
+
+message GetCustomerReq {
+    repeated int64 ids = 1;
+}
+
+message GetCustomerResp {
+    repeated CustomerInfo customer = 1;
+}
+
+service Customer {
+    rpc AddCustomer(AddCustomerReq) returns (CustomerInfo) {}
+    rpc UpdateCustomer(CustomerInfo) returns (CustomerInfo) {}
+    rpc DeleteCustomer(DeleteCustomerReq) returns (DeleteCustomerResp) {}
+    rpc GetCustomer(GetCustomerReq) returns (GetCustomerResp) {}
+}

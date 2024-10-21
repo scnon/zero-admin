@@ -1,0 +1,13 @@
+info (
+	title: "角色信息"
+	version: "v1"
+)
+
+@server (
+	jwt: Auth
+	group: boss/system/role
+	prefix: /api/v1/system/role
+)
+
+service admin {
+}

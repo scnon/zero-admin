@@ -1,0 +1,13 @@
+info (
+	title: "用户操作"
+	version: "v1"
+)
+
+@server (
+	jwt: Auth
+	group: boss/log/operate
+	prefix: /api/v1/log/operate
+)
+
+service admin {
+}

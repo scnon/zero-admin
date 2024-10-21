@@ -1,0 +1,17 @@
+version: "3"
+
+tasks:
+  api:
+    cmds:
+      - goctl api format --dir ./apps/{{.a}}/api/doc/{{.a}}.api
+      - goctl api go -api ./apps/{{.a}}/api/doc/{{.a}}.api -dir ./apps/{{.a}}/api --style=go_zero
+  rpc:
+    cmds:
+      - goctl rpc protoc ./apps/{{.a}}/rpc/{{.a}}.proto --go_out=./apps/{{.a}}/rpc
+        --go-grpc_out=./apps/{{.a}}/rpc --zrpc_out=./apps/{{.a}}/rpc -m --style go_zero
+  gen:
+    cmds:
+      - go generate ./ent
+  ts:
+    cmds:
+      - goctl api ts -api ./apps/{{.a}}/api/doc/{{.a}}.api -dir ../business-boss/src/api

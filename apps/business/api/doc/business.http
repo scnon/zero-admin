@@ -1,0 +1,85 @@
+### login
+POST {{host}}/system/user/login
+Content-Type: application/json
+
+{
+    "username": "xadmin",
+    "password": "a1234123"
+}
+> {%
+    if(response.body.success) client.global.set("token", response.body.data.accessToken);
+%}
+### create user
+POST {{host}}/system/user/create
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "username": "user",
+    "password": "a1234123",
+    "nickname": "link",
+    "remark": "link"
+}
+### update user
+POST {{host}}/system/user/update
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "id": 30,
+    "username": "some",
+    "password": "a1234123",
+    "nickname": "张三",
+    "remark": "法外狂徒",
+    "status": 1,
+    "sort":2
+}
+### get user list
+GET {{host}}/system/user/list?status=1&page=1&pageSize=10
+Authorization: Bearer {{token}}
+Content-Type: application/json
+### delete user
+POST {{host}}/system/user/delete
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "ids": [5]
+}
+
+
+###
+POST {{host}}/system/menu/add 
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "parent_id": 1,
+    "title": "菜单管理",
+    "path": "/system/menu",
+    "sort": 1,
+    "name": "user"
+}
+
+###
+POST {{host}}/business/store/add
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "name": "小布丁",
+  "phone": "123123",
+  "status": 1,
+  "start_time": "09:00",
+  "end_time": "21:00",
+  "address": "深圳市南山区"
+}
+
+###
+POST {{host}}/business/store/list
+Authorization: Bearer {{token}}
+
+{
+    "page": 1,
+    "pageSize": 2
+}

@@ -1,0 +1,28 @@
+version: "v3"
+
+services:
+  xlife-mysql:
+    image: mysql
+    container_name: xlife-mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: 123456
+      MYSQL_DATABASE: xlife
+    ports:
+      - "3306:3306"
+
+  xlife-redis:
+    image: redis
+    container_name: xlife-redis
+    restart: always
+    ports:
+      - "6379:6379"
+
+  xlife-etcd:
+    image: bitnami/etcd
+    container_name: xlife-etcd
+    restart: always
+    environment:
+      - ALLOW_NONE_AUTHENTICATION=yes
+    ports:
+      - "2379:2379"

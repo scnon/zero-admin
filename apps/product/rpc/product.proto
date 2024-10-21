@@ -1,0 +1,86 @@
+syntax="proto3";
+
+package product;
+option go_package = "./product";
+
+message ProductInfo {
+    int64 id = 1;
+    string name = 2;
+    string desc = 3;
+    int64 store_id = 4;
+    int64 cate_id = 5;
+    string keyword = 6;
+    string unit = 7;
+    double price = 8;
+    int64 stock = 9;
+    string image = 10;
+    int32 status = 11;
+    repeated SkuInfo skus = 12;
+}
+
+message AddProductReq {
+    string name = 1;
+    string desc = 2;
+    int64 store_id = 3;
+    int64 cate_id = 4;
+    string keyword = 5;
+    string unit = 6;
+    double price = 7;
+    int64 stock = 8;
+    string image = 9;
+    int32 status = 10;
+    repeated SkuInfo skus = 11;
+}
+
+message SkuInfo {
+    string name = 1;
+    string value = 2;
+    string image = 3;
+    double price = 4;
+}
+
+message GetProductReq {
+    repeated int64 ids = 1;
+    repeated int64 business_ids = 2;
+    repeated int64 store_ids = 3;
+    repeated int64 cate_ids = 4;
+}
+
+message GetProductResp {
+    repeated ProductInfo product = 1;
+}
+
+message CateInfo {
+    int64 id = 1;
+    string name = 2;
+    int32 sort = 3;
+    int64 store_id = 4;
+}
+
+message AddCateReq {
+    string name = 1;
+    int64 store_id = 2;
+    int32 sort = 3;
+}
+
+message DeleteCateReq {
+    repeated int64 ids = 1;
+}
+message DeleCateResp{}
+
+message GetCateReq {}
+message GetCateResp {
+    repeated CateInfo cate = 1;
+}
+service Product {
+    rpc AddProduct(AddProductReq) returns (ProductInfo) {}
+    rpc UpdateProduct(ProductInfo) returns (ProductInfo) {}
+    rpc DeleteProduct(ProductInfo) returns (ProductInfo) {}
+    rpc GetProduct(GetProductReq) returns (GetProductResp) {}
+
+    rpc AddCate(AddCateReq) returns (CateInfo) {}
+    rpc UpdateCate(CateInfo) returns (CateInfo) {}
+    rpc DeleteCate(DeleteCateReq) returns (DeleCateResp) {}
+    rpc GetCate(GetCateReq) returns (GetCateResp) {}
+}
+

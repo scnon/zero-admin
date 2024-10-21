@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="ALL" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="b19883e2-f6a3-49dc-8d18-0bafed0f5010" name="更改" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/auth/rpc/auth.proto" beforeDir="false" afterPath="$PROJECT_DIR$/apps/auth/rpc/auth.proto" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/auth/rpc/auth/auth.pb.go" beforeDir="false" afterPath="$PROJECT_DIR$/apps/auth/rpc/auth/auth.pb.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/auth/rpc/auth/auth_grpc.pb.go" beforeDir="false" afterPath="$PROJECT_DIR$/apps/auth/rpc/auth/auth_grpc.pb.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/auth/rpc/client/casbin/casbin.go" beforeDir="false" afterPath="$PROJECT_DIR$/apps/auth/rpc/client/casbin/casbin.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/auth/rpc/client/menu/menu.go" beforeDir="false" afterPath="$PROJECT_DIR$/apps/auth/rpc/client/menu/menu.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/auth/rpc/client/role/role.go" beforeDir="false" afterPath="$PROJECT_DIR$/apps/auth/rpc/client/role/role.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/auth/rpc/client/user/user.go" beforeDir="false" afterPath="$PROJECT_DIR$/apps/auth/rpc/client/user/user.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/auth/rpc/internal/logic/user/delete_user_logic.go" beforeDir="false" afterPath="$PROJECT_DIR$/apps/auth/rpc/internal/logic/user/delete_user_logic.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/auth/rpc/internal/server/role/role_server.go" beforeDir="false" afterPath="$PROJECT_DIR$/apps/auth/rpc/internal/server/role/role_server.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/auth/rpc/internal/server/user/user_server.go" beforeDir="false" afterPath="$PROJECT_DIR$/apps/auth/rpc/internal/server/user/user_server.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/business/api/doc/boss/boss.api" beforeDir="false" afterPath="$PROJECT_DIR$/apps/business/api/doc/boss/boss.api" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/business/api/doc/boss/log/login.api" beforeDir="false" afterPath="$PROJECT_DIR$/apps/business/api/doc/boss/log/login.api" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/business/api/doc/boss/log/operate.api" beforeDir="false" afterPath="$PROJECT_DIR$/apps/business/api/doc/boss/log/operate.api" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/business/api/doc/boss/system/menu.api" beforeDir="false" afterPath="$PROJECT_DIR$/apps/business/api/doc/boss/system/menu.api" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/business/api/doc/boss/system/role.api" beforeDir="false" afterPath="$PROJECT_DIR$/apps/business/api/doc/boss/system/role.api" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/business/api/doc/boss/system/user.api" beforeDir="false" afterPath="$PROJECT_DIR$/apps/business/api/doc/boss/system/user.api" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/business/api/internal/handler/routes.go" beforeDir="false" afterPath="$PROJECT_DIR$/apps/business/api/internal/handler/routes.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/business/api/internal/logic/boss/system/menu/menu_create_logic.go" beforeDir="false" afterPath="$PROJECT_DIR$/apps/business/api/internal/logic/boss/system/menu/menu_create_logic.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/business/api/internal/logic/boss/system/menu/menu_delete_logic.go" beforeDir="false" afterPath="$PROJECT_DIR$/apps/business/api/internal/logic/boss/system/menu/menu_delete_logic.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/business/api/internal/logic/boss/system/user/user_create_logic.go" beforeDir="false" afterPath="$PROJECT_DIR$/apps/business/api/internal/logic/boss/system/user/user_create_logic.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/business/api/internal/logic/boss/system/user/user_delete_logic.go" beforeDir="false" afterPath="$PROJECT_DIR$/apps/business/api/internal/logic/boss/system/user/user_delete_logic.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/business/api/internal/svc/service_context.go" beforeDir="false" afterPath="$PROJECT_DIR$/apps/business/api/internal/svc/service_context.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/business/api/internal/types/types.go" beforeDir="false" afterPath="$PROJECT_DIR$/apps/business/api/internal/types/types.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/sys_menu.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/sys_menu.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/sys_role.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/sys_role.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/sys_user.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/sys_user.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/ctxdata/data.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/ctxdata/data.go" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Go File" />
+      </list>
+    </option>
+  </component>
+  <component name="GOROOT" url="file://$USER_HOME$/scoop/apps/go/current" />
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;scnon&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/scnon/zero-admin&quot;,
+    &quot;accountId&quot;: &quot;5bb39252-c5a5-4443-90c4-c3549acc5216&quot;
+  }
+}</component>
+  <component name="KubernetesApiPersistence">{}</component>
+  <component name="KubernetesApiProvider">{
+  &quot;isMigrated&quot;: true
+}</component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 7
+}</component>
+  <component name="ProjectId" id="2nAKGqkMIRAK6zlSjGNzusC3q8V" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="1" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "DefaultGoTemplateProperty": "Go File",
+    "Go 构建.admin-rpc.executor": "Debug",
+    "Go 构建.auth.executor": "Debug",
+    "Go 构建.business-api.executor": "Debug",
+    "Go 构建.business-rpc.executor": "Debug",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.go.formatter.settings.were.checked": "true",
+    "RunOnceActivity.go.migrated.go.modules.settings": "true",
+    "RunOnceActivity.go.modules.go.list.on.any.changes.was.set": "true",
+    "git-widget-placeholder": "main",
+    "go.import.settings.migrated": "true",
+    "go.sdk.automatically.set": "true",
+    "ignore.virus.scanning.warn.message": "true",
+    "last_opened_file_path": "C:/Users/x/Documents/go/xlife/apps/business/api/doc/boss/system",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.stylelint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.stylelint": "",
+    "nodejs_package_manager_path": "pnpm",
+    "settings.editor.selected.configurable": "goland.project.structure",
+    "vue.rearranger.settings.migration": "true"
+  },
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "mysql"
+    ],
+    "com.intellij.ide.scratch.LRUPopupBuilder$1/SQL 方言": [
+      "MySQL"
+    ]
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\x\Documents\go\xlife\apps\business\api\doc\boss\system" />
+      <recent name="C:\Users\x\Documents\go\xlife\models" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\x\Documents\go\zero-admin\apps\admin\rpc\internal\logic\menu" />
+      <recent name="C:\Users\x\Documents\go\zero-admin\apps\admin\rpc\internal\logic\user" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Go 构建.business-api">
+    <configuration name="auth" type="GoApplicationRunConfiguration" factoryName="Go Application">
+      <module name="server" />
+      <working_directory value="$PROJECT_DIR$/apps/auth/rpc" />
+      <kind value="PACKAGE" />
+      <package value="xlife/apps/auth/rpc" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <method v="2" />
+    </configuration>
+    <configuration name="business-api" type="GoApplicationRunConfiguration" factoryName="Go Application">
+      <module name="server" />
+      <working_directory value="$PROJECT_DIR$/apps/business/api" />
+      <kind value="PACKAGE" />
+      <package value="xlife/apps/business/api" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <method v="2" />
+    </configuration>
+    <configuration name="business-rpc" type="GoApplicationRunConfiguration" factoryName="Go Application">
+      <module name="server" />
+      <working_directory value="$PROJECT_DIR$/apps/business/rpc" />
+      <kind value="PACKAGE" />
+      <package value="xlife/apps/business/rpc" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="Go 构建.auth" />
+      <item itemvalue="Go 构建.business-rpc" />
+      <item itemvalue="Go 构建.business-api" />
+    </list>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-gosdk-5df93f7ad4aa-df9ad98b711f-org.jetbrains.plugins.go.sharedIndexes.bundled-GO-242.23339.24" />
+        <option value="bundled-js-predefined-d6986cc7102b-5c90d61e3bab-JavaScript-GO-242.23339.24" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="应用程序级" UseSingleDictionary="true" transferred="true" />
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="VgoProject">
+    <settings-migrated>true</settings-migrated>
+  </component>
+</project>

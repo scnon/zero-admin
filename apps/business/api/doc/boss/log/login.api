@@ -1,0 +1,43 @@
+import "../base.api"
+
+info (
+	title: "用户登陆记录"
+	version: "v1"
+)
+
+type LoginLogData {
+	Id uint64  `json:"id"`
+	Username string  `json:"username"`
+	IP string  `json:"ip"`
+	Address string  `json:"address"`
+	System string  `json:"system"`
+	Browser string  `json:"browser"`
+	Status int32 `json:"status"`
+	Behavior string  `json:"behavior"`
+	LoginTime int64 `json:"login_time"`
+}
+
+type (
+	LoginLogListReq {
+		PageData
+	}
+	LoginLogList {
+		Total int32 `json:"total"`
+		Data []LoginLogData `json:"data"`
+	}
+	LoginLogListResp {
+		Base
+		Data LoginLogList `json:"data"`
+	}
+)
+
+@server (
+	jwt: Auth
+	group: boss/log/login
+	prefix: /api/v1/log/login
+)
+
+service business {
+	@handler loginLogList
+	post /list (LoginLogListReq) returns (LoginLogListResp)
+}

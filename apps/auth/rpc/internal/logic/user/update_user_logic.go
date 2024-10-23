@@ -9,8 +9,6 @@ import (
 	"xlife/apps/auth/rpc/auth"
 	"xlife/apps/auth/rpc/internal/svc"
 	"xlife/models"
-	"xlife/pkg/encrypt"
-	"xlife/pkg/xerr"
 )
 
 type UpdateUserLogic struct {
@@ -35,23 +33,12 @@ func (l *UpdateUserLogic) UpdateUser(in *auth.UpdateUserReq) (*auth.UpdateUserRe
 		}
 		return nil, perr.Wrapf(res.Error, "查询用户失败: %v", res.Error)
 	}
-	if in.Password != "" {
-		if len(in.Password) < 8 {
-			return nil, perr.WithStack(ErrPasswordLen)
-		}
-		newPwd, err := encrypt.GenPasswordHash([]byte(in.Password))
-		if err != nil {
-			return nil, perr.Wrapf(xerr.NewInternalErr(), "生成密码哈希失败: %v", err)
-		}
-		in.Password = string(newPwd)
-	}
 
 	updater := uint(in.Op)
 	res = l.svcCtx.DB.Where("id = ?", in.Id).Updates(&models.SysUser{
 		Username: in.Username,
 		Nickname: in.Nickname,
 		Avatar:   in.Avatar,
-		Password: in.Password,
 		ResModel: models.ResModel{
 			Sort:      int(in.Sort),
 			Remark:    in.Remark,

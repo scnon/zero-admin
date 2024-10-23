@@ -28,12 +28,14 @@ func NewRoleListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *RoleList
 }
 
 func (l *RoleListLogic) RoleList(in *auth.RoleListReq) (*auth.RoleListResp, error) {
+	// 1. 查询角色列表
 	var roles []models.SysRole
 	res := l.makeQuery(in).Offset(int((in.Page - 1) * in.PageSize)).Limit(int(in.PageSize)).Find(&roles)
 	if res.Error != nil {
 		return nil, errors.Wrapf(xerr.NewDBErr(), "查询用户失败 %v", res.Error)
 	}
 
+	// 2. 构造返回数据
 	var list []*auth.RoleData
 	for _, role := range roles {
 		data := &auth.RoleData{

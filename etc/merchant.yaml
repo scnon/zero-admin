@@ -1,0 +1,32 @@
+Name: merchant
+Host: 127.0.0.1
+Port: 8001
+
+Tenant: 1
+
+Auth:
+  AccessSecret: zero-auth
+
+AdminRpc:
+  Etcd:
+    Hosts:
+      - 127.0.0.1:2379
+    Key: auth.rpc
+
+BusinessRpc:
+  Etcd:
+    Hosts:
+      - 127.0.0.1:2379
+    Key: merchant.rpc
+
+StoreRpc:
+  Etcd:
+    Hosts:
+      - 127.0.0.1:2379
+    Key: store.rpc
+
+ProductRpc:
+  Etcd:
+    Hosts:
+      - 127.0.0.1:2379
+    Key: product.rpc

@@ -1,0 +1,106 @@
+import "../base.api"
+
+info(
+    title: "菜单信息"
+    version: "v1"
+)
+
+type MenuData {
+    ID uint64 `json:"id"`
+    Name string `json:"name"`
+    ParentID uint64 `json:"parent_id"`
+    Title string `json:"title"`
+    Path string `json:"path"`
+    Sort int32 `json:"sort"`
+    Creator string `json:"creator"`
+    Updater string `json:"updater"`
+    CreateTime uint64 `json:"create_time"`
+    UpdateTime uint64 `json:"update_time"`
+}
+
+type (
+    MenuCreateReq {
+        ParentID uint64 `json:"parent_id"`
+        Title string `json:"title"`
+        Path string `json:"path"`
+        Sort int32 `json:"sort"`
+        Name string `json:"name"`
+    }
+    MenuCreateResp {
+        Base
+    }
+)
+
+type (
+    MenuDeleteReq {
+        Ids []uint64 `json:"ids"`
+    }
+    MenuDeleteResp {
+        Base
+    }
+)
+
+type (
+    MenuUpdateReq {
+        ID uint64 `json:"id"`
+        ParentID uint64 `json:"parent_id"`
+        Title string `json:"title"`
+        Path string `json:"path"`
+        Sort int32 `json:"sort"`
+        Name string `json:"name"`
+    }
+    MenuUpdateResp {
+        Base
+    }
+)
+
+type (
+    MenuListReq {
+    }
+    MenuListResp {
+        Base
+        Data []MenuData `json:"data"`
+    }
+)
+
+type (
+    MenuMetaInfo {
+        Title string `json:"title"`
+    }
+    UserMenuInfo {
+        ID uint64 `json:"id"`
+        ParentId uint64 `json:"parent_id"`
+        Path string `json:"path"`
+        Sort int32 `json:"sort"`
+        Name string `json:"name"`
+        Meta MenuMetaInfo `json:"meta"`
+        Children []UserMenuInfo `json:"children,omitempty"`
+    }
+    MenuInfoResp {
+        Base
+        Data []*UserMenuInfo `json:"data"`
+    }
+)
+
+@server(
+    jwt: Auth
+    group: boss/system/menu
+    prefix: /api/v1/system/menu
+)
+
+service merchant {
+    @handler menuCreate
+    post /create (MenuCreateReq) returns (MenuCreateResp)
+
+    @handler menuDelete
+    post /delete (MenuDeleteReq) returns (MenuDeleteResp)
+
+    @handler menuUpdate
+    post /update (MenuUpdateReq) returns (MenuUpdateResp)
+
+    @handler menuList
+    get /list (MenuListReq) returns (MenuListResp)
+
+    @handler menuInfo
+    get /info () returns (MenuInfoResp)
+}

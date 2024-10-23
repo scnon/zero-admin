@@ -1,8 +1,3 @@
-/**
- * @author: dn-jinmin/dn-jinmin
- * @doc:
- */
-
 package resultx
 
 import (
@@ -49,9 +44,10 @@ func ErrHandler(name string) func(ctx context.Context, err error) (int, any) {
 		errMsg := xerr.ErrMsg(errCode)
 
 		causeErr := errors.Cause(err)
-		if e, ok := causeErr.(*zrpcErr.CodeMsg); ok {
-			errCode = e.Code
-			errMsg = e.Msg
+		var zErr *zrpcErr.CodeMsg
+		if errors.As(causeErr, &zErr) {
+			errCode = zErr.Code
+			errMsg = zErr.Msg
 		} else {
 			if gStatus, ok := status.FromError(causeErr); ok {
 				errCode = int(gStatus.Code())
@@ -62,6 +58,6 @@ func ErrHandler(name string) func(ctx context.Context, err error) (int, any) {
 		// 日志记录
 		logx.WithContext(ctx).Errorf("【%s】 err %v", name, err)
 
-		return http.StatusBadRequest, Fail(errCode, errMsg)
+		return http.StatusOK, Fail(errCode, errMsg)
 	}
 }

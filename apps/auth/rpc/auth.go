@@ -4,6 +4,7 @@ import (
 	"flag"
 	"fmt"
 	"xlife/apps/auth/rpc/auth"
+	"xlife/pkg/rpc"
 
 	"xlife/apps/auth/rpc/internal/config"
 	menuServer "xlife/apps/auth/rpc/internal/server/menu"
@@ -36,6 +37,7 @@ func main() {
 			reflection.Register(grpcServer)
 		}
 	})
+	s.AddUnaryInterceptors(rpc.LogInterceptor)
 	defer s.Stop()
 
 	fmt.Printf("Starting rpc server at %s...\n", c.ListenOn)

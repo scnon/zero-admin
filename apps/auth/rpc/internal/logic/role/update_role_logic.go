@@ -33,6 +33,7 @@ func NewUpdateRoleLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Update
 }
 
 func (l *UpdateRoleLogic) UpdateRole(in *auth.UpdateRoleReq) (*auth.UpdateRoleResp, error) {
+	// 1. 查询要更新的角色是否存在
 	res := l.svcCtx.DB.Where("id = ?", in.Id).First(&models.SysRole{})
 	if res.Error != nil {
 		if errors.Is(res.Error, gorm.ErrRecordNotFound) {
@@ -40,7 +41,7 @@ func (l *UpdateRoleLogic) UpdateRole(in *auth.UpdateRoleReq) (*auth.UpdateRoleRe
 		}
 		return nil, perr.Wrapf(res.Error, "查询菜单失败: %v", res.Error)
 	}
-
+	// 2. 更新角色信息
 	updater := uint(in.Op)
 	res = l.svcCtx.DB.Where("id = ?", in.Id).Updates(&models.SysRole{
 		Name: in.Name,

@@ -1,0 +1,161 @@
+import "../base.api"
+
+info(
+    title: "用户信息"
+    version: "v1"
+)
+
+type UserData {
+    Id uint64 `json:"id"`
+    Username string `json:"username"`
+    NickName string `json:"nickname"`
+    Avatar string `json:"avatar"`
+    Status int32 `json:"status"`
+    Sort int32 `json:"sort"`
+    Remark string `json:"remark"`
+    Creator string `json:"creator"`
+    Updator string `json:"updator"`
+    Dept DeptInfo `json:"dept"`
+    CreateTime uint64 `json:"createTime"`
+    UpdateTime uint64 `json:"updateTime"`
+}
+
+type DeptInfo {
+    Id uint64 `json:"id"`
+    Name string `json:"name"`
+}
+
+type (
+    UserCreateReq {
+        Username string `json:"username"`
+        Avatar string `json:"avatar"`
+        NickName string `json:"nickname"`
+        Status int32 `json:"status,default=1"`
+        Sort int32 `json:"sort,default=0"`
+        Remark string `json:"remark,default=''"`
+    }
+    UserCreateResp {
+        Base
+    }
+)
+
+type (
+    UserDeleteReq {
+        Ids []uint64 `json:"ids"`
+    }
+    UserDeleteResp {
+        Base
+    }
+)
+
+type (
+    UserUpdateReq {
+        Id uint64 `json:"id"`
+        Username string `json:"username"`
+        Password string `json:"password"`
+        Avatar string `json:"avatar"`
+        NickName string `json:"nickname"`
+        Status int32 `json:"status"`
+        Sort int32 `json:"sort"`
+        Remark string `json:"remark"`
+    }
+    UserUpdateResp {
+        Base
+    }
+)
+
+type (
+    UserRestPwdReq {
+        UserId uint64 `json:"userId"`
+        Password string `json:"password"`
+    }
+    UserRestPwdResp {
+        Base
+    }
+)
+
+type (
+    UserListReq {
+        PageData
+        Username *string `json:"username,optional"`
+        NickName *string `json:"nickname,optional"`
+        Status *int32 `json:"status,default=1"`
+    }
+    UserListData {
+        Total uint64 `json:"total"`
+        List []UserData `json:"list"`
+    }
+    UserListResp {
+        Base
+        Data UserListData `json:"data,omitempty"`
+    }
+)
+
+type (
+    UserRoleIdsReq {
+        UserId uint64 `json:"userId"`
+    }
+    UserRoleIdsResp {
+        Base
+        Data []uint64 `json:"data,omitempty"`
+    }
+)
+
+@server(
+    jwt: Auth
+    group: boss/system/user
+    prefix: /api/v1/system/user
+)
+
+service merchant {
+    @handler userCreate
+    post /create (UserCreateReq) returns (UserCreateResp)
+
+    @handler userDelete
+    post /delete (UserDeleteReq) returns (UserDeleteResp)
+
+    @handler userUpdate
+    post /update (UserUpdateReq) returns (UserUpdateResp)
+
+    @handler userList
+    get /list (UserListReq) returns (UserListResp)
+
+    @handler userRoleIds
+    post /roleIds (UserRoleIdsReq) returns (UserRoleIdsResp)
+
+    @handler userRestPwd
+    post /restPwd (UserRestPwdReq) returns (UserRestPwdResp)
+}
+
+type (
+    LoginReq {
+        Username string `json:"username"`
+        Password string `json:"password"`
+    }
+
+    LoginData {
+        UserId uint64 `json:"userId"`
+        Username string `json:"username"`
+        NickName string `json:"nickname"`
+        Avatar string `json:"avatar"`
+        AccessToken string `json:"accessToken"`
+        RefreshToken string `json:"refreshToken"`
+        ExpireTime uint64 `json:"expireTime"`
+        Roles []string `json:"roles"`
+        Permissions []string `json:"permissions"`
+    }
+    LoginResp {
+        Base
+        Data LoginData `json:"data,omitempty"`
+    }
+)
+
+@server(
+    group: boss/system/user
+    prefix: /api/v1/system/user
+)
+
+service merchant {
+    @handler userLogin
+    post /login (LoginReq) returns (LoginResp)
+}

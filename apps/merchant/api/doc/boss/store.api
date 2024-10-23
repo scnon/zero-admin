@@ -1,0 +1,57 @@
+info(
+    title: "门店中心"
+    version: "v1"
+)
+
+type StoreInfo {
+    ID int64 `json:"id"`
+    Name string `json:"name"`
+    Phone string `json:"phone"`
+    Status int `json:"status"`
+    StartTime string `json:"start_time"`
+    EndTime string `json:"end_time"`
+    Address string `json:"address"`
+}
+
+type AddStoreReq {
+    Name string `json:"name"`
+    Phone string `json:"phone"`
+    Status int `json:"status"`
+    StartTime string `json:"start_time"`
+    EndTime string `json:"end_time"`
+    Address string `json:"address"`
+}
+
+type DeleteStoreReq {
+    Ids []int64
+}
+
+type StoreListReq {
+    Page int32 `json:"page,default=1"`
+    PageSize int32 `json:"page_size,default=10"`
+}
+
+type StoreListResp {
+    Total int64 `json:"total"`
+    List []StoreInfo `json:"list"`
+}
+
+@server(
+    jwt: Auth
+    group: boss/store
+    prefix: /api/v1/merchant/store
+)
+
+service merchant {
+    @handler addStore
+    post /add (AddStoreReq) returns (StoreInfo)
+
+    @handler deleteStore
+    post /delete (DeleteStoreReq) returns ()
+
+    @handler updateStore
+    post /update (StoreInfo) returns (StoreInfo)
+
+    @handler storeList
+    post /list (StoreListReq) returns (StoreListResp)
+}

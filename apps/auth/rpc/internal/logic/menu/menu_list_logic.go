@@ -28,12 +28,14 @@ func NewMenuListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *MenuList
 }
 
 func (l *MenuListLogic) MenuList(in *auth.MenuListReq) (*auth.MenuListResp, error) {
+	// 1. 根据条件查询菜单列表
 	var menus []models.SysMenu
 	res := l.makeQuery(in).Offset(int((in.Page - 1) * in.PageSize)).Limit(int(in.PageSize)).Find(&menus)
 	if res.Error != nil {
 		return nil, errors.Wrapf(xerr.NewDBErr(), "查询用户失败 %v", res.Error)
 	}
 
+	// 2. 构造返回数据
 	var list []*auth.MenuData
 	for _, menu := range menus {
 		data := &auth.MenuData{

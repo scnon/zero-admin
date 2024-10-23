@@ -33,6 +33,11 @@ func (s *UserServer) Refresh(ctx context.Context, in *auth.RefreshReq) (*auth.Lo
 	return l.Refresh(in)
 }
 
+func (s *UserServer) ResetPassword(ctx context.Context, in *auth.ResetPasswordReq) (*auth.ResetPasswordResp, error) {
+	l := userlogic.NewResetPasswordLogic(ctx, s.svcCtx)
+	return l.ResetPassword(in)
+}
+
 func (s *UserServer) AddUser(ctx context.Context, in *auth.AddUserReq) (*auth.AddUserResp, error) {
 	l := userlogic.NewAddUserLogic(ctx, s.svcCtx)
 	return l.AddUser(in)
@@ -51,6 +56,11 @@ func (s *UserServer) UpdateUser(ctx context.Context, in *auth.UpdateUserReq) (*a
 func (s *UserServer) UserList(ctx context.Context, in *auth.UserListReq) (*auth.UserListResp, error) {
 	l := userlogic.NewUserListLogic(ctx, s.svcCtx)
 	return l.UserList(in)
+}
+
+func (s *UserServer) AssignUserRole(ctx context.Context, in *auth.AssignUserRoleReq) (*auth.AssignUserRoleResp, error) {
+	l := userlogic.NewAssignUserRoleLogic(ctx, s.svcCtx)
+	return l.AssignUserRole(in)
 }
 
 func (s *UserServer) UserRoleIds(ctx context.Context, in *auth.UserRoleIdsReq) (*auth.UserRoleIdsResp, error) {

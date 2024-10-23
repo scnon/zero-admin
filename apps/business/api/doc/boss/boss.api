@@ -1,8 +1,0 @@
-import "system/user.api"
-import "system/role.api"
-import "system/menu.api"
-import "system/dept.api"
-
-info (
-	desc: "商家管理后台"
-)

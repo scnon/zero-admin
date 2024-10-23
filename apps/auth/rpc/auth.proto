@@ -19,8 +19,17 @@ message LoginResp {
   uint64 user_id = 3;
   string refresh_token = 4;
   string nickname = 5;
-  string avatar = 6;
+  string username = 6;
+  string avatar = 7;
+  repeated string roles = 8;
 }
+// 重置用户密码
+message ResetPasswordReq {
+  uint64 user_id = 1;
+  string password = 2;
+  uint64 op = 3;
+}
+message ResetPasswordResp {}
 
 // 用户信息
 message UserData {
@@ -41,15 +50,14 @@ message UserData {
 // 添加用户
 message AddUserReq {
   string username = 1;
-  string password = 2;
-  string nickname = 3;
-  int32 status = 4;
-  int32 sort = 5;
-  string remark = 6;
-  uint64 tenant_id = 7;
-  string avatar = 8;
-  uint64 department = 9;
-  uint64 op = 10;
+  string nickname = 2;
+  int32 status = 3;
+  int32 sort = 4;
+  string remark = 5;
+  uint64 tenant_id = 6;
+  string avatar = 7;
+  uint64 department = 8;
+  uint64 op = 9;
 }
 message AddUserResp {
   uint64 id = 1;
@@ -64,15 +72,14 @@ message DeleteUserResp {}
 // 更新用户
 message UpdateUserReq {
   uint64 id = 1;
-  string password = 2;
-  string nickname = 3;
-  int32 status = 4;
-  int32 sort = 5;
-  string remark = 6;
-  string username = 7;
-  string avatar = 8;
-  uint64 op = 9;
-  uint64 tenant_id = 10;
+  string nickname = 2;
+  int32 status = 3;
+  int32 sort = 4;
+  string remark = 5;
+  string username = 6;
+  string avatar = 7;
+  uint64 op = 8;
+  uint64 tenant_id = 9;
 }
 message UpdateUserResp {}
 // 用户列表
@@ -157,8 +164,8 @@ message MenuData {
   uint64 tenant_id = 7;
   string creator = 8;
   string updater = 9;
-  uint64 create_time = 10;
-  uint64 update_time = 11;
+  int64 create_time = 10;
+  int64 update_time = 11;
 }
 // 添加菜单
 message AddMenuReq {
@@ -222,6 +229,13 @@ message CasbinCheckReq {
 message CasbinCheckResp {
   bool ok = 1;
 }
+// 指定用户的角色
+message AssignUserRoleReq {
+  uint64 user_id = 1;
+  repeated uint64 role_ids = 2;
+  uint64 tenant_id = 3;
+}
+message AssignUserRoleResp {}
 
 // 获取用户角色
 message UserRoleIdsReq {
@@ -231,6 +245,12 @@ message UserRoleIdsReq {
 message UserRoleIdsResp {
   repeated uint64 role_ids = 1;
 }
+// 指定角色的菜单
+message AssignRoleMenuReq {
+  uint64 role_id = 1;
+  repeated uint64 menu_ids = 2;
+}
+message AssignRoleMenuResp {}
 
 // 获取角色菜单
 message RoleMenuIdsReq {
@@ -296,12 +316,14 @@ message DeptListResp {
 service user {
   rpc Login(LoginReq) returns (LoginResp) {}
   rpc Refresh(RefreshReq) returns (LoginResp) {}
+  rpc ResetPassword(ResetPasswordReq) returns (ResetPasswordResp) {}
 
   rpc AddUser(AddUserReq) returns (AddUserResp) {}
   rpc DeleteUser(DeleteUserReq) returns (DeleteUserResp) {}
   rpc UpdateUser(UpdateUserReq) returns (UpdateUserResp) {}
   rpc UserList(UserListReq) returns (UserListResp) {}
 
+  rpc AssignUserRole(AssignUserRoleReq) returns (AssignUserRoleResp) {}
   rpc UserRoleIds(UserRoleIdsReq) returns (UserRoleIdsResp) {}
 }
 
@@ -311,6 +333,7 @@ service role {
   rpc UpdateRole(UpdateRoleReq) returns (UpdateRoleResp) {}
   rpc RoleList(RoleListReq) returns (RoleListResp) {}
 
+  rpc AssignRoleMenu(AssignRoleMenuReq) returns (AssignRoleMenuResp) {}
   rpc RoleMenuIds(RoleMenuIdsReq) returns (RoleMenuIdsResp) {}
 }
 

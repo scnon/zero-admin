@@ -27,12 +27,13 @@ func NewUserListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *UserList
 }
 
 func (l *UserListLogic) UserList(in *auth.UserListReq) (*auth.UserListResp, error) {
+	// 1. 查询用户列表
 	var users []models.SysUser
 	res := l.makeQuery(in).Offset(int((in.Page - 1) * in.PageSize)).Limit(int(in.PageSize)).Find(&users)
 	if res.Error != nil {
 		return nil, errors.Wrapf(xerr.NewDBErr(), "查询用户失败 %v", res.Error)
 	}
-
+	// 2. 构造返回数据
 	var list []*auth.UserData
 	for _, user := range users {
 		data := &auth.UserData{
@@ -55,6 +56,7 @@ func (l *UserListLogic) UserList(in *auth.UserListReq) (*auth.UserListResp, erro
 		list = append(list, data)
 	}
 
+	// 3. 查询用户总数
 	var total int64
 	res = l.makeQuery(in).Count(&total)
 	if res.Error != nil {

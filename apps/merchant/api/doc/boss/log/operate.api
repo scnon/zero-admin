@@ -1,0 +1,47 @@
+import "../base.api"
+
+info(
+    title: "用户操作"
+    version: "v1"
+)
+
+type OperateData {
+    Id uint64 `json:"id"`
+    Username string `json:"username"`
+    IP string `json:"ip"`
+    Address string `json:"address"`
+    System string `json:"system"`
+    Browser string `json:"browser"`
+    Status int32 `json:"status"`
+    Summary string `json:"summary"`
+    Module string `json:"module"`
+    OperateTime int64 `json:"operate_time"`
+}
+
+type (
+    OperateListReq {
+        PageData
+        Username string `json:"username,optional"`
+        Module string `json:"module,optional"`
+        Status int32 `json:"status,optional"`
+    }
+    OperateList {
+        Total uint64 `json:"total"`
+        List []OperateData `json:"list"`
+    }
+    OperateListResp {
+        Base
+        Data OperateList `json:"data"`
+    }
+)
+
+@server(
+    jwt: Auth
+    group: boss/log/operate
+    prefix: /api/v1/log/operate
+)
+
+service business {
+    @handler operateList
+    post /list (OperateListReq) returns (OperateListResp)
+}

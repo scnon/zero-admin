@@ -14,4 +14,7 @@ tasks:
       - go generate ./ent
   ts:
     cmds:
-      - goctl api ts -api ./apps/{{.a}}/api/doc/{{.a}}.api -dir ../business-boss/src/api
+      - goctl api ts -api ./apps/{{.a}}/api/doc/{{.a}}.api -dir ../merchant-boss/src/api
+  dev:
+    cmds:
+      - air -c .{{.a}}.toml

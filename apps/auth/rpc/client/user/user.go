@@ -14,61 +14,69 @@ import (
 )
 
 type (
-	AddDeptReq      = auth.AddDeptReq
-	AddDeptResp     = auth.AddDeptResp
-	AddMenuReq      = auth.AddMenuReq
-	AddMenuResp     = auth.AddMenuResp
-	AddRoleReq      = auth.AddRoleReq
-	AddRoleResp     = auth.AddRoleResp
-	AddUserReq      = auth.AddUserReq
-	AddUserResp     = auth.AddUserResp
-	CasbinCheckReq  = auth.CasbinCheckReq
-	CasbinCheckResp = auth.CasbinCheckResp
-	DeleteDeptReq   = auth.DeleteDeptReq
-	DeleteDeptResp  = auth.DeleteDeptResp
-	DeleteMenuReq   = auth.DeleteMenuReq
-	DeleteMenuResp  = auth.DeleteMenuResp
-	DeleteRoleReq   = auth.DeleteRoleReq
-	DeleteRoleResp  = auth.DeleteRoleResp
-	DeleteUserReq   = auth.DeleteUserReq
-	DeleteUserResp  = auth.DeleteUserResp
-	DeptData        = auth.DeptData
-	DeptListReq     = auth.DeptListReq
-	DeptListResp    = auth.DeptListResp
-	GetMenuReq      = auth.GetMenuReq
-	GetMenuResp     = auth.GetMenuResp
-	LoginReq        = auth.LoginReq
-	LoginResp       = auth.LoginResp
-	MenuData        = auth.MenuData
-	MenuListReq     = auth.MenuListReq
-	MenuListResp    = auth.MenuListResp
-	RefreshReq      = auth.RefreshReq
-	RoleData        = auth.RoleData
-	RoleListReq     = auth.RoleListReq
-	RoleListResp    = auth.RoleListResp
-	RoleMenuIdsReq  = auth.RoleMenuIdsReq
-	RoleMenuIdsResp = auth.RoleMenuIdsResp
-	UpdateDeptReq   = auth.UpdateDeptReq
-	UpdateDeptResp  = auth.UpdateDeptResp
-	UpdateMenuReq   = auth.UpdateMenuReq
-	UpdateMenuResp  = auth.UpdateMenuResp
-	UpdateRoleReq   = auth.UpdateRoleReq
-	UpdateRoleResp  = auth.UpdateRoleResp
-	UpdateUserReq   = auth.UpdateUserReq
-	UpdateUserResp  = auth.UpdateUserResp
-	UserData        = auth.UserData
-	UserListReq     = auth.UserListReq
-	UserListResp    = auth.UserListResp
-	UserRoleIdsReq  = auth.UserRoleIdsReq
-	UserRoleIdsResp = auth.UserRoleIdsResp
+	AddDeptReq         = auth.AddDeptReq
+	AddDeptResp        = auth.AddDeptResp
+	AddMenuReq         = auth.AddMenuReq
+	AddMenuResp        = auth.AddMenuResp
+	AddRoleReq         = auth.AddRoleReq
+	AddRoleResp        = auth.AddRoleResp
+	AddUserReq         = auth.AddUserReq
+	AddUserResp        = auth.AddUserResp
+	AssignRoleMenuReq  = auth.AssignRoleMenuReq
+	AssignRoleMenuResp = auth.AssignRoleMenuResp
+	AssignUserRoleReq  = auth.AssignUserRoleReq
+	AssignUserRoleResp = auth.AssignUserRoleResp
+	CasbinCheckReq     = auth.CasbinCheckReq
+	CasbinCheckResp    = auth.CasbinCheckResp
+	DeleteDeptReq      = auth.DeleteDeptReq
+	DeleteDeptResp     = auth.DeleteDeptResp
+	DeleteMenuReq      = auth.DeleteMenuReq
+	DeleteMenuResp     = auth.DeleteMenuResp
+	DeleteRoleReq      = auth.DeleteRoleReq
+	DeleteRoleResp     = auth.DeleteRoleResp
+	DeleteUserReq      = auth.DeleteUserReq
+	DeleteUserResp     = auth.DeleteUserResp
+	DeptData           = auth.DeptData
+	DeptListReq        = auth.DeptListReq
+	DeptListResp       = auth.DeptListResp
+	GetMenuReq         = auth.GetMenuReq
+	GetMenuResp        = auth.GetMenuResp
+	LoginReq           = auth.LoginReq
+	LoginResp          = auth.LoginResp
+	MenuData           = auth.MenuData
+	MenuListReq        = auth.MenuListReq
+	MenuListResp       = auth.MenuListResp
+	RefreshReq         = auth.RefreshReq
+	ResetPasswordReq   = auth.ResetPasswordReq
+	ResetPasswordResp  = auth.ResetPasswordResp
+	RoleData           = auth.RoleData
+	RoleListReq        = auth.RoleListReq
+	RoleListResp       = auth.RoleListResp
+	RoleMenuIdsReq     = auth.RoleMenuIdsReq
+	RoleMenuIdsResp    = auth.RoleMenuIdsResp
+	UpdateDeptReq      = auth.UpdateDeptReq
+	UpdateDeptResp     = auth.UpdateDeptResp
+	UpdateMenuReq      = auth.UpdateMenuReq
+	UpdateMenuResp     = auth.UpdateMenuResp
+	UpdateRoleReq      = auth.UpdateRoleReq
+	UpdateRoleResp     = auth.UpdateRoleResp
+	UpdateUserReq      = auth.UpdateUserReq
+	UpdateUserResp     = auth.UpdateUserResp
+	UserData           = auth.UserData
+	UserListReq        = auth.UserListReq
+	UserListResp       = auth.UserListResp
+	UserRoleIdsReq     = auth.UserRoleIdsReq
+	UserRoleIdsResp    = auth.UserRoleIdsResp
 
 	User interface {
 		Login(ctx context.Context, in *LoginReq, opts ...grpc.CallOption) (*LoginResp, error)
 		Refresh(ctx context.Context, in *RefreshReq, opts ...grpc.CallOption) (*LoginResp, error)
+		ResetPassword(ctx context.Context, in *ResetPasswordReq, opts ...grpc.CallOption) (*ResetPasswordResp, error)
 		AddUser(ctx context.Context, in *AddUserReq, opts ...grpc.CallOption) (*AddUserResp, error)
 		DeleteUser(ctx context.Context, in *DeleteUserReq, opts ...grpc.CallOption) (*DeleteUserResp, error)
 		UpdateUser(ctx context.Context, in *UpdateUserReq, opts ...grpc.CallOption) (*UpdateUserResp, error)
 		UserList(ctx context.Context, in *UserListReq, opts ...grpc.CallOption) (*UserListResp, error)
+		AssignUserRole(ctx context.Context, in *AssignUserRoleReq, opts ...grpc.CallOption) (*AssignUserRoleResp, error)
 		UserRoleIds(ctx context.Context, in *UserRoleIdsReq, opts ...grpc.CallOption) (*UserRoleIdsResp, error)
 	}
 
@@ -93,6 +101,11 @@ func (m *defaultUser) Refresh(ctx context.Context, in *RefreshReq, opts ...grpc.
 	return client.Refresh(ctx, in, opts...)
 }
 
+func (m *defaultUser) ResetPassword(ctx context.Context, in *ResetPasswordReq, opts ...grpc.CallOption) (*ResetPasswordResp, error) {
+	client := auth.NewUserClient(m.cli.Conn())
+	return client.ResetPassword(ctx, in, opts...)
+}
+
 func (m *defaultUser) AddUser(ctx context.Context, in *AddUserReq, opts ...grpc.CallOption) (*AddUserResp, error) {
 	client := auth.NewUserClient(m.cli.Conn())
 	return client.AddUser(ctx, in, opts...)
@@ -111,6 +124,11 @@ func (m *defaultUser) UpdateUser(ctx context.Context, in *UpdateUserReq, opts ..
 func (m *defaultUser) UserList(ctx context.Context, in *UserListReq, opts ...grpc.CallOption) (*UserListResp, error) {
 	client := auth.NewUserClient(m.cli.Conn())
 	return client.UserList(ctx, in, opts...)
+}
+
+func (m *defaultUser) AssignUserRole(ctx context.Context, in *AssignUserRoleReq, opts ...grpc.CallOption) (*AssignUserRoleResp, error) {
+	client := auth.NewUserClient(m.cli.Conn())
+	return client.AssignUserRole(ctx, in, opts...)
 }
 
 func (m *defaultUser) UserRoleIds(ctx context.Context, in *UserRoleIdsReq, opts ...grpc.CallOption) (*UserRoleIdsResp, error) {

@@ -28,12 +28,14 @@ func NewDeptListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *DeptList
 }
 
 func (l *DeptListLogic) DeptList(in *auth.DeptListReq) (*auth.DeptListResp, error) {
+	// 1. 根据条件查询部门列表
 	var depts []models.SysDept
 	res := l.makeQuery(in).Find(&depts)
 	if res.Error != nil {
 		return nil, errors.Wrapf(xerr.NewDBErr(), "查询部门列表失败 %v", res.Error)
 	}
 
+	// 2. 构造返回数据
 	var list []*auth.DeptData
 	for _, dept := range depts {
 		data := &auth.DeptData{

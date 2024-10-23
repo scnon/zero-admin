@@ -31,6 +31,7 @@ func NewAddMenuLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddMenuLo
 }
 
 func (l *AddMenuLogic) AddMenu(in *auth.AddMenuReq) (*auth.AddMenuResp, error) {
+	// 1. 查询父级菜单是否存在
 	if in.ParentId != 0 {
 		var existingMenu models.SysMenu
 		res := l.svcCtx.DB.Where("id = ?", in.ParentId).First(&existingMenu)
@@ -41,7 +42,7 @@ func (l *AddMenuLogic) AddMenu(in *auth.AddMenuReq) (*auth.AddMenuResp, error) {
 			return nil, errors.Wrapf(xerr.NewDBErr(), "查询父级菜单失败 %v", res.Error)
 		}
 	}
-
+	// 2. 创建新菜单
 	newMenu := models.SysMenu{
 		Title:    in.Name,
 		ParentID: uint(in.ParentId),

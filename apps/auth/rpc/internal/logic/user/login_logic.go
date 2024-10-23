@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"gorm.io/gorm"
+	"strconv"
 	"xlife/apps/auth/rpc/auth"
 	"xlife/models"
 
@@ -17,8 +18,8 @@ import (
 )
 
 var (
-	ErrUserNotFound = xerr.New(xerr.SERVER_COMMON_ERROR, "用户不存在")
-	ErrUserPwdError = xerr.New(xerr.SERVER_COMMON_ERROR, "密码不正确")
+	ErrUserNotFound = xerr.NewMsg("用户不存在")
+	ErrUserPwdError = xerr.NewMsg("密码不正确")
 )
 
 type LoginLogic struct {
@@ -36,7 +37,7 @@ func NewLoginLogic(ctx context.Context, svcCtx *svc.ServiceContext) *LoginLogic 
 }
 
 func (l *LoginLogic) Login(in *auth.LoginReq) (*auth.LoginResp, error) {
-	// 查询用户
+	// 1. 查询用户是否存在
 	var entity models.SysUser
 	res := l.svcCtx.DB.Where("username = ?", in.Username).First(&entity)
 	if res.Error != nil {
@@ -45,12 +46,20 @@ func (l *LoginLogic) Login(in *auth.LoginReq) (*auth.LoginResp, error) {
 		}
 		return nil, perr.Wrapf(xerr.NewDBErr(), "查询用户失败: %v", res.Error)
 	}
-	// 密码验证
+	// 2. 密码验证
 	if !encrypt.ValidatePasswordHash(in.Password, entity.Password) {
 		return nil, perr.WithStack(ErrUserPwdError)
 	}
 
-	// 生成token
-	return ctxdata.GetFullJwt(l.svcCtx.Config.JwtAuth.Secret,
+	// 3. 生成token
+	tokenRes, err := ctxdata.GetFullJwt(l.svcCtx.Config.JwtAuth.Secret,
 		l.svcCtx.Config.JwtAuth.Expire, l.svcCtx.Config.JwtAuth.RefreshExpire, entity)
+	if err != nil {
+		return nil, perr.Wrapf(xerr.NewDBErr(), "生成token失败: %v", err)
+	}
+	// 4. 查询用户角色
+	tenantId := strconv.FormatUint(in.TenantId, 10)
+	roles := l.svcCtx.Casbin.GetRolesForUserInDomain(tokenRes.Username, tenantId)
+	tokenRes.Roles = roles
+	return tokenRes, nil
 }

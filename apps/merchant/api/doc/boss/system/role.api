@@ -1,0 +1,103 @@
+import "../base.api"
+
+info(
+    title: "角色信息"
+    version: "v1"
+)
+
+type RoleData {
+    Id uint64 `json:"id"`
+    Name string `json:"name"`
+    Remark string `json:"remark"`
+    Sort int32 `json:"sort"`
+    Status int32 `json:"status"`
+    Cretor string `json:"creator"`
+    Updater string `json:"updator"`
+    CreateTime int64 `json:"createTime"`
+    UpdateTime int64 `json:"updateTime"`
+}
+
+type (
+    RoleListReq {
+        PageData
+        Name string `json:"name,optional"`
+        Status int32 `json:"status,default=1"`
+    }
+    RoleList {
+        Total uint64 `json:"total"`
+        List []RoleData `json:"list"`
+    }
+    RoleListResp {
+        Base
+        Data RoleList `json:"data"`
+    }
+)
+
+type (
+    RoleCreateReq {
+        Name string `json:"name"`
+        Remark string `json:"remark"`
+    }
+    RoleCreateResp {
+        Base
+    }
+)
+
+type (
+    RoleUpdateReq {
+        Id uint64 `json:"id"`
+        Name string `json:"name"`
+        Remark string `json:"remark"`
+        Sort int32 `json:"sort"`
+        Status int32 `json:"status"`
+    }
+    RoleUpdateResp {
+        Base
+    }
+)
+
+type (
+    RoleDeleteReq {
+        Ids []uint64 `json:"ids"`
+    }
+    RoleDeleteResp {
+        Base
+    }
+)
+
+type (
+    RoleMenuIdsReq {
+        RoleId uint64 `json:"role_id"`
+    }
+    RoleMenuIdsResp {
+        Base
+        Data []uint64 `json:"data"`
+    }
+)
+
+@server(
+    jwt: Auth
+    group: boss/system/role
+    prefix: /api/v1/system/role
+)
+service merchant {
+    // 获取角色列表
+    @handler roleList
+    get /list (RoleListReq) returns (RoleListResp)
+
+    // 创建角色
+    @handler roleCreate
+    post /create (RoleCreateReq) returns (RoleCreateResp)
+
+    // 更新角色
+    @handler roleUpdate
+    post /update (RoleUpdateReq) returns (RoleUpdateResp)
+
+    // 删除角色
+    @handler roleDelete
+    post /delete (RoleDeleteReq) returns (RoleDeleteResp)
+
+    // 获取角色菜单
+    @handler roleMenuIds
+    post /menuIds (RoleMenuIdsReq) returns (RoleMenuIdsResp)
+}

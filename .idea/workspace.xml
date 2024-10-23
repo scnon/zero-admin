@@ -5,35 +5,131 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b19883e2-f6a3-49dc-8d18-0bafed0f5010" name="更改" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/merchant/api/doc/boss/log/login.api" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/merchant/api/doc/boss/log/operate.api" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/merchant/api/doc/boss/store.api" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/merchant/api/doc/boss/system/dept.api" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/merchant/api/doc/boss/system/menu.api" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/merchant/api/doc/boss/system/role.api" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/merchant/api/doc/boss/system/user.api" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/auth/rpc/auth.go" beforeDir="false" afterPath="$PROJECT_DIR$/apps/auth/rpc/auth.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/auth/rpc/auth.proto" beforeDir="false" afterPath="$PROJECT_DIR$/apps/auth/rpc/auth.proto" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/auth/rpc/auth/auth.pb.go" beforeDir="false" afterPath="$PROJECT_DIR$/apps/auth/rpc/auth/auth.pb.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/auth/rpc/auth/auth_grpc.pb.go" beforeDir="false" afterPath="$PROJECT_DIR$/apps/auth/rpc/auth/auth_grpc.pb.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/auth/rpc/client/casbin/casbin.go" beforeDir="false" afterPath="$PROJECT_DIR$/apps/auth/rpc/client/casbin/casbin.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/auth/rpc/client/dept/dept.go" beforeDir="false" afterPath="$PROJECT_DIR$/apps/auth/rpc/client/dept/dept.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/auth/rpc/client/menu/menu.go" beforeDir="false" afterPath="$PROJECT_DIR$/apps/auth/rpc/client/menu/menu.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/auth/rpc/client/role/role.go" beforeDir="false" afterPath="$PROJECT_DIR$/apps/auth/rpc/client/role/role.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/auth/rpc/client/user/user.go" beforeDir="false" afterPath="$PROJECT_DIR$/apps/auth/rpc/client/user/user.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/auth/rpc/internal/logic/casbin/check_logic.go" beforeDir="false" afterPath="$PROJECT_DIR$/apps/auth/rpc/internal/logic/casbin/check_logic.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/auth/rpc/internal/logic/dept/add_dept_logic.go" beforeDir="false" afterPath="$PROJECT_DIR$/apps/auth/rpc/internal/logic/dept/add_dept_logic.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/auth/rpc/internal/logic/dept/delete_dept_logic.go" beforeDir="false" afterPath="$PROJECT_DIR$/apps/auth/rpc/internal/logic/dept/delete_dept_logic.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/auth/rpc/internal/logic/dept/dept_list_logic.go" beforeDir="false" afterPath="$PROJECT_DIR$/apps/auth/rpc/internal/logic/dept/dept_list_logic.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/auth/rpc/internal/logic/dept/update_dept_logic.go" beforeDir="false" afterPath="$PROJECT_DIR$/apps/auth/rpc/internal/logic/dept/update_dept_logic.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/auth/rpc/internal/logic/menu/add_menu_logic.go" beforeDir="false" afterPath="$PROJECT_DIR$/apps/auth/rpc/internal/logic/menu/add_menu_logic.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/auth/rpc/internal/logic/menu/delete_menu_logic.go" beforeDir="false" afterPath="$PROJECT_DIR$/apps/auth/rpc/internal/logic/menu/delete_menu_logic.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/auth/rpc/internal/logic/menu/get_menu_logic.go" beforeDir="false" afterPath="$PROJECT_DIR$/apps/auth/rpc/internal/logic/menu/get_menu_logic.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/auth/rpc/internal/logic/menu/menu_list_logic.go" beforeDir="false" afterPath="$PROJECT_DIR$/apps/auth/rpc/internal/logic/menu/menu_list_logic.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/auth/rpc/internal/logic/menu/update_menu_logic.go" beforeDir="false" afterPath="$PROJECT_DIR$/apps/auth/rpc/internal/logic/menu/update_menu_logic.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/auth/rpc/internal/logic/role/add_role_logic.go" beforeDir="false" afterPath="$PROJECT_DIR$/apps/auth/rpc/internal/logic/role/add_role_logic.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/auth/rpc/internal/logic/role/delete_role_logic.go" beforeDir="false" afterPath="$PROJECT_DIR$/apps/auth/rpc/internal/logic/role/delete_role_logic.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/auth/rpc/internal/logic/role/role_list_logic.go" beforeDir="false" afterPath="$PROJECT_DIR$/apps/auth/rpc/internal/logic/role/role_list_logic.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/auth/rpc/internal/logic/role/role_menu_ids_logic.go" beforeDir="false" afterPath="$PROJECT_DIR$/apps/auth/rpc/internal/logic/role/role_menu_ids_logic.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/auth/rpc/internal/logic/role/update_role_logic.go" beforeDir="false" afterPath="$PROJECT_DIR$/apps/auth/rpc/internal/logic/role/update_role_logic.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/auth/rpc/internal/logic/user/add_user_logic.go" beforeDir="false" afterPath="$PROJECT_DIR$/apps/auth/rpc/internal/logic/user/add_user_logic.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/auth/rpc/internal/logic/user/delete_user_logic.go" beforeDir="false" afterPath="$PROJECT_DIR$/apps/auth/rpc/internal/logic/user/delete_user_logic.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/auth/rpc/internal/logic/user/login_logic.go" beforeDir="false" afterPath="$PROJECT_DIR$/apps/auth/rpc/internal/logic/user/login_logic.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/auth/rpc/internal/logic/user/update_user_logic.go" beforeDir="false" afterPath="$PROJECT_DIR$/apps/auth/rpc/internal/logic/user/update_user_logic.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/auth/rpc/internal/logic/user/user_list_logic.go" beforeDir="false" afterPath="$PROJECT_DIR$/apps/auth/rpc/internal/logic/user/user_list_logic.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/auth/rpc/internal/logic/user/user_role_ids_logic.go" beforeDir="false" afterPath="$PROJECT_DIR$/apps/auth/rpc/internal/logic/user/user_role_ids_logic.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/auth/rpc/internal/server/role/role_server.go" beforeDir="false" afterPath="$PROJECT_DIR$/apps/auth/rpc/internal/server/role/role_server.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/auth/rpc/internal/server/user/user_server.go" beforeDir="false" afterPath="$PROJECT_DIR$/apps/auth/rpc/internal/server/user/user_server.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/business/api/doc/boss/boss.api" beforeDir="false" afterPath="$PROJECT_DIR$/apps/business/api/doc/boss/boss.api" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/business/api/doc/boss/log/login.api" beforeDir="false" afterPath="$PROJECT_DIR$/apps/business/api/doc/boss/log/login.api" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/business/api/doc/boss/log/operate.api" beforeDir="false" afterPath="$PROJECT_DIR$/apps/business/api/doc/boss/log/operate.api" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/business/api/doc/boss/system/menu.api" beforeDir="false" afterPath="$PROJECT_DIR$/apps/business/api/doc/boss/system/menu.api" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/business/api/doc/boss/system/role.api" beforeDir="false" afterPath="$PROJECT_DIR$/apps/business/api/doc/boss/system/role.api" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/business/api/doc/boss/system/user.api" beforeDir="false" afterPath="$PROJECT_DIR$/apps/business/api/doc/boss/system/user.api" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/business/api/internal/handler/routes.go" beforeDir="false" afterPath="$PROJECT_DIR$/apps/business/api/internal/handler/routes.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/business/api/internal/logic/boss/system/menu/menu_create_logic.go" beforeDir="false" afterPath="$PROJECT_DIR$/apps/business/api/internal/logic/boss/system/menu/menu_create_logic.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/business/api/internal/logic/boss/system/menu/menu_delete_logic.go" beforeDir="false" afterPath="$PROJECT_DIR$/apps/business/api/internal/logic/boss/system/menu/menu_delete_logic.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/business/api/internal/logic/boss/system/user/user_create_logic.go" beforeDir="false" afterPath="$PROJECT_DIR$/apps/business/api/internal/logic/boss/system/user/user_create_logic.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/business/api/internal/logic/boss/system/user/user_delete_logic.go" beforeDir="false" afterPath="$PROJECT_DIR$/apps/business/api/internal/logic/boss/system/user/user_delete_logic.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/business/api/internal/svc/service_context.go" beforeDir="false" afterPath="$PROJECT_DIR$/apps/business/api/internal/svc/service_context.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/business/api/internal/types/types.go" beforeDir="false" afterPath="$PROJECT_DIR$/apps/business/api/internal/types/types.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/sys_menu.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/sys_menu.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/sys_role.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/sys_role.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/sys_user.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/sys_user.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/ctxdata/data.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/ctxdata/data.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/business/api/business.go" beforeDir="false" afterPath="$PROJECT_DIR$/apps/merchant/api/merchant.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/business/api/doc/boss/base.api" beforeDir="false" afterPath="$PROJECT_DIR$/apps/merchant/api/doc/boss/base.api" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/business/api/doc/boss/boss.api" beforeDir="false" afterPath="$PROJECT_DIR$/apps/merchant/api/doc/boss/boss.api" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/business/api/doc/boss/log/login.api" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/business/api/doc/boss/log/operate.api" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/business/api/doc/boss/store.api" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/business/api/doc/boss/system/dept.api" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/business/api/doc/boss/system/menu.api" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/business/api/doc/boss/system/role.api" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/business/api/doc/boss/system/user.api" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/business/api/doc/business.api" beforeDir="false" afterPath="$PROJECT_DIR$/apps/merchant/api/doc/merchant.api" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/business/api/doc/business.http" beforeDir="false" afterPath="$PROJECT_DIR$/apps/merchant/api/doc/business.http" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/business/api/doc/http-client.env.json" beforeDir="false" afterPath="$PROJECT_DIR$/apps/merchant/api/doc/http-client.env.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/business/api/etc/business.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/apps/merchant/api/etc/merchant.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/business/api/internal/config/config.go" beforeDir="false" afterPath="$PROJECT_DIR$/apps/merchant/api/internal/config/config.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/business/api/internal/handler/boss/store/add_store_handler.go" beforeDir="false" afterPath="$PROJECT_DIR$/apps/merchant/api/internal/handler/boss/store/add_store_handler.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/business/api/internal/handler/boss/store/delete_store_handler.go" beforeDir="false" afterPath="$PROJECT_DIR$/apps/merchant/api/internal/handler/boss/store/delete_store_handler.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/business/api/internal/handler/boss/store/store_list_handler.go" beforeDir="false" afterPath="$PROJECT_DIR$/apps/merchant/api/internal/handler/boss/store/store_list_handler.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/business/api/internal/handler/boss/store/update_store_handler.go" beforeDir="false" afterPath="$PROJECT_DIR$/apps/merchant/api/internal/handler/boss/store/update_store_handler.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/business/api/internal/handler/boss/system/dept/dept_create_handler.go" beforeDir="false" afterPath="$PROJECT_DIR$/apps/merchant/api/internal/handler/boss/system/dept/dept_create_handler.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/business/api/internal/handler/boss/system/dept/dept_delete_handler.go" beforeDir="false" afterPath="$PROJECT_DIR$/apps/merchant/api/internal/handler/boss/system/dept/dept_delete_handler.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/business/api/internal/handler/boss/system/dept/dept_list_handler.go" beforeDir="false" afterPath="$PROJECT_DIR$/apps/merchant/api/internal/handler/boss/system/dept/dept_list_handler.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/business/api/internal/handler/boss/system/dept/dept_update_handler.go" beforeDir="false" afterPath="$PROJECT_DIR$/apps/merchant/api/internal/handler/boss/system/dept/dept_update_handler.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/business/api/internal/handler/boss/system/menu/menu_create_handler.go" beforeDir="false" afterPath="$PROJECT_DIR$/apps/merchant/api/internal/handler/boss/system/menu/menu_create_handler.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/business/api/internal/handler/boss/system/menu/menu_delete_handler.go" beforeDir="false" afterPath="$PROJECT_DIR$/apps/merchant/api/internal/handler/boss/system/menu/menu_delete_handler.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/business/api/internal/handler/boss/system/menu/menu_info_handler.go" beforeDir="false" afterPath="$PROJECT_DIR$/apps/merchant/api/internal/handler/boss/system/menu/menu_info_handler.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/business/api/internal/handler/boss/system/menu/menu_list_handler.go" beforeDir="false" afterPath="$PROJECT_DIR$/apps/merchant/api/internal/handler/boss/system/menu/menu_list_handler.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/business/api/internal/handler/boss/system/menu/menu_update_handler.go" beforeDir="false" afterPath="$PROJECT_DIR$/apps/merchant/api/internal/handler/boss/system/menu/menu_update_handler.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/business/api/internal/handler/boss/system/role/role_create_handler.go" beforeDir="false" afterPath="$PROJECT_DIR$/apps/merchant/api/internal/handler/boss/system/role/role_create_handler.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/business/api/internal/handler/boss/system/role/role_delete_handler.go" beforeDir="false" afterPath="$PROJECT_DIR$/apps/merchant/api/internal/handler/boss/system/role/role_delete_handler.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/business/api/internal/handler/boss/system/role/role_list_handler.go" beforeDir="false" afterPath="$PROJECT_DIR$/apps/merchant/api/internal/handler/boss/system/role/role_list_handler.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/business/api/internal/handler/boss/system/role/role_menu_ids_handler.go" beforeDir="false" afterPath="$PROJECT_DIR$/apps/merchant/api/internal/handler/boss/system/role/role_menu_ids_handler.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/business/api/internal/handler/boss/system/role/role_update_handler.go" beforeDir="false" afterPath="$PROJECT_DIR$/apps/merchant/api/internal/handler/boss/system/role/role_update_handler.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/business/api/internal/handler/boss/system/user/user_create_handler.go" beforeDir="false" afterPath="$PROJECT_DIR$/apps/merchant/api/internal/handler/boss/system/user/user_create_handler.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/business/api/internal/handler/boss/system/user/user_delete_handler.go" beforeDir="false" afterPath="$PROJECT_DIR$/apps/merchant/api/internal/handler/boss/system/user/user_delete_handler.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/business/api/internal/handler/boss/system/user/user_list_handler.go" beforeDir="false" afterPath="$PROJECT_DIR$/apps/merchant/api/internal/handler/boss/system/user/user_list_handler.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/business/api/internal/handler/boss/system/user/user_login_handler.go" beforeDir="false" afterPath="$PROJECT_DIR$/apps/merchant/api/internal/handler/boss/system/user/user_login_handler.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/business/api/internal/handler/boss/system/user/user_role_ids_handler.go" beforeDir="false" afterPath="$PROJECT_DIR$/apps/merchant/api/internal/handler/boss/system/user/user_role_ids_handler.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/business/api/internal/handler/boss/system/user/user_update_handler.go" beforeDir="false" afterPath="$PROJECT_DIR$/apps/merchant/api/internal/handler/boss/system/user/user_update_handler.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/business/api/internal/handler/routes.go" beforeDir="false" afterPath="$PROJECT_DIR$/apps/merchant/api/internal/handler/routes.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/business/api/internal/logic/boss/store/add_store_logic.go" beforeDir="false" afterPath="$PROJECT_DIR$/apps/merchant/api/internal/logic/boss/store/add_store_logic.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/business/api/internal/logic/boss/store/delete_store_logic.go" beforeDir="false" afterPath="$PROJECT_DIR$/apps/merchant/api/internal/logic/boss/store/delete_store_logic.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/business/api/internal/logic/boss/store/store_list_logic.go" beforeDir="false" afterPath="$PROJECT_DIR$/apps/merchant/api/internal/logic/boss/store/store_list_logic.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/business/api/internal/logic/boss/store/update_store_logic.go" beforeDir="false" afterPath="$PROJECT_DIR$/apps/merchant/api/internal/logic/boss/store/update_store_logic.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/business/api/internal/logic/boss/system/dept/dept_create_logic.go" beforeDir="false" afterPath="$PROJECT_DIR$/apps/merchant/api/internal/logic/boss/system/dept/dept_create_logic.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/business/api/internal/logic/boss/system/dept/dept_delete_logic.go" beforeDir="false" afterPath="$PROJECT_DIR$/apps/merchant/api/internal/logic/boss/system/dept/dept_delete_logic.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/business/api/internal/logic/boss/system/dept/dept_list_logic.go" beforeDir="false" afterPath="$PROJECT_DIR$/apps/merchant/api/internal/logic/boss/system/dept/dept_list_logic.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/business/api/internal/logic/boss/system/dept/dept_update_logic.go" beforeDir="false" afterPath="$PROJECT_DIR$/apps/merchant/api/internal/logic/boss/system/dept/dept_update_logic.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/business/api/internal/logic/boss/system/menu/menu_create_logic.go" beforeDir="false" afterPath="$PROJECT_DIR$/apps/merchant/api/internal/logic/boss/system/menu/menu_create_logic.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/business/api/internal/logic/boss/system/menu/menu_delete_logic.go" beforeDir="false" afterPath="$PROJECT_DIR$/apps/merchant/api/internal/logic/boss/system/menu/menu_delete_logic.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/business/api/internal/logic/boss/system/menu/menu_info_logic.go" beforeDir="false" afterPath="$PROJECT_DIR$/apps/merchant/api/internal/logic/boss/system/menu/menu_info_logic.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/business/api/internal/logic/boss/system/menu/menu_list_logic.go" beforeDir="false" afterPath="$PROJECT_DIR$/apps/merchant/api/internal/logic/boss/system/menu/menu_list_logic.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/business/api/internal/logic/boss/system/menu/menu_update_logic.go" beforeDir="false" afterPath="$PROJECT_DIR$/apps/merchant/api/internal/logic/boss/system/menu/menu_update_logic.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/business/api/internal/logic/boss/system/role/role_create_logic.go" beforeDir="false" afterPath="$PROJECT_DIR$/apps/merchant/api/internal/logic/boss/system/role/role_create_logic.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/business/api/internal/logic/boss/system/role/role_delete_logic.go" beforeDir="false" afterPath="$PROJECT_DIR$/apps/merchant/api/internal/logic/boss/system/role/role_delete_logic.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/business/api/internal/logic/boss/system/role/role_list_logic.go" beforeDir="false" afterPath="$PROJECT_DIR$/apps/merchant/api/internal/logic/boss/system/role/role_list_logic.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/business/api/internal/logic/boss/system/role/role_menu_ids_logic.go" beforeDir="false" afterPath="$PROJECT_DIR$/apps/merchant/api/internal/logic/boss/system/role/role_menu_ids_logic.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/business/api/internal/logic/boss/system/role/role_update_logic.go" beforeDir="false" afterPath="$PROJECT_DIR$/apps/merchant/api/internal/logic/boss/system/role/role_update_logic.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/business/api/internal/logic/boss/system/user/user_create_logic.go" beforeDir="false" afterPath="$PROJECT_DIR$/apps/merchant/api/internal/logic/boss/system/user/user_create_logic.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/business/api/internal/logic/boss/system/user/user_delete_logic.go" beforeDir="false" afterPath="$PROJECT_DIR$/apps/merchant/api/internal/logic/boss/system/user/user_delete_logic.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/business/api/internal/logic/boss/system/user/user_list_logic.go" beforeDir="false" afterPath="$PROJECT_DIR$/apps/merchant/api/internal/logic/boss/system/user/user_list_logic.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/business/api/internal/logic/boss/system/user/user_login_logic.go" beforeDir="false" afterPath="$PROJECT_DIR$/apps/merchant/api/internal/logic/boss/system/user/user_login_logic.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/business/api/internal/logic/boss/system/user/user_role_ids_logic.go" beforeDir="false" afterPath="$PROJECT_DIR$/apps/merchant/api/internal/logic/boss/system/user/user_role_ids_logic.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/business/api/internal/logic/boss/system/user/user_update_logic.go" beforeDir="false" afterPath="$PROJECT_DIR$/apps/merchant/api/internal/logic/boss/system/user/user_update_logic.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/business/api/internal/svc/service_context.go" beforeDir="false" afterPath="$PROJECT_DIR$/apps/merchant/api/internal/svc/service_context.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/business/api/internal/types/types.go" beforeDir="false" afterPath="$PROJECT_DIR$/apps/merchant/api/internal/types/types.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/business/rpc/business.go" beforeDir="false" afterPath="$PROJECT_DIR$/apps/merchant/rpc/merchant.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/business/rpc/business.proto" beforeDir="false" afterPath="$PROJECT_DIR$/apps/merchant/rpc/merchant.proto" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/business/rpc/business/business.pb.go" beforeDir="false" afterPath="$PROJECT_DIR$/apps/merchant/rpc/merchant/merchant.pb.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/business/rpc/business/business_grpc.pb.go" beforeDir="false" afterPath="$PROJECT_DIR$/apps/merchant/rpc/merchant/merchant_grpc.pb.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/business/rpc/business_client/business.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/business/rpc/etc/business.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/apps/merchant/rpc/etc/merchant.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/business/rpc/internal/config/config.go" beforeDir="false" afterPath="$PROJECT_DIR$/apps/merchant/rpc/internal/config/config.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/business/rpc/internal/logic/add_business_logic.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/business/rpc/internal/logic/delete_business_logic.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/business/rpc/internal/logic/get_business_logic.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/business/rpc/internal/logic/update_business_logic.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/business/rpc/internal/server/business_server.go" beforeDir="false" afterPath="$PROJECT_DIR$/apps/merchant/rpc/internal/server/business_server.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/business/rpc/internal/svc/service_context.go" beforeDir="false" afterPath="$PROJECT_DIR$/apps/merchant/rpc/internal/svc/service_context.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/ctxdata/token.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/ctxdata/token.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/encrypt/hash.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/encrypt/hash.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/resultx/http_response.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/resultx/http_response.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/resultx/response.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/resultx/response.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/taskfile.yml" beforeDir="false" afterPath="$PROJECT_DIR$/taskfile.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -47,7 +143,15 @@
       </list>
     </option>
   </component>
-  <component name="GOROOT" url="file://$USER_HOME$/scoop/apps/go/current" />
+  <component name="FormatOnSaveOptions">
+    <option name="mySelectedFileTypes">
+      <set>
+        <option value="Api File" />
+        <option value="Go" />
+      </set>
+    </option>
+  </component>
+  <component name="GOROOT" url="file:///usr/local/go" />
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
@@ -83,6 +187,8 @@
   "keyToString": {
     "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "DefaultGoTemplateProperty": "Go File",
+    "Go Remote.auth.executor": "Debug",
+    "Go Remote.merchant-api.executor": "Debug",
     "Go 构建.admin-rpc.executor": "Debug",
     "Go 构建.auth.executor": "Debug",
     "Go 构建.business-api.executor": "Debug",
@@ -95,13 +201,13 @@
     "go.import.settings.migrated": "true",
     "go.sdk.automatically.set": "true",
     "ignore.virus.scanning.warn.message": "true",
-    "last_opened_file_path": "C:/Users/x/Documents/go/xlife/apps/business/api/doc/boss/system",
+    "last_opened_file_path": "/Users/x/xlife/xadmin",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.stylelint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.stylelint": "",
     "nodejs_package_manager_path": "pnpm",
-    "settings.editor.selected.configurable": "goland.project.structure",
+    "settings.editor.selected.configurable": "actions.on.save",
     "vue.rearranger.settings.migration": "true"
   },
   "keyToStringList": {
@@ -123,9 +229,9 @@
       <recent name="C:\Users\x\Documents\go\zero-admin\apps\admin\rpc\internal\logic\user" />
     </key>
   </component>
-  <component name="RunManager" selected="Go 构建.business-api">
+  <component name="RunManager" selected="Go Remote.merchant-api">
     <configuration name="auth" type="GoApplicationRunConfiguration" factoryName="Go Application">
-      <module name="server" />
+      <module name="xadmin" />
       <working_directory value="$PROJECT_DIR$/apps/auth/rpc" />
       <kind value="PACKAGE" />
       <package value="xlife/apps/auth/rpc" />
@@ -134,7 +240,7 @@
       <method v="2" />
     </configuration>
     <configuration name="business-api" type="GoApplicationRunConfiguration" factoryName="Go Application">
-      <module name="server" />
+      <module name="xadmin" />
       <working_directory value="$PROJECT_DIR$/apps/business/api" />
       <kind value="PACKAGE" />
       <package value="xlife/apps/business/api" />
@@ -143,7 +249,7 @@
       <method v="2" />
     </configuration>
     <configuration name="business-rpc" type="GoApplicationRunConfiguration" factoryName="Go Application">
-      <module name="server" />
+      <module name="xadmin" />
       <working_directory value="$PROJECT_DIR$/apps/business/rpc" />
       <kind value="PACKAGE" />
       <package value="xlife/apps/business/rpc" />
@@ -151,10 +257,22 @@
       <filePath value="$PROJECT_DIR$" />
       <method v="2" />
     </configuration>
+    <configuration name="auth" type="GoRemoteDebugConfigurationType" factoryName="Go Remote" port="10001">
+      <option name="disconnectOption" value="LEAVE" />
+      <disconnect value="LEAVE" />
+      <method v="2" />
+    </configuration>
+    <configuration name="merchant-api" type="GoRemoteDebugConfigurationType" factoryName="Go Remote" port="10003">
+      <option name="disconnectOption" value="LEAVE" />
+      <disconnect value="LEAVE" />
+      <method v="2" />
+    </configuration>
     <list>
+      <item itemvalue="Go Remote.auth" />
+      <item itemvalue="Go Remote.merchant-api" />
       <item itemvalue="Go 构建.auth" />
-      <item itemvalue="Go 构建.business-rpc" />
       <item itemvalue="Go 构建.business-api" />
+      <item itemvalue="Go 构建.business-rpc" />
     </list>
   </component>
   <component name="SharedIndexes">

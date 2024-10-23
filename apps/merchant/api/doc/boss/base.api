@@ -1,0 +1,11 @@
+syntax = "v1"
+
+type Base {
+    Success bool `json:"success"`
+    Msg string `json:"msg"`
+}
+
+type PageData {
+    Page uint32 `json:"page,default=1"`
+    PageSize uint32 `json:"page_size,default=10"`
+}

@@ -1,0 +1,38 @@
+syntax="proto3";
+
+package merchant;
+option go_package = "./merchant";
+
+message MerchantInfo {
+    int64 id = 1;
+    string phone = 2;
+    string tgId = 3;
+    int64 adminId = 4;
+}
+
+message AddMerchantReq {
+    string phone = 1;
+    string tgId = 2;
+    int64 adminId = 3;
+}
+
+message DeleteMerchantReq {
+    repeated int64 ids = 1;
+}
+message DeleteMerchantResp{}
+
+message MerchantListReq {
+    repeated int64 ids = 1;
+    repeated int64 adminIds = 2;
+}
+
+message MerchantListResp {
+    repeated MerchantInfo Merchant = 1;
+}
+
+service Merchant {
+    rpc AddMerchant(AddMerchantReq) returns (MerchantInfo) {}
+    rpc UpdateMerchant(MerchantInfo) returns (MerchantInfo) {}
+    rpc DeleteMerchant(DeleteMerchantReq) returns (DeleteMerchantResp) {}
+    rpc GetMerchant(MerchantListReq) returns (MerchantListResp) {}
+}

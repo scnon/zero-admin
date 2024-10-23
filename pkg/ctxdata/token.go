@@ -41,6 +41,7 @@ func GetFullJwt(secretKey string, expire, refreshExpire int64, entity models.Sys
 	return &auth.LoginResp{
 		UserId:       uint64(entity.ID),
 		Nickname:     entity.Nickname,
+		Username:     entity.Username,
 		Avatar:       entity.Avatar,
 		Token:        token,
 		Expire:       uint64(now + expire),

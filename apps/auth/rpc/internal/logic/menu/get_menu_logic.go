@@ -3,6 +3,7 @@ package menulogic
 import (
 	"context"
 	"gorm.io/gorm"
+	"strconv"
 	"xlife/apps/auth/rpc/auth"
 	"xlife/apps/auth/rpc/internal/svc"
 	"xlife/models"
@@ -38,44 +39,60 @@ func (l *GetMenuLogic) GetMenu(in *auth.GetMenuReq) (*auth.GetMenuResp, error) {
 		}
 		return nil, errors.Wrapf(xerr.NewDBErr(), "find user error: %v", res.Error)
 	}
+	userId := strconv.FormatUint(in.AdminId, 10)
+	tenantId := strconv.FormatUint(in.TenantId, 10)
+	roles := l.svcCtx.Casbin.GetRolesForUserInDomain(userId, tenantId)
 
-	//roles, err := l.svcCtx.UserRoleModel.FindAllByUserId(l.ctx, in.AdminId)
-	//if err != nil {
-	//	return nil, errors.Wrapf(xerr.NewDBErr(), "find all role error: %v", err)
-	//}
-	//roleIds := make([]int64, 0)
-	//for _, role := range roles {
-	//	roleIds = append(roleIds, role.RoleId)
-	//}
-	//menus, err := l.svcCtx.RoleMenuModel.FindAllByRoleIds(l.ctx, roleIds)
-	//if err != nil {
-	//	return nil, errors.Wrapf(xerr.NewDBErr(), "find all role menu error: %v", err)
-	//}
-	//menuIds := make([]int64, 0)
-	//for _, menu := range menus {
-	//	menuIds = append(menuIds, menu.MenuId)
-	//}
-	//menuList, err := l.svcCtx.MenuModel.FindAllByIds(l.ctx, menuIds)
-	//if err != nil {
-	//	return nil, errors.Wrapf(xerr.NewDBErr(), "find all menu error: %v", err)
-	//}
-	//
-	//var list []*admin.MenuData
-	//for _, menu := range menuList {
-	//	data := &admin.MenuData{}
-	//	err := copier.Copy(data, menu)
-	//	if err != nil {
-	//		return nil, errors.Wrapf(xerr.NewInternalErr(), "copy entity err %v", err)
-	//	}
-	//	data.Creator = menu.CreatorName.String
-	//	if menu.Creator == 0 {
-	//		data.Creator = "系统"
-	//	}
-	//	data.Updater = menu.UpdaterName.String
-	//	data.CreateTime = menu.CreateTime.Unix()
-	//	data.UpdateTime = menu.UpdateTime.Time.Unix()
-	//	list = append(list, data)
-	//}
+	resourceMap := make(map[string]bool)
+	for _, role := range roles {
+		policies, err := l.svcCtx.Casbin.GetFilteredPolicy(0, role, tenantId, "", "read")
+		if err == nil {
+			for _, policy := range policies {
+				if len(policy) >= 4 {
+					// 资源位于策略的第三列 (obj)
+					resource := policy[2]
+					resourceMap[resource] = true
+				}
+			}
+		}
+	}
+	var resources []string
+	for resource := range resourceMap {
+		resources = append(resources, resource)
+	}
 
-	return &auth.GetMenuResp{}, nil
+	var menuIds []uint64
+	for _, menuStr := range resources {
+		menuId, err := strconv.ParseUint(menuStr, 10, 64)
+		if err == nil {
+			menuIds = append(menuIds, menuId)
+		}
+	}
+	var menus []models.SysMenu
+	res = l.svcCtx.DB.Where("id in (?)", menuIds).Find(&menus)
+	if res.Error != nil {
+		return nil, errors.Wrapf(xerr.NewDBErr(), "find all menu error: %v", res.Error)
+	}
+
+	var list []*auth.MenuData
+	for _, menu := range menus {
+		data := &auth.MenuData{
+			Id:       uint64(menu.ID),
+			Title:    menu.Title,
+			Path:     menu.Path,
+			ParentId: uint64(menu.ParentID),
+			Sort:     int32(menu.Sort),
+		}
+		if menu.Creator != nil {
+			data.Creator = menu.Creator.Username
+		}
+		if menu.Updater != nil {
+			data.Updater = menu.Updater.Username
+		}
+		list = append(list, data)
+	}
+
+	return &auth.GetMenuResp{
+		Menu: list,
+	}, nil
 }

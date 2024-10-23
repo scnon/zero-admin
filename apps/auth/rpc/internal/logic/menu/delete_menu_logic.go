@@ -28,6 +28,7 @@ func NewDeleteMenuLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Delete
 }
 
 func (l *DeleteMenuLogic) DeleteMenu(in *auth.DeleteMenuReq) (*auth.DeleteMenuResp, error) {
+	// 1. 使用事务逻辑删除菜单
 	err := l.svcCtx.DB.Transaction(func(tx *gorm.DB) error {
 		// Step 1: 更新 DeleterID
 		if err := tx.Model(&models.SysMenu{}).

@@ -43,6 +43,11 @@ func (s *RoleServer) RoleList(ctx context.Context, in *auth.RoleListReq) (*auth.
 	return l.RoleList(in)
 }
 
+func (s *RoleServer) AssignRoleMenu(ctx context.Context, in *auth.AssignRoleMenuReq) (*auth.AssignRoleMenuResp, error) {
+	l := rolelogic.NewAssignRoleMenuLogic(ctx, s.svcCtx)
+	return l.AssignRoleMenu(in)
+}
+
 func (s *RoleServer) RoleMenuIds(ctx context.Context, in *auth.RoleMenuIdsReq) (*auth.RoleMenuIdsResp, error) {
 	l := rolelogic.NewRoleMenuIdsLogic(ctx, s.svcCtx)
 	return l.RoleMenuIds(in)

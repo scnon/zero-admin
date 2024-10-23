@@ -32,6 +32,7 @@ func NewAddDeptLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddDeptLo
 }
 
 func (l *AddDeptLogic) AddDept(in *auth.AddDeptReq) (*auth.AddDeptResp, error) {
+	// 1. 查询父级部门是否存在
 	if in.ParentId != 0 {
 		var existingDept models.SysDept
 		res := l.svcCtx.DB.Where("id = ?", in.ParentId).First(&existingDept)
@@ -43,6 +44,7 @@ func (l *AddDeptLogic) AddDept(in *auth.AddDeptReq) (*auth.AddDeptResp, error) {
 		}
 	}
 
+	// 2. 创建新部门
 	newDept := models.SysDept{
 		Name:     in.Name,
 		ParentId: uint(in.ParentId),

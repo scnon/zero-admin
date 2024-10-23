@@ -14,7 +14,8 @@ import (
 )
 
 var (
-	ErrMenuNotFound = xerr.NewMsg("菜单不存在")
+	ErrMenuNotFound       = xerr.NewMsg("菜单不存在")
+	ErrParentMenuNotFound = xerr.NewMsg("指定的父级菜单不存在")
 )
 
 type UpdateMenuLogic struct {
@@ -32,6 +33,7 @@ func NewUpdateMenuLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Update
 }
 
 func (l *UpdateMenuLogic) UpdateMenu(in *auth.UpdateMenuReq) (*auth.UpdateMenuResp, error) {
+	// 1. 查询要更新的菜单是否存在
 	res := l.svcCtx.DB.Where("id = ?", in.Id).First(&models.SysMenu{})
 	if res.Error != nil {
 		if errors.Is(res.Error, gorm.ErrRecordNotFound) {
@@ -39,7 +41,17 @@ func (l *UpdateMenuLogic) UpdateMenu(in *auth.UpdateMenuReq) (*auth.UpdateMenuRe
 		}
 		return nil, perr.Wrapf(res.Error, "查询菜单失败: %v", res.Error)
 	}
-
+	// 2. 查询父级菜单是否存在
+	if in.ParentId != 0 {
+		res = l.svcCtx.DB.Where("id = ?", in.ParentId).First(&models.SysMenu{})
+		if res.Error != nil {
+			if errors.Is(res.Error, gorm.ErrRecordNotFound) {
+				return nil, perr.WithStack(ErrParentMenuNotFound)
+			}
+			return nil, perr.Wrapf(res.Error, "查询父级菜单失败 %v", res.Error)
+		}
+	}
+	// 3. 更新菜单信息
 	updater := uint(in.Op)
 	res = l.svcCtx.DB.Where("id = ?", in.Id).Updates(&models.SysMenu{
 		Title:    in.Title,

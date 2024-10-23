@@ -2,8 +2,8 @@ package casbinlogic
 
 import (
 	"context"
+	"xlife/apps/auth/rpc/auth"
 
-	"xlife/apps/auth/rpc/admin"
 	"xlife/apps/auth/rpc/internal/svc"
 
 	"github.com/zeromicro/go-zero/core/logx"
@@ -23,8 +23,8 @@ func NewCheckLogic(ctx context.Context, svcCtx *svc.ServiceContext) *CheckLogic 
 	}
 }
 
-func (l *CheckLogic) Check(in *admin.CasbinCheckReq) (*admin.CasbinCheckResp, error) {
+func (l *CheckLogic) Check(in *auth.CasbinCheckReq) (*auth.CasbinCheckResp, error) {
 	// todo: add your logic here and delete this line
 
-	return &admin.CasbinCheckResp{}, nil
+	return &auth.CasbinCheckResp{}, nil
 }

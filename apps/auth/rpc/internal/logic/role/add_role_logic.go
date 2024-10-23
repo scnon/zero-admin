@@ -26,15 +26,7 @@ func NewAddRoleLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddRoleLo
 }
 
 func (l *AddRoleLogic) AddRole(in *auth.AddRoleReq) (*auth.AddRoleResp, error) {
-	//var existingRole models.SysRole
-	//res := l.svcCtx.DB.Where("name = ?", in.Name).First(&existingRole)
-	//if res.Error != nil {
-	//	if !errors.Is(res.Error, gorm.ErrRecordNotFound) {
-	//		return nil, errors.WithStack(ErrAlreadyExist)
-	//	}
-	//	return nil, errors.Wrapf(xerr.NewDBErr(), "查询用户失败: %v", res.Error)
-	//}
-
+	// 1. 创建角色
 	newRole := models.SysRole{
 		Name: in.Name,
 		ResModel: models.ResModel{

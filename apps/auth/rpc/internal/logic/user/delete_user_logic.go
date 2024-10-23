@@ -27,6 +27,7 @@ func NewDeleteUserLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Delete
 }
 
 func (l *DeleteUserLogic) DeleteUser(in *auth.DeleteUserReq) (*auth.DeleteUserResp, error) {
+	// 1. 使用事务逻辑删除用户
 	err := l.svcCtx.DB.Transaction(func(tx *gorm.DB) error {
 		// Step 1: 更新 DeleterID
 		if err := tx.Model(&models.SysUser{}).

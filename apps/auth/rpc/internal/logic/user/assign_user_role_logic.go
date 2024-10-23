@@ -31,7 +31,7 @@ func NewAssignUserRoleLogic(ctx context.Context, svcCtx *svc.ServiceContext) *As
 func (l *AssignUserRoleLogic) AssignUserRole(in *auth.AssignUserRoleReq) (*auth.AssignUserRoleResp, error) {
 	// 1. 查询用户
 	var user models.SysUser
-	res := l.svcCtx.DB.Where("id = ?", in.UserId).First(&user)
+	res := l.svcCtx.DB.Where("id = ?", in.UserId).Where("tenant_id = ?", in.TenantId).First(&user)
 	if res.Error != nil {
 		if errors.Is(res.Error, gorm.ErrRecordNotFound) {
 			return nil, perr.WithStack(ErrUserNotFound)
@@ -40,18 +40,23 @@ func (l *AssignUserRoleLogic) AssignUserRole(in *auth.AssignUserRoleReq) (*auth.
 	}
 	// 2. 查询角色
 	var roles []models.SysRole
-	res = l.svcCtx.DB.Where("id IN ?", in.RoleIds).Find(&roles)
+	res = l.svcCtx.DB.Where("id IN ?", in.RoleIds).Where("tenant_id = ?", in.TenantId).Find(&roles)
 	if res.Error != nil {
 		return nil, perr.Wrapf(res.Error, "查询角色失败: %v", res.Error)
 	}
-	// 3. 指定角色
-	tenantId := strconv.FormatUint(in.TenantId, 10)
-	for _, role := range roles {
-		ok, err := l.svcCtx.Casbin.AddRoleForUserInDomain(user.Username, role.Name, tenantId)
-		if err != nil || !ok {
-			return nil, perr.Wrapf(res.Error, "指定角色失败: %v", err)
-		}
+	// 2.1 如果角色为空 直接返回
+	if len(roles) == 0 {
+		return &auth.AssignUserRoleResp{}, nil
 	}
-
+	// 3. 指定角色
+	roleNames := make([]string, 0)
+	for _, role := range roles {
+		roleNames = append(roleNames, role.Name)
+	}
+	tenantId := strconv.FormatUint(in.TenantId, 10)
+	ok, err := l.svcCtx.Casbin.AddRolesForUser(user.Username, roleNames, tenantId)
+	if err != nil || !ok {
+		return nil, perr.Wrapf(res.Error, "指定角色失败: %v", err)
+	}
 	return &auth.AssignUserRoleResp{}, nil
 }

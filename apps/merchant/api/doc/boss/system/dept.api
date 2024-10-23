@@ -9,6 +9,8 @@ type DeptData {
     ID uint64 `json:"id"`
     Name string `json:"name"`
     ParentID uint64 `json:"parent_id"`
+    Sort int32 `json:"sort"`
+    Status int32 `json:"status"`
     Creator string `json:"creator"`
     Updater string `json:"updater"`
     CreateTime uint64 `json:"create_time"`
@@ -42,6 +44,8 @@ type (
         ID uint64 `json:"id"`
         ParentID uint64 `json:"parent_id"`
         Name string `json:"name"`
+        Sort int32 `json:"sort"`
+        Status int32 `json:"status"`
     }
     DeptUpdateResp {
         Base
@@ -53,7 +57,7 @@ type (
     }
     DeptListResp {
         Base
-        Data []DeptData `json:"data"`
+        Data []*DeptData `json:"data"`
     }
 )
 

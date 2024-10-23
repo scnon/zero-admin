@@ -34,15 +34,14 @@ func (l *DeptListLogic) DeptList(in *auth.DeptListReq) (*auth.DeptListResp, erro
 	if res.Error != nil {
 		return nil, errors.Wrapf(xerr.NewDBErr(), "查询部门列表失败 %v", res.Error)
 	}
-
 	// 2. 构造返回数据
 	var list []*auth.DeptData
 	for _, dept := range depts {
 		data := &auth.DeptData{
 			Id:       uint64(dept.ID),
+			ParentId: uint64(dept.ParentID),
 			Name:     dept.Name,
-			ParentId: uint64(dept.ParentId),
-			Sort:     int32(dept.Sort),
+			Sort:     dept.Sort,
 			Status:   int32(dept.Status),
 		}
 		if dept.Creator != nil {
@@ -53,7 +52,6 @@ func (l *DeptListLogic) DeptList(in *auth.DeptListReq) (*auth.DeptListResp, erro
 		}
 		list = append(list, data)
 	}
-
 	return &auth.DeptListResp{
 		List: list,
 	}, nil

@@ -31,7 +31,7 @@ func NewUserRoleIdsLogic(ctx context.Context, svcCtx *svc.ServiceContext) *UserR
 func (l *UserRoleIdsLogic) UserRoleIds(in *auth.UserRoleIdsReq) (*auth.UserRoleIdsResp, error) {
 	// 1. 查询用户
 	var entity models.SysUser
-	res := l.svcCtx.DB.Where("id = ?", in.UserId).First(&entity)
+	res := l.svcCtx.DB.Where("id = ?", in.UserId).Where("tenant_id = ?", in.TenantId).First(&entity)
 	if res.Error != nil {
 		if errors.Is(res.Error, gorm.ErrRecordNotFound) {
 			return nil, perr.WithStack(ErrUserNotFound)
@@ -51,7 +51,6 @@ func (l *UserRoleIdsLogic) UserRoleIds(in *auth.UserRoleIdsReq) (*auth.UserRoleI
 	for _, role := range roles {
 		ids = append(ids, uint64(role.ID))
 	}
-
 	return &auth.UserRoleIdsResp{
 		RoleIds: ids,
 	}, nil

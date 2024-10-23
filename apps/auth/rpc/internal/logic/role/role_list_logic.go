@@ -30,18 +30,16 @@ func NewRoleListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *RoleList
 func (l *RoleListLogic) RoleList(in *auth.RoleListReq) (*auth.RoleListResp, error) {
 	// 1. 查询角色列表
 	var roles []models.SysRole
-	res := l.makeQuery(in).Offset(int((in.Page - 1) * in.PageSize)).Limit(int(in.PageSize)).Find(&roles)
-	if res.Error != nil {
+	if res := l.makeQuery(in).Offset(int((in.Page - 1) * in.PageSize)).Limit(int(in.PageSize)).Find(&roles); res.Error != nil {
 		return nil, errors.Wrapf(xerr.NewDBErr(), "查询用户失败 %v", res.Error)
 	}
-
 	// 2. 构造返回数据
 	var list []*auth.RoleData
 	for _, role := range roles {
 		data := &auth.RoleData{
 			Id:     uint64(role.ID),
 			Name:   role.Name,
-			Sort:   int32(role.Sort),
+			Sort:   role.Sort,
 			Remark: role.Remark,
 		}
 		if role.Creator != nil {
@@ -52,13 +50,11 @@ func (l *RoleListLogic) RoleList(in *auth.RoleListReq) (*auth.RoleListResp, erro
 		}
 		list = append(list, data)
 	}
-
+	// 3. 查询用户总数
 	var total int64
-	res = l.makeQuery(in).Count(&total)
-	if res.Error != nil {
+	if res := l.makeQuery(in).Count(&total); res.Error != nil {
 		return nil, errors.Wrapf(xerr.NewDBErr(), "查询用户总数失败 %v", res.Error)
 	}
-
 	return &auth.RoleListResp{
 		List:  list,
 		Total: uint64(total),

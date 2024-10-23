@@ -26,15 +26,17 @@ func NewMenuInfoLogic(ctx context.Context, svcCtx *svc.ServiceContext) *MenuInfo
 }
 
 func (l *MenuInfoLogic) MenuInfo() (resp *types.MenuInfoResp, err error) {
+	// 1. 获取当前用户
 	uid := ctxdata.GetUId(l.ctx)
+	// 2. 获取菜单
 	menuList, err := l.svcCtx.Menu.GetMenu(l.ctx, &auth.GetMenuReq{
 		TenantId: l.svcCtx.Config.Tenant,
-		AdminId:  uid,
+		UserId:   uid,
 	})
 	if err != nil {
 		return nil, err
 	}
-
+	// 3. 构建菜单树
 	list := buildTree(menuList.Menu)
 	return &types.MenuInfoResp{
 		Base: l.svcCtx.Success(),

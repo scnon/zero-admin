@@ -35,7 +35,7 @@ func NewUpdateDeptLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Update
 
 func (l *UpdateDeptLogic) UpdateDept(in *auth.UpdateDeptReq) (*auth.UpdateDeptResp, error) {
 	// 1. 查询要更新的部门是否存在
-	res := l.svcCtx.DB.Where("id = ?", in.Id).First(&models.SysDept{})
+	res := l.svcCtx.DB.Where("id = ?", in.Id).Where("tenant_id = ?", in.TenantId).First(&models.SysDept{})
 	if res.Error != nil {
 		if errors.Is(res.Error, gorm.ErrRecordNotFound) {
 			return nil, perr.WithStack(ErrDeptNotFound)
@@ -44,7 +44,7 @@ func (l *UpdateDeptLogic) UpdateDept(in *auth.UpdateDeptReq) (*auth.UpdateDeptRe
 	}
 	// 2. 查询父级部门是否存在
 	if in.ParentId != 0 {
-		res = l.svcCtx.DB.Where("id = ?", in.ParentId).First(&models.SysDept{})
+		res = l.svcCtx.DB.Where("id = ?", in.ParentId).Where("tenant_id = ?", in.TenantId).First(&models.SysDept{})
 		if res.Error != nil {
 			if errors.Is(res.Error, gorm.ErrRecordNotFound) {
 				return nil, perr.WithStack(ErrParentDeptNotFound)
@@ -54,12 +54,11 @@ func (l *UpdateDeptLogic) UpdateDept(in *auth.UpdateDeptReq) (*auth.UpdateDeptRe
 	}
 	// 3. 更新部门信息
 	updater := uint(in.Op)
-	res = l.svcCtx.DB.Where("id = ?", in.Id).Updates(&models.SysDept{
+	res = l.svcCtx.DB.Where("id = ?", in.Id).Where("tenant_id = ?", in.TenantId).Updates(&models.SysDept{
 		Name:     in.Name,
-		ParentId: uint(in.ParentId),
+		ParentID: uint(in.ParentId),
 		ResModel: models.ResModel{
-			Sort:      int(in.Sort),
-			TenantID:  uint(in.TenantId),
+			Sort:      in.Sort,
 			UpdaterID: &updater,
 		},
 	})

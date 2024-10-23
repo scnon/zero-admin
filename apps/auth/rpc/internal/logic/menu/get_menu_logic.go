@@ -32,17 +32,19 @@ func NewGetMenuLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetMenuLo
 }
 
 func (l *GetMenuLogic) GetMenu(in *auth.GetMenuReq) (*auth.GetMenuResp, error) {
-	res := l.svcCtx.DB.Where("id = ?", in.AdminId).First(&models.SysUser{})
+	// 1. 查询用户是否存在
+	var user models.SysUser
+	res := l.svcCtx.DB.Where("id = ?", in.UserId).Where("tenant_id = ?", in.TenantId).First(&user)
 	if res.Error != nil {
 		if errors.Is(res.Error, gorm.ErrRecordNotFound) {
 			return nil, errors.WithStack(ErrUserNotFound)
 		}
 		return nil, errors.Wrapf(xerr.NewDBErr(), "find user error: %v", res.Error)
 	}
-	userId := strconv.FormatUint(in.AdminId, 10)
+	// 2. 查询用户角色
 	tenantId := strconv.FormatUint(in.TenantId, 10)
-	roles := l.svcCtx.Casbin.GetRolesForUserInDomain(userId, tenantId)
-
+	roles := l.svcCtx.Casbin.GetRolesForUserInDomain(user.Username, tenantId)
+	// 3. 查询角色的菜单列表
 	resourceMap := make(map[string]bool)
 	for _, role := range roles {
 		policies, err := l.svcCtx.Casbin.GetFilteredPolicy(0, role, tenantId, "", "read")
@@ -60,7 +62,7 @@ func (l *GetMenuLogic) GetMenu(in *auth.GetMenuReq) (*auth.GetMenuResp, error) {
 	for resource := range resourceMap {
 		resources = append(resources, resource)
 	}
-
+	// 4. 查询菜单
 	var menuIds []uint64
 	for _, menuStr := range resources {
 		menuId, err := strconv.ParseUint(menuStr, 10, 64)
@@ -73,25 +75,18 @@ func (l *GetMenuLogic) GetMenu(in *auth.GetMenuReq) (*auth.GetMenuResp, error) {
 	if res.Error != nil {
 		return nil, errors.Wrapf(xerr.NewDBErr(), "find all menu error: %v", res.Error)
 	}
-
+	// 5. 构造返回数据
 	var list []*auth.MenuData
 	for _, menu := range menus {
 		data := &auth.MenuData{
 			Id:       uint64(menu.ID),
+			ParentId: uint64(menu.ParentID),
 			Title:    menu.Title,
 			Path:     menu.Path,
-			ParentId: uint64(menu.ParentID),
-			Sort:     int32(menu.Sort),
-		}
-		if menu.Creator != nil {
-			data.Creator = menu.Creator.Username
-		}
-		if menu.Updater != nil {
-			data.Updater = menu.Updater.Username
+			Sort:     menu.Sort,
 		}
 		list = append(list, data)
 	}
-
 	return &auth.GetMenuResp{
 		Menu: list,
 	}, nil

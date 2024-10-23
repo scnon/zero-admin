@@ -28,6 +28,7 @@ message ResetPasswordReq {
   uint64 user_id = 1;
   string password = 2;
   uint64 op = 3;
+  uint64 tenant_id = 4;
 }
 message ResetPasswordResp {}
 
@@ -108,12 +109,13 @@ message RoleData {
   string creator = 7;
   string updater = 8;
   int32 sort = 9;
+  int32 status = 10;
 }
 // 添加角色
 message AddRoleReq {
   string name = 1;
   string remark = 2;
-  uint32 status = 3;
+  int32 status = 3;
   uint64 creator = 4;
   int32 sort = 5;
   uint64 tenant_id = 6;
@@ -126,6 +128,7 @@ message AddRoleResp {
 message DeleteRoleReq {
   repeated uint64 ids = 1;
   uint64 op = 2;
+  uint64 tenant_id = 3;
 }
 message DeleteRoleResp {}
 // 更新角色
@@ -135,7 +138,7 @@ message UpdateRoleReq {
   string remark = 3;
   repeated int64 menus = 4;
   int32 sort = 5;
-  uint32 status = 6;
+  int32 status = 6;
   uint64 op = 7;
   uint64 tenant_id = 8;
 }
@@ -176,6 +179,7 @@ message AddMenuReq {
   uint64 tenant_id = 5;
   string name = 6;
   uint64 op = 7;
+  string component = 8;
 }
 message AddMenuResp {
   uint64 id = 1;
@@ -196,6 +200,7 @@ message UpdateMenuReq {
   int32 sort = 5;
   uint64 tenant_id = 6;
   uint64 op = 7;
+  string name = 8;
 }
 message UpdateMenuResp {}
 // 菜单列表
@@ -212,7 +217,7 @@ message MenuListResp {
 }
 // 获取当前用户菜单
 message GetMenuReq {
-  uint64 admin_id = 1;
+  uint64 user_id = 1;
   uint64 tenant_id = 2;
 }
 message GetMenuResp {
@@ -249,6 +254,7 @@ message UserRoleIdsResp {
 message AssignRoleMenuReq {
   uint64 role_id = 1;
   repeated uint64 menu_ids = 2;
+  uint64 tenant_id = 3;
 }
 message AssignRoleMenuResp {}
 

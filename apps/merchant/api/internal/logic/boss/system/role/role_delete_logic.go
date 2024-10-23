@@ -2,6 +2,8 @@ package role
 
 import (
 	"context"
+	"xlife/apps/auth/rpc/auth"
+	"xlife/pkg/ctxdata"
 
 	"xlife/apps/merchant/api/internal/svc"
 	"xlife/apps/merchant/api/internal/types"
@@ -24,7 +26,17 @@ func NewRoleDeleteLogic(ctx context.Context, svcCtx *svc.ServiceContext) *RoleDe
 }
 
 func (l *RoleDeleteLogic) RoleDelete(req *types.RoleDeleteReq) (resp *types.RoleDeleteResp, err error) {
-	// todo: add your logic here and delete this line
-
-	return
+	// 1. 获取当前用户
+	uid := ctxdata.GetUId(l.ctx)
+	// 2. 删除角色
+	if _, err = l.svcCtx.Role.DeleteRole(l.ctx, &auth.DeleteRoleReq{
+		Ids:      req.Ids,
+		Op:       uid,
+		TenantId: l.svcCtx.Config.Tenant,
+	}); err != nil {
+		return nil, err
+	}
+	return &types.RoleDeleteResp{
+		Base: l.svcCtx.Success(),
+	}, nil
 }

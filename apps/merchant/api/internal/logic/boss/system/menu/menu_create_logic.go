@@ -26,15 +26,17 @@ func NewMenuCreateLogic(ctx context.Context, svcCtx *svc.ServiceContext) *MenuCr
 }
 
 func (l *MenuCreateLogic) MenuCreate(req *types.MenuCreateReq) (resp *types.MenuCreateResp, err error) {
+	// 1. 获取当前用户
 	uid := ctxdata.GetUId(l.ctx)
+	// 2. 创建菜单
 	_, err = l.svcCtx.Menu.AddMenu(l.ctx, &auth.AddMenuReq{
 		ParentId: req.ParentID,
 		Path:     req.Path,
 		Title:    req.Title,
 		Name:     req.Name,
 		Sort:     req.Sort,
-		TenantId: l.svcCtx.Config.Tenant,
 		Op:       uid,
+		TenantId: l.svcCtx.Config.Tenant,
 	})
 	if err != nil {
 		return nil, err

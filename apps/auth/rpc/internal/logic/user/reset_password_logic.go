@@ -36,7 +36,7 @@ func NewResetPasswordLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Res
 func (l *ResetPasswordLogic) ResetPassword(in *auth.ResetPasswordReq) (*auth.ResetPasswordResp, error) {
 	// 1. 查询用户是否存在
 	var entity models.SysUser
-	res := l.svcCtx.DB.Where("id = ?", in.UserId).First(&entity)
+	res := l.svcCtx.DB.Where("id = ?", in.UserId).Where("tenant_id = ?", in.TenantId).First(&entity)
 	if res.Error != nil {
 		if errors.Is(res.Error, gorm.ErrRecordNotFound) {
 			return nil, perr.WithStack(ErrUserNotFound)

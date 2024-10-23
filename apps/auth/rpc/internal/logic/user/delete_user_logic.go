@@ -38,11 +38,7 @@ func (l *DeleteUserLogic) DeleteUser(in *auth.DeleteUserReq) (*auth.DeleteUserRe
 		}
 
 		// Step 2: 逻辑删除
-		if err := tx.Where("id IN (?)", in.Ids).Delete(&models.SysUser{}).Error; err != nil {
-			return err
-		}
-
-		return nil
+		return tx.Where("id IN (?)", in.Ids).Where("tenant_id = ?", in.TenantId).Delete(&models.SysUser{}).Error
 	})
 	if err != nil {
 		return nil, errors.Wrapf(xerr.NewDBErr(), "删除用户失败: %v", err)

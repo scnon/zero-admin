@@ -5,7 +5,7 @@ Port: 8001
 Tenant: 1
 
 Auth:
-  AccessSecret: zero-auth
+  AccessSecret: xlife-auth
 
 AuthRpc:
   Etcd:

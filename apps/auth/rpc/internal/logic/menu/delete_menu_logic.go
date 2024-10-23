@@ -33,16 +33,12 @@ func (l *DeleteMenuLogic) DeleteMenu(in *auth.DeleteMenuReq) (*auth.DeleteMenuRe
 		// Step 1: 更新 DeleterID
 		if err := tx.Model(&models.SysMenu{}).
 			Where("id IN (?)", in.Ids).
+			Where("tenant_id = ?", in.TenantId).
 			Update("deleter_id", in.Op).Error; err != nil {
 			return err
 		}
-
 		// Step 2: 逻辑删除
-		if err := tx.Where("id IN (?)", in.Ids).Delete(&models.SysMenu{}).Error; err != nil {
-			return err
-		}
-
-		return nil
+		return tx.Where("id IN (?)", in.Ids).Where("tenant_id = ?", in.TenantId).Delete(&models.SysMenu{}).Error
 	})
 	if err != nil {
 		return nil, errors.Wrapf(xerr.NewDBErr(), "删除菜单失败: %v", err)

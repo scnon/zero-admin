@@ -2,7 +2,10 @@ package rolelogic
 
 import (
 	"context"
+	"github.com/pkg/errors"
+	"gorm.io/gorm"
 	"strconv"
+	"xlife/models"
 
 	"xlife/apps/auth/rpc/auth"
 	"xlife/apps/auth/rpc/internal/svc"
@@ -25,11 +28,17 @@ func NewRoleMenuIdsLogic(ctx context.Context, svcCtx *svc.ServiceContext) *RoleM
 }
 
 func (l *RoleMenuIdsLogic) RoleMenuIds(in *auth.RoleMenuIdsReq) (*auth.RoleMenuIdsResp, error) {
-	// 1. 类型转换(casbin 中的用户ID 和 角色 ID 是字符串)
-	userId := strconv.FormatUint(in.RoleId, 10)
-	domainId := strconv.FormatUint(in.TenantId, 10)
+	// 1. 查询角色
+	var role models.SysRole
+	if res := l.svcCtx.DB.Where("id = ?", in.RoleId).First(&role); res.Error != nil {
+		if errors.Is(res.Error, gorm.ErrRecordNotFound) {
+			return nil, errors.WithStack(ErrRoleNotFound)
+		}
+		return nil, errors.Wrapf(res.Error, "查询角色失败: %v", res.Error)
+	}
 	// 2. 查询角色的菜单权限
-	menuIds := l.svcCtx.Casbin.GetRolesForUserInDomain(userId, domainId)
+	domainId := strconv.FormatUint(in.TenantId, 10)
+	menuIds := l.svcCtx.Casbin.GetRolesForUserInDomain(role.Name, domainId)
 	// 3. 类型转换
 	ids := make([]uint64, 0)
 	for _, menuId := range menuIds {
@@ -39,7 +48,6 @@ func (l *RoleMenuIdsLogic) RoleMenuIds(in *auth.RoleMenuIdsReq) (*auth.RoleMenuI
 		}
 		ids = append(ids, id)
 	}
-
 	return &auth.RoleMenuIdsResp{
 		MenuIds: ids,
 	}, nil

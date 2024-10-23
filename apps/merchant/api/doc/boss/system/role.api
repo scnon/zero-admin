@@ -25,7 +25,7 @@ type (
     }
     RoleList {
         Total uint64 `json:"total"`
-        List []RoleData `json:"list"`
+        List []*RoleData `json:"list"`
     }
     RoleListResp {
         Base
@@ -36,10 +36,13 @@ type (
 type (
     RoleCreateReq {
         Name string `json:"name"`
+        Sort int32 `json:"sort"`
+        Status int32 `json:"status"`
         Remark string `json:"remark"`
     }
     RoleCreateResp {
         Base
+        Data uint64 `json:"data"`
     }
 )
 

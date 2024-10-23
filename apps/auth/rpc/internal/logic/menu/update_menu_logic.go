@@ -55,11 +55,10 @@ func (l *UpdateMenuLogic) UpdateMenu(in *auth.UpdateMenuReq) (*auth.UpdateMenuRe
 	updater := uint(in.Op)
 	res = l.svcCtx.DB.Where("id = ?", in.Id).Updates(&models.SysMenu{
 		Title:    in.Title,
-		ParentID: uint(in.ParentId),
 		Path:     in.Path,
+		ParentID: uint(in.ParentId),
 		ResModel: models.ResModel{
-			Sort:      int(in.Sort),
-			TenantID:  uint(in.TenantId),
+			Sort:      in.Sort,
 			UpdaterID: &updater,
 		},
 	})

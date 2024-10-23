@@ -34,7 +34,7 @@ func NewUpdateRoleLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Update
 
 func (l *UpdateRoleLogic) UpdateRole(in *auth.UpdateRoleReq) (*auth.UpdateRoleResp, error) {
 	// 1. 查询要更新的角色是否存在
-	res := l.svcCtx.DB.Where("id = ?", in.Id).First(&models.SysRole{})
+	res := l.svcCtx.DB.Where("id = ?", in.Id).Where("tenant_id = ?", in.TenantId).First(&models.SysRole{})
 	if res.Error != nil {
 		if errors.Is(res.Error, gorm.ErrRecordNotFound) {
 			return nil, perr.WithStack(ErrRoleNotFound)
@@ -43,12 +43,11 @@ func (l *UpdateRoleLogic) UpdateRole(in *auth.UpdateRoleReq) (*auth.UpdateRoleRe
 	}
 	// 2. 更新角色信息
 	updater := uint(in.Op)
-	res = l.svcCtx.DB.Where("id = ?", in.Id).Updates(&models.SysRole{
+	res = l.svcCtx.DB.Where("id = ?", in.Id).Where("tenant_id = ?", in.TenantId).Updates(&models.SysRole{
 		Name: in.Name,
 		ResModel: models.ResModel{
-			Sort:      int(in.Sort),
+			Sort:      in.Sort,
 			Remark:    in.Remark,
-			TenantID:  uint(in.TenantId),
 			UpdaterID: &updater,
 		},
 	})

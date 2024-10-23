@@ -26,15 +26,15 @@ func NewDeptDeleteLogic(ctx context.Context, svcCtx *svc.ServiceContext) *DeptDe
 }
 
 func (l *DeptDeleteLogic) DeptDelete(req *types.DeptDeleteReq) (resp *types.DeptDeleteResp, err error) {
+	// 1. 获取当前用户
 	uid := ctxdata.GetUId(l.ctx)
-	_, err = l.svcCtx.DeleteDept(l.ctx, &auth.DeleteDeptReq{
+	// 2. 删除部门
+	if _, err = l.svcCtx.DeleteDept(l.ctx, &auth.DeleteDeptReq{
 		Ids:      req.Ids,
-		TenantId: l.svcCtx.Config.Tenant,
 		Op:       uid,
-	})
-
-	if err != nil {
-		return
+		TenantId: l.svcCtx.Config.Tenant,
+	}); err != nil {
+		return nil, err
 	}
 
 	return &types.DeptDeleteResp{

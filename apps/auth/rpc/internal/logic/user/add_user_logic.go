@@ -33,7 +33,7 @@ func NewAddUserLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddUserLo
 func (l *AddUserLogic) AddUser(in *auth.AddUserReq) (*auth.AddUserResp, error) {
 	// 1. 检查用户是否已存在
 	var existingUser models.SysUser
-	res := l.svcCtx.DB.Where("username = ?", in.Username).First(&existingUser)
+	res := l.svcCtx.DB.Where("username = ?", in.Username).Where("tenant_id = ?", in.TenantId).First(&existingUser)
 	if res.Error != nil && !errors.Is(res.Error, gorm.ErrRecordNotFound) {
 		return nil, errors.Wrapf(xerr.NewDBErr(), "查询用户失败: %v", res.Error)
 	}
@@ -47,7 +47,7 @@ func (l *AddUserLogic) AddUser(in *auth.AddUserReq) (*auth.AddUserResp, error) {
 		Nickname: in.Nickname,
 		Avatar:   in.Avatar,
 		ResModel: models.ResModel{
-			Sort:      int(in.Sort),
+			Sort:      in.Sort,
 			Remark:    in.Remark,
 			TenantID:  uint(in.TenantId),
 			CreatorID: uint(in.Op),
@@ -56,7 +56,6 @@ func (l *AddUserLogic) AddUser(in *auth.AddUserReq) (*auth.AddUserResp, error) {
 	if err := l.svcCtx.DB.Create(&newUser).Error; err != nil {
 		return nil, errors.Wrapf(xerr.NewDBErr(), "创建用户失败: %v", err)
 	}
-
 	return &auth.AddUserResp{
 		Id: uint64(newUser.ID),
 	}, nil

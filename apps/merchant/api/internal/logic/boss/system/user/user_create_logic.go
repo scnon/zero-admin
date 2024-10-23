@@ -25,8 +25,10 @@ func NewUserCreateLogic(ctx context.Context, svcCtx *svc.ServiceContext) *UserCr
 }
 
 func (l *UserCreateLogic) UserCreate(req *types.UserCreateReq) (resp *types.UserCreateResp, err error) {
+	// 1. 获取当前用户
 	uid := ctxdata.GetUId(l.ctx)
-	_, err = l.svcCtx.User.AddUser(l.ctx, &auth.AddUserReq{
+	// 2. 创建用户
+	if _, err = l.svcCtx.User.AddUser(l.ctx, &auth.AddUserReq{
 		Username: req.Username,
 		Nickname: req.NickName,
 		Sort:     req.Sort,
@@ -35,12 +37,10 @@ func (l *UserCreateLogic) UserCreate(req *types.UserCreateReq) (resp *types.User
 		Avatar:   req.Avatar,
 		TenantId: l.svcCtx.Config.Tenant,
 		Op:       uid,
-	})
-	if err != nil {
+	}); err != nil {
 		return nil, err
 	}
 	return &types.UserCreateResp{
 		Base: l.svcCtx.Success(),
 	}, nil
-
 }

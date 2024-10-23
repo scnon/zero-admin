@@ -25,18 +25,17 @@ func NewUserUpdateLogic(ctx context.Context, svcCtx *svc.ServiceContext) *UserUp
 }
 
 func (l *UserUpdateLogic) UserUpdate(req *types.UserUpdateReq) (resp *types.UserUpdateResp, err error) {
-	_, err = l.svcCtx.User.UpdateUser(l.ctx, &auth.UpdateUserReq{
+	// 1. 更新用户
+	if _, err = l.svcCtx.User.UpdateUser(l.ctx, &auth.UpdateUserReq{
 		Id:       req.Id,
 		Username: req.Username,
 		Nickname: req.NickName,
 		Sort:     req.Sort,
 		Status:   req.Status,
 		Remark:   req.Remark,
-	})
-	if err != nil {
+	}); err != nil {
 		return nil, err
 	}
-
 	return &types.UserUpdateResp{
 		Base: l.svcCtx.Success(),
 	}, nil

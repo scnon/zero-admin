@@ -37,6 +37,8 @@ type DeptData struct {
 	ID         uint64 `json:"id"`
 	Name       string `json:"name"`
 	ParentID   uint64 `json:"parent_id"`
+	Sort       int32  `json:"sort"`
+	Status     int32  `json:"status"`
 	Creator    string `json:"creator"`
 	Updater    string `json:"updater"`
 	CreateTime uint64 `json:"create_time"`
@@ -61,13 +63,15 @@ type DeptListReq struct {
 
 type DeptListResp struct {
 	Base
-	Data []DeptData `json:"data"`
+	Data []*DeptData `json:"data"`
 }
 
 type DeptUpdateReq struct {
 	ID       uint64 `json:"id"`
 	ParentID uint64 `json:"parent_id"`
 	Name     string `json:"name"`
+	Sort     int32  `json:"sort"`
+	Status   int32  `json:"status"`
 }
 
 type DeptUpdateResp struct {
@@ -166,11 +170,14 @@ type PageData struct {
 
 type RoleCreateReq struct {
 	Name   string `json:"name"`
+	Sort   int32  `json:"sort"`
+	Status int32  `json:"status"`
 	Remark string `json:"remark"`
 }
 
 type RoleCreateResp struct {
 	Base
+	Data uint64 `json:"data"`
 }
 
 type RoleData struct {
@@ -194,8 +201,8 @@ type RoleDeleteResp struct {
 }
 
 type RoleList struct {
-	Total uint64     `json:"total"`
-	List  []RoleData `json:"list"`
+	Total uint64      `json:"total"`
+	List  []*RoleData `json:"list"`
 }
 
 type RoleListReq struct {

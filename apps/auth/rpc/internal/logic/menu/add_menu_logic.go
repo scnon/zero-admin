@@ -34,7 +34,7 @@ func (l *AddMenuLogic) AddMenu(in *auth.AddMenuReq) (*auth.AddMenuResp, error) {
 	// 1. 查询父级菜单是否存在
 	if in.ParentId != 0 {
 		var existingMenu models.SysMenu
-		res := l.svcCtx.DB.Where("id = ?", in.ParentId).First(&existingMenu)
+		res := l.svcCtx.DB.Where("id = ?", in.ParentId).Where("tenant_id = ?", in.TenantId).First(&existingMenu)
 		if res.Error != nil {
 			if errors.Is(res.Error, gorm.ErrRecordNotFound) {
 				return nil, errors.WithStack(ErrParentNotFound)
@@ -44,11 +44,12 @@ func (l *AddMenuLogic) AddMenu(in *auth.AddMenuReq) (*auth.AddMenuResp, error) {
 	}
 	// 2. 创建新菜单
 	newMenu := models.SysMenu{
-		Title:    in.Name,
-		ParentID: uint(in.ParentId),
-		Path:     in.Path,
+		Title:     in.Name,
+		Path:      in.Path,
+		Component: in.Component,
+		ParentID:  uint(in.ParentId),
 		ResModel: models.ResModel{
-			Sort:      int(in.Sort),
+			Sort:      in.Sort,
 			TenantID:  uint(in.TenantId),
 			CreatorID: uint(in.Op),
 		},
@@ -56,7 +57,6 @@ func (l *AddMenuLogic) AddMenu(in *auth.AddMenuReq) (*auth.AddMenuResp, error) {
 	if err := l.svcCtx.DB.Create(&newMenu).Error; err != nil {
 		return nil, errors.Wrapf(xerr.NewDBErr(), "创建菜单失败: %v", err)
 	}
-
 	return &auth.AddMenuResp{
 		Id: uint64(newMenu.ID),
 	}, nil

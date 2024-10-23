@@ -26,7 +26,7 @@ func NewUpdateUserLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Update
 }
 
 func (l *UpdateUserLogic) UpdateUser(in *auth.UpdateUserReq) (*auth.UpdateUserResp, error) {
-	res := l.svcCtx.DB.Where("id = ?", in.Id).First(&models.SysUser{})
+	res := l.svcCtx.DB.Where("id = ?", in.Id).Where("tenant_id = ?", in.TenantId).First(&models.SysUser{})
 	if res.Error != nil {
 		if errors.Is(res.Error, gorm.ErrRecordNotFound) {
 			return nil, perr.WithStack(ErrUserNotFound)
@@ -35,14 +35,13 @@ func (l *UpdateUserLogic) UpdateUser(in *auth.UpdateUserReq) (*auth.UpdateUserRe
 	}
 
 	updater := uint(in.Op)
-	res = l.svcCtx.DB.Where("id = ?", in.Id).Updates(&models.SysUser{
+	res = l.svcCtx.DB.Where("id = ?", in.Id).Where("tenant_id = ?", in.TenantId).Updates(&models.SysUser{
 		Username: in.Username,
 		Nickname: in.Nickname,
 		Avatar:   in.Avatar,
 		ResModel: models.ResModel{
-			Sort:      int(in.Sort),
+			Sort:      in.Sort,
 			Remark:    in.Remark,
-			TenantID:  uint(in.TenantId),
 			UpdaterID: &updater,
 		},
 	})

@@ -2,6 +2,7 @@ package svc
 
 import (
 	"errors"
+	"fmt"
 	"github.com/casbin/casbin/v2"
 	"github.com/casbin/casbin/v2/model"
 	entadapter "github.com/casbin/ent-adapter"
@@ -38,16 +39,88 @@ func initData(db *gorm.DB) {
 	if err != nil {
 		panic(err)
 	}
-
-	res := db.Where("id = ?", 1).First(&models.SysUser{})
-	if errors.Is(res.Error, gorm.ErrRecordNotFound) {
-		res = db.Exec(`INSERT INTO sys_users (id, username, nickname, created_at) VALUES (1, 'system', '系统', NOW())`)
-		if res.Error != nil {
-			if errors.Is(res.Error, gorm.ErrDuplicatedKey) {
-				// 重复键错误，忽略
-			} else {
-				panic(res.Error)
-			}
+	var tenant uint = 1
+	// 初始化系统用户
+	var count int64
+	if res := db.Model(&models.SysUser{}).Count(&count); res.Error != nil {
+		panic(res.Error)
+	}
+	if count == 0 {
+		user := models.SysUser{}
+		stmt := &gorm.Statement{DB: db}
+		err := stmt.Parse(&user)
+		if err != nil {
+			panic(err)
+		}
+		query := fmt.Sprintf(`INSERT INTO %s (username, nickname, tenant_id) VALUES ('system', '系统', %d)`,
+			stmt.Schema.Table, tenant)
+		if res := db.Exec(query); res.Error != nil && !errors.Is(res.Error, gorm.ErrDuplicatedKey) {
+			panic(res.Error)
+		}
+	}
+	// 初始化系统角色
+	if res := db.Model(&models.SysRole{}).Count(&count); res.Error != nil {
+		panic(res.Error)
+	}
+	if count == 0 {
+		res := db.Create(&models.SysRole{Name: "system", Status: 1, ResModel: models.ResModel{CreatorID: 1, TenantID: tenant}})
+		if res.Error != nil && !errors.Is(res.Error, gorm.ErrDuplicatedKey) {
+			panic(res.Error)
+		}
+	}
+	// 初始化系统菜单
+	if res := db.Model(&models.SysMenu{}).Count(&count); res.Error != nil {
+		panic(res.Error)
+	}
+	if count == 0 {
+		res := db.Create(&[]models.SysMenu{
+			{
+				Name:   "system",
+				Title:  "系统管理",
+				Path:   "/system",
+				Status: 1,
+				ResModel: models.ResModel{
+					Sort:      99,
+					CreatorID: 1,
+					TenantID:  tenant,
+				},
+			},
+			{
+				Name:   "system_user",
+				Title:  "用户管理",
+				Path:   "/system/user/index",
+				Status: 1,
+				ResModel: models.ResModel{
+					Sort:      1,
+					CreatorID: 1,
+					TenantID:  tenant,
+				},
+			},
+			{
+				Name:   "system_role",
+				Title:  "角色管理",
+				Path:   "/system/role/index",
+				Status: 1,
+				ResModel: models.ResModel{
+					Sort:      2,
+					CreatorID: 1,
+					TenantID:  tenant,
+				},
+			},
+			{
+				Name:   "system_menu",
+				Title:  "菜单管理",
+				Path:   "/system/menu/index",
+				Status: 1,
+				ResModel: models.ResModel{
+					Sort:      3,
+					CreatorID: 1,
+					TenantID:  tenant,
+				},
+			},
+		})
+		if res.Error != nil && !errors.Is(res.Error, gorm.ErrDuplicatedKey) {
+			panic(res.Error)
 		}
 	}
 }
@@ -70,6 +143,24 @@ func initCasbin(c config.Config) *casbin.SyncedCachedEnforcer {
 
 	err = enforcer.LoadPolicy()
 	if err != nil {
+		panic(err)
+	}
+
+	// 初始化系统角色
+	if roles, err := enforcer.GetUsersForRole("system"); len(roles) == 0 && err == nil {
+		ok, err := enforcer.AddRoleForUser("system", "r_system", "1")
+		if err != nil || !ok {
+			panic(err)
+		}
+		var list [][]string
+		for i := 1; i <= 3; i++ {
+			list = append(list, []string{"r_system", "1", fmt.Sprint(i), "read"})
+		}
+		ok, err = enforcer.AddPolicies(list)
+		if err != nil {
+			panic(err)
+		}
+	} else if err != nil {
 		panic(err)
 	}
 

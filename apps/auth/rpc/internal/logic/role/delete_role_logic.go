@@ -33,16 +33,14 @@ func (l *DeleteRoleLogic) DeleteRole(in *auth.DeleteRoleReq) (*auth.DeleteRoleRe
 		// Step 1: 更新 DeleterID
 		if err := tx.Model(&models.SysRole{}).
 			Where("id IN (?)", in.Ids).
+			Where("tenant_id = ?", in.TenantId).
 			Update("deleter_id", in.Op).Error; err != nil {
 			return err
 		}
 
 		// Step 2: 逻辑删除
-		if err := tx.Where("id IN (?)", in.Ids).Delete(&models.SysRole{}).Error; err != nil {
-			return err
-		}
-
-		return nil
+		return tx.Where("id IN (?)", in.Ids).Where("tenant_id = ?", in.TenantId).
+			Delete(&models.SysRole{}).Error
 	})
 	if err != nil {
 		return nil, errors.Wrapf(xerr.NewDBErr(), "删除角色失败: %v", err)

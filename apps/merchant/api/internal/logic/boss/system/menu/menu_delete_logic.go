@@ -26,11 +26,13 @@ func NewMenuDeleteLogic(ctx context.Context, svcCtx *svc.ServiceContext) *MenuDe
 }
 
 func (l *MenuDeleteLogic) MenuDelete(req *types.MenuDeleteReq) (resp *types.MenuDeleteResp, err error) {
+	// 1. 获取当前用户
 	uid := ctxdata.GetUId(l.ctx)
+	// 2. 删除菜单
 	_, err = l.svcCtx.Menu.DeleteMenu(l.ctx, &auth.DeleteMenuReq{
 		Ids:      req.Ids,
-		TenantId: l.svcCtx.Config.Tenant,
 		Op:       uid,
+		TenantId: l.svcCtx.Config.Tenant,
 	})
 	if err != nil {
 		return nil, err

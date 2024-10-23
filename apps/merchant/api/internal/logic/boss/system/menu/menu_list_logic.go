@@ -25,13 +25,14 @@ func NewMenuListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *MenuList
 }
 
 func (l *MenuListLogic) MenuList(req *types.MenuListReq) (resp *types.MenuListResp, err error) {
+	// 1. 获取菜单列表
 	result, err := l.svcCtx.Menu.GetMenu(l.ctx, &auth.GetMenuReq{
 		TenantId: l.svcCtx.Config.Tenant,
 	})
 	if err != nil {
 		return nil, err
 	}
-
+	// 2. 返回菜单列表
 	menus := make([]types.MenuData, 0)
 	for _, menu := range result.Menu {
 		menus = append(menus, types.MenuData{
@@ -42,9 +43,8 @@ func (l *MenuListLogic) MenuList(req *types.MenuListReq) (resp *types.MenuListRe
 		})
 	}
 
-	resp = &types.MenuListResp{
+	return &types.MenuListResp{
 		Base: l.svcCtx.Success(),
 		Data: menus,
-	}
-	return
+	}, nil
 }

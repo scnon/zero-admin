@@ -24,7 +24,8 @@ func NewUserListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *UserList
 }
 
 func (l *UserListLogic) UserList(req *types.UserListReq) (resp *types.UserListResp, err error) {
-	result, err := l.svcCtx.User.UserList(l.ctx, &auth.UserListReq{
+	// 1. 获取用户列表
+	res, err := l.svcCtx.User.UserList(l.ctx, &auth.UserListReq{
 		Page:     req.Page,
 		PageSize: req.PageSize,
 		Status:   req.Status,
@@ -35,14 +36,16 @@ func (l *UserListLogic) UserList(req *types.UserListReq) (resp *types.UserListRe
 	if err != nil {
 		return nil, err
 	}
-
+	// 2. 构造返回数据
 	list := make([]types.UserData, 0)
-	for _, item := range result.List {
+	for _, item := range res.List {
 		list = append(list, types.UserData{
 			Id:         item.Id,
 			NickName:   item.Nickname,
 			Username:   item.Username,
 			Status:     item.Status,
+			Sort:       item.Sort,
+			Remark:     item.Remark,
 			Avatar:     item.Avatar,
 			Creator:    item.Creator,
 			Updator:    item.Updater,
@@ -50,14 +53,11 @@ func (l *UserListLogic) UserList(req *types.UserListReq) (resp *types.UserListRe
 			UpdateTime: item.UpdateTime,
 		})
 	}
-
-	resp = &types.UserListResp{
+	return &types.UserListResp{
 		Base: l.svcCtx.Success(),
 		Data: types.UserListData{
-			Total: result.Total,
+			Total: res.Total,
 			List:  list,
 		},
-	}
-	return
-
+	}, nil
 }

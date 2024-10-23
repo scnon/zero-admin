@@ -25,6 +25,7 @@ func NewRoleMenuIdsLogic(ctx context.Context, svcCtx *svc.ServiceContext) *RoleM
 }
 
 func (l *RoleMenuIdsLogic) RoleMenuIds(req *types.RoleMenuIdsReq) (resp *types.RoleMenuIdsResp, err error) {
+	// 1. 获取角色菜单
 	res, err := l.svcCtx.Role.RoleMenuIds(l.ctx, &auth.RoleMenuIdsReq{
 		RoleId:   req.RoleId,
 		TenantId: l.svcCtx.Config.Tenant,

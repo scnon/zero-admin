@@ -39,7 +39,7 @@ func NewLoginLogic(ctx context.Context, svcCtx *svc.ServiceContext) *LoginLogic 
 func (l *LoginLogic) Login(in *auth.LoginReq) (*auth.LoginResp, error) {
 	// 1. 查询用户是否存在
 	var entity models.SysUser
-	res := l.svcCtx.DB.Where("username = ?", in.Username).First(&entity)
+	res := l.svcCtx.DB.Where("username = ?", in.Username).Where("tenant_id = ?", in.TenantId).First(&entity)
 	if res.Error != nil {
 		if errors.Is(res.Error, gorm.ErrRecordNotFound) {
 			return nil, perr.WithStack(ErrUserNotFound)
@@ -50,7 +50,6 @@ func (l *LoginLogic) Login(in *auth.LoginReq) (*auth.LoginResp, error) {
 	if !encrypt.ValidatePasswordHash(in.Password, entity.Password) {
 		return nil, perr.WithStack(ErrUserPwdError)
 	}
-
 	// 3. 生成token
 	tokenRes, err := ctxdata.GetFullJwt(l.svcCtx.Config.JwtAuth.Secret,
 		l.svcCtx.Config.JwtAuth.Expire, l.svcCtx.Config.JwtAuth.RefreshExpire, entity)

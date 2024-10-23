@@ -32,18 +32,17 @@ func (l *MenuListLogic) MenuList(in *auth.MenuListReq) (*auth.MenuListResp, erro
 	var menus []models.SysMenu
 	res := l.makeQuery(in).Offset(int((in.Page - 1) * in.PageSize)).Limit(int(in.PageSize)).Find(&menus)
 	if res.Error != nil {
-		return nil, errors.Wrapf(xerr.NewDBErr(), "查询用户失败 %v", res.Error)
+		return nil, errors.Wrapf(xerr.NewDBErr(), "查询菜单列表失败 %v", res.Error)
 	}
-
 	// 2. 构造返回数据
 	var list []*auth.MenuData
 	for _, menu := range menus {
 		data := &auth.MenuData{
 			Id:       uint64(menu.ID),
+			ParentId: uint64(menu.ParentID),
 			Title:    menu.Title,
 			Path:     menu.Path,
-			ParentId: uint64(menu.ParentID),
-			Sort:     int32(menu.Sort),
+			Sort:     menu.Sort,
 		}
 		if menu.Creator != nil {
 			data.Creator = menu.Creator.Username
@@ -53,13 +52,12 @@ func (l *MenuListLogic) MenuList(in *auth.MenuListReq) (*auth.MenuListResp, erro
 		}
 		list = append(list, data)
 	}
-
+	// 3. 查询菜单总数
 	var total int64
 	res = l.makeQuery(in).Count(&total)
 	if res.Error != nil {
 		return nil, errors.Wrapf(xerr.NewDBErr(), "查询用户总数失败 %v", res.Error)
 	}
-
 	return &auth.MenuListResp{
 		List:  list,
 		Total: uint64(total),

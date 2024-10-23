@@ -23,6 +23,7 @@ func NewUserLoginLogic(ctx context.Context, svcCtx *svc.ServiceContext) *UserLog
 }
 
 func (l *UserLoginLogic) UserLogin(req *types.LoginReq) (resp *types.LoginResp, err error) {
+	// 1. 登录
 	res, err := l.svcCtx.User.Login(l.ctx, &auth.LoginReq{
 		Username: req.Username,
 		Password: req.Password,
@@ -31,7 +32,7 @@ func (l *UserLoginLogic) UserLogin(req *types.LoginReq) (resp *types.LoginResp, 
 	if err != nil {
 		return nil, err
 	}
-
+	// 2. 构造返回数据
 	return &types.LoginResp{
 		Base: l.svcCtx.Success(),
 		Data: types.LoginData{

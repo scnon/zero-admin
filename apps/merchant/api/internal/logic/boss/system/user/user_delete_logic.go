@@ -26,16 +26,16 @@ func NewUserDeleteLogic(ctx context.Context, svcCtx *svc.ServiceContext) *UserDe
 }
 
 func (l *UserDeleteLogic) UserDelete(req *types.UserDeleteReq) (resp *types.UserDeleteResp, err error) {
+	// 1. 获取当前用户
 	uid := ctxdata.GetUId(l.ctx)
-	_, err = l.svcCtx.User.DeleteUser(l.ctx, &auth.DeleteUserReq{
+	// 2. 删除用户(逻辑删除)
+	if _, err = l.svcCtx.User.DeleteUser(l.ctx, &auth.DeleteUserReq{
 		Ids:      req.Ids,
 		TenantId: l.svcCtx.Config.Tenant,
 		Op:       uid,
-	})
-	if err != nil {
-		return
+	}); err != nil {
+		return nil, err
 	}
-
 	return &types.UserDeleteResp{
 		Base: l.svcCtx.Success(),
 	}, nil

@@ -43,13 +43,12 @@ func (l *AddDeptLogic) AddDept(in *auth.AddDeptReq) (*auth.AddDeptResp, error) {
 			return nil, errors.Wrapf(xerr.NewDBErr(), "查询父级部门失败 %v", res.Error)
 		}
 	}
-
 	// 2. 创建新部门
 	newDept := models.SysDept{
 		Name:     in.Name,
-		ParentId: uint(in.ParentId),
+		ParentID: uint(in.ParentId),
 		ResModel: models.ResModel{
-			Sort:      int(in.Sort),
+			Sort:      in.Sort,
 			TenantID:  uint(in.TenantId),
 			CreatorID: uint(in.Op),
 		},
@@ -57,7 +56,6 @@ func (l *AddDeptLogic) AddDept(in *auth.AddDeptReq) (*auth.AddDeptResp, error) {
 	if err := l.svcCtx.DB.Create(&newDept).Error; err != nil {
 		return nil, errors.Wrapf(xerr.NewDBErr(), "创建部门失败: %v", err)
 	}
-
 	return &auth.AddDeptResp{
 		Id: uint64(newDept.ID),
 	}, nil

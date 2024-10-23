@@ -33,16 +33,12 @@ func (l *DeleteDeptLogic) DeleteDept(in *auth.DeleteDeptReq) (*auth.DeleteDeptRe
 		// Step 1: 更新 DeleterID
 		if err := tx.Model(&models.SysDept{}).
 			Where("id IN (?)", in.Ids).
+			Where("tenant_id = ?", in.TenantId).
 			Update("deleter_id", in.Op).Error; err != nil {
 			return err
 		}
-
 		// Step 2: 逻辑删除
-		if err := tx.Where("id IN (?)", in.Ids).Delete(&models.SysDept{}).Error; err != nil {
-			return err
-		}
-
-		return nil
+		return tx.Where("id IN (?)", in.Ids).Where("tenant_id = ?", in.TenantId).Delete(&models.SysDept{}).Error
 	})
 	if err != nil {
 		return nil, errors.Wrapf(xerr.NewDBErr(), "删除部门失败: %v", err)

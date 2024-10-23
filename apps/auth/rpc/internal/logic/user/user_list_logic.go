@@ -41,7 +41,7 @@ func (l *UserListLogic) UserList(in *auth.UserListReq) (*auth.UserListResp, erro
 			Username:   user.Username,
 			Nickname:   user.Nickname,
 			Avatar:     user.Avatar,
-			Sort:       int32(user.Sort),
+			Sort:       user.Sort,
 			Remark:     user.Remark,
 			TenantId:   uint64(user.TenantID),
 			CreateTime: uint64(user.CreatedAt.Unix()),

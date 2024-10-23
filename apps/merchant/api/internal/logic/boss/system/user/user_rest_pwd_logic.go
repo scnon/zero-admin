@@ -26,16 +26,16 @@ func NewUserRestPwdLogic(ctx context.Context, svcCtx *svc.ServiceContext) *UserR
 }
 
 func (l *UserRestPwdLogic) UserRestPwd(req *types.UserRestPwdReq) (resp *types.UserRestPwdResp, err error) {
+	// 1. 获取当前用户
 	uid := ctxdata.GetUId(l.ctx)
-	_, err = l.svcCtx.User.ResetPassword(l.ctx, &auth.ResetPasswordReq{
+	// 2. 重置密码
+	if _, err = l.svcCtx.User.ResetPassword(l.ctx, &auth.ResetPasswordReq{
 		UserId:   req.UserId,
 		Password: req.Password,
 		Op:       uid,
-	})
-	if err != nil {
-		return
+	}); err != nil {
+		return nil, err
 	}
-
 	return &types.UserRestPwdResp{
 		Base: l.svcCtx.Success(),
 	}, nil
